@@ -1,0 +1,66 @@
+.menu-logo{
+	text-align: center;
+	font-size: 60px;
+	margin:0;
+}
+
+.company-name{
+	text-transform: uppercase;
+}
+
+.slogan{
+	color: #fff;
+	text-transform: uppercase;
+	background-color: transparent;
+	line-height: 4em;
+	border: 4px dotted;
+}
+
+.headers{
+	text-transform: uppercase;
+	background-color: transparent;
+	border: 1px dotted;
+	color: #555;
+	font-weight: 700;
+	font-size: 1.0em;
+}
+
+.home-features{
+	margin:0
+	padding:0;
+	border: 1px dotted;
+}
+
+.media-header{
+	text-transform: uppercase;
+	border: 1px dotted;
+	background-color: transparent;
+	font-size: 1.0em;
+	color: #25383B;
+	font-weight: 700;
+	text-align: center;
+}
+
+.media-slogan{
+	color: #25383B;
+	text-transform: uppercase;
+	background-color: transparent;
+	border: 1px dotted;
+	width: 80%;
+}
+
+.cta-header{
+	background-color:transparent;
+	border: 1px dotted;
+	text-align: center;
+	font-size: 100%;
+	text-transform: uppercase;
+	font-weight: 700;
+}
+
+.cta-slogan{
+	background-color:transparent;
+	border: 1px dotted;
+	text-align: center;
+	text-transform: uppercase;
+}

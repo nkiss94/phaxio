@@ -1,0 +1,96 @@
+#steps {
+
+	#content {
+		padding: 0;
+		/*padding-top: 64px;*/
+
+		.content-wrapper {
+			margin-top: 0;
+		}
+	}
+
+	.sidebar-toggler {
+		position: absolute;
+		color: #fff;
+		font-size: 34px;
+		top: 0px;
+		left: 8px;
+		padding: 15px;
+		cursor: pointer;
+	}
+
+	.header {
+		padding: 28px;
+		background: #5A6474;
+
+		text-shadow: 1px 1px rgba(0, 0, 0, 0.45);
+		color: #fff;
+		text-align: center;
+		font-size: 19px;
+		box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.15);
+
+	}
+
+	.steps {
+		
+
+		.step {
+			margin: 0px 55px;
+			padding: 35px 20px;
+			border-bottom: 1px solid #eee;
+
+
+			&.done {
+				margin: 0;
+				background: #F8F8FA;
+				padding: 35px 75px;
+
+				.info {
+					top: -6px;
+				}
+			}
+
+			.info {
+				float: left;
+				position: relative;
+
+
+
+				.number {
+					font-size: 26px;
+					margin-right: 20px;
+					position: relative;
+					top: 2px;
+
+
+					.ion-checkmark-circled {
+						font-size: 38px;
+						color: #44B83F;
+						position: relative;
+						top: 6px;
+						left: -6px;
+						margin-right: -8px;
+					}
+				}
+			}
+
+			.button {
+				position: relative;
+				top: 2px;
+				float: right;
+
+			
+
+				span {
+					font-size: 13px;
+					min-width: 150px;
+					text-align: center;
+				}
+			}
+		}
+	}
+
+}
+
+
+
