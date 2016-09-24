@@ -5,10 +5,16 @@ import * as Collections from '/lib/collections';
 
 function composer(props, onData){
 	const userId = Meteor.userId();
-  	if(userId && Meteor.subscribe('profiles.single', userId).ready() && Meteor.subscribe('programs.single', userId).ready() ){
+  	if(
+  		userId &&
+  		Meteor.subscribe('profiles.single', userId).ready() &&
+  		Meteor.subscribe('programs.single', userId).ready() &&
+  		Meteor.subscribe('items.list').ready()
+  	){
   		const profiles = Collections.Profiles.find().fetch();
   		const programs = Collections.Programs.find().fetch();
-  		onData(null, {profiles, programs})
+  		const items = Collections.Items.find().fetch();
+  		onData(null, {profiles, programs, items})
   	};
 };
 
