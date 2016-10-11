@@ -10,4 +10,8 @@ export default function () {
 		return PurchasedPrograms.find(selector);
 	});
 
+	Meteor.publish('purchased_programs', function(){
+		return PurchasedPrograms.find();
+	})
+
 }

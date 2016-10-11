@@ -27,6 +27,7 @@ export default function () {
             Profiles.insert(owner);
         }
     }
+
   });
 
 }
