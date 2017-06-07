@@ -6,7 +6,6 @@ const Marketing = React.createClass({
 	render(){
 		return(
   			<div>
-  		
 				{React.cloneElement(this.props.children, this.props)}
 			</div>
 		)
