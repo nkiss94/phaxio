@@ -5,7 +5,10 @@ import { Session } from 'meteor/session'
 
 export default function () {
     Meteor.methods({
-      'sendPhaxio'(){
+      'sendPhaxio'(institution, number){
+        check(institution, String)
+        check(number, String)
+        console.log("cool")
            return HTTP.call( 'POST', 'https://api.phaxio.com/v2/faxes', 
                 {
                   auth: 

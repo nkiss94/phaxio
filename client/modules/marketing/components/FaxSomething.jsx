@@ -7,7 +7,7 @@ import ErrorNotification from './ErrorNotification';
 import SuccessNotification from './SuccessNotification';
 
 class FaxSomething extends React.Component {
-    constructor(props) {
+  constructor(props) {
     super(props);
     this.sendFax=this.sendFax.bind(this);
     this.state = {
@@ -15,6 +15,7 @@ class FaxSomething extends React.Component {
        err: null,
        success: null
   }
+}
 
 sendFax(){
     const url = this.refs.url.value
