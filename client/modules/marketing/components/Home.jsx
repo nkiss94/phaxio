@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router';
-import MainOptions from './MainOptions';
+import Options from './Options';
 import {browserHistory} from 'react-router';
 
 class Home extends React.Component {
@@ -12,6 +12,14 @@ class Home extends React.Component {
 
     }
   }
+
+    checkDigits(){
+        browserHistory.push('/check_digits')
+    }
+
+    faxSomething(){
+        browserHistory.push('/fax_something')
+    }
 
   render() {
     return (
@@ -37,7 +45,7 @@ class Home extends React.Component {
                                 What do you want to do?
                             </div>
                            
-                            <MainOptions checkDigits={this.checkDigits} faxSomething={this.faxSomething} />
+                            <Options checkDigits={this.checkDigits} faxSomething={this.faxSomething} />
 
                         </div>
                     </div>
@@ -47,14 +55,6 @@ class Home extends React.Component {
       </div>
     )
   }
-  checkDigits(){
-    browserHistory.push('/check_digits')
-  }
-
-  faxSomething(){
-    browserHistory.push('/fax_something')
-  }
-
 }
 
 export default Home;
