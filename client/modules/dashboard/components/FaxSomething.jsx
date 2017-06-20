@@ -1,10 +1,9 @@
 import React from 'react';
 import {Link} from 'react-router';
 import {browserHistory} from 'react-router';
-import faxable_institutions from '../data/faxable_institutions.js';
+import faxable_institutions from '../../../../config/faxable_institutions.js';
 import Autocomplete from 'react-autocomplete';
-import ErrorNotification from './ErrorNotification';
-import SuccessNotification from './SuccessNotification';
+
 
 export default class FaxSomething extends React.Component {
   constructor(props) {
@@ -139,8 +138,6 @@ sendFax(){
                       <div className = "col-lg-4 col-md-4 col-sm-4 col-xs-4"></div> 
 
                   </div>
-                  {this.state.err ? <ErrorNotification /> : null}
-                  {this.state.success ? <SuccessNotification /> : null}
                   </div>    
                   )
             }

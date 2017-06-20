@@ -1,7 +1,7 @@
 import React from 'react';
 import { Row, Col, Input, Grid } from 'react-bootstrap';
 import {Link} from "react-router";
-import data from '../data/data.js';
+import data from '../../../../config/data.js';
 import MdLoop from 'react-icons/lib/md/loop'
 
 

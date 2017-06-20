@@ -3,7 +3,7 @@ import {Link} from 'react-router';
 import Options from './Options';
 import {browserHistory} from 'react-router';
 
-class Home extends React.Component {
+class Dashboard extends React.Component {
     constructor(props) {
     super(props);
     this.checkDigits = this.checkDigits.bind(this);
@@ -26,18 +26,6 @@ class Home extends React.Component {
       <div className="ws-layout-container ws-account-transfer">
         <div className="footer-padding">
             <div className="card-container">
-                <div className="row-md header">
-                    <div className="col-6">
-                        <div className="title">
-                            Funding
-                        </div>
-                    </div>
-                    <div className="col-6">
-                        <div className="buttons">
-                            <div className="button-new secondary-action">Logout</div>
-                        </div>
-                    </div>
-                </div>
                 <div className="row-md">
                     <div className="col-12">
                         <div className="card centered-question">
@@ -57,4 +45,4 @@ class Home extends React.Component {
   }
 }
 
-export default Home;
+export default Dashboard;
