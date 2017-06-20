@@ -20,11 +20,11 @@ declare class IAM extends Service {
    */
   addClientIDToOpenIDConnectProvider(callback?: (err: AWSError, data: {}) => void): Request<{}, AWSError>;
   /**
-   * Adds the specified IAM role to the specified instance profile.  The caller of this API must be granted the PassRole permission on the IAM role by a permission policy.  For more information about roles, go to Working with Roles. For more information about instance profiles, go to About Instance Profiles.
+   * Adds the specified IAM role to the specified instance profile. An instance profile can contain only one role, and this limit cannot be increased.  The caller of this API must be granted the PassRole permission on the IAM role by a permission policy.  For more information about roles, go to Working with Roles. For more information about instance profiles, go to About Instance Profiles.
    */
   addRoleToInstanceProfile(params: IAM.Types.AddRoleToInstanceProfileRequest, callback?: (err: AWSError, data: {}) => void): Request<{}, AWSError>;
   /**
-   * Adds the specified IAM role to the specified instance profile.  The caller of this API must be granted the PassRole permission on the IAM role by a permission policy.  For more information about roles, go to Working with Roles. For more information about instance profiles, go to About Instance Profiles.
+   * Adds the specified IAM role to the specified instance profile. An instance profile can contain only one role, and this limit cannot be increased.  The caller of this API must be granted the PassRole permission on the IAM role by a permission policy.  For more information about roles, go to Working with Roles. For more information about instance profiles, go to About Instance Profiles.
    */
   addRoleToInstanceProfile(callback?: (err: AWSError, data: {}) => void): Request<{}, AWSError>;
   /**
@@ -44,11 +44,11 @@ declare class IAM extends Service {
    */
   attachGroupPolicy(callback?: (err: AWSError, data: {}) => void): Request<{}, AWSError>;
   /**
-   * Attaches the specified managed policy to the specified IAM role. When you attach a managed policy to a role, the managed policy becomes part of the role's permission (access) policy. You cannot use a managed policy as the role's trust policy. The role's trust policy is created at the same time as the role, using CreateRole. You can update a role's trust policy using UpdateAssumeRolePolicy. Use this API to attach a managed policy to a role. To embed an inline policy in a role, use PutRolePolicy. For more information about policies, see Managed Policies and Inline Policies in the IAM User Guide.
+   * Attaches the specified managed policy to the specified IAM role. When you attach a managed policy to a role, the managed policy becomes part of the role's permission (access) policy.  You cannot use a managed policy as the role's trust policy. The role's trust policy is created at the same time as the role, using CreateRole. You can update a role's trust policy using UpdateAssumeRolePolicy.  Use this API to attach a managed policy to a role. To embed an inline policy in a role, use PutRolePolicy. For more information about policies, see Managed Policies and Inline Policies in the IAM User Guide.
    */
   attachRolePolicy(params: IAM.Types.AttachRolePolicyRequest, callback?: (err: AWSError, data: {}) => void): Request<{}, AWSError>;
   /**
-   * Attaches the specified managed policy to the specified IAM role. When you attach a managed policy to a role, the managed policy becomes part of the role's permission (access) policy. You cannot use a managed policy as the role's trust policy. The role's trust policy is created at the same time as the role, using CreateRole. You can update a role's trust policy using UpdateAssumeRolePolicy. Use this API to attach a managed policy to a role. To embed an inline policy in a role, use PutRolePolicy. For more information about policies, see Managed Policies and Inline Policies in the IAM User Guide.
+   * Attaches the specified managed policy to the specified IAM role. When you attach a managed policy to a role, the managed policy becomes part of the role's permission (access) policy.  You cannot use a managed policy as the role's trust policy. The role's trust policy is created at the same time as the role, using CreateRole. You can update a role's trust policy using UpdateAssumeRolePolicy.  Use this API to attach a managed policy to a role. To embed an inline policy in a role, use PutRolePolicy. For more information about policies, see Managed Policies and Inline Policies in the IAM User Guide.
    */
   attachRolePolicy(callback?: (err: AWSError, data: {}) => void): Request<{}, AWSError>;
   /**
@@ -147,6 +147,14 @@ declare class IAM extends Service {
    * Creates an IAM resource that describes an identity provider (IdP) that supports SAML 2.0. The SAML provider resource that you create with this operation can be used as a principal in an IAM role's trust policy to enable federated users who sign-in using the SAML IdP to assume the role. You can create an IAM role that supports Web-based single sign-on (SSO) to the AWS Management Console or one that supports API access to AWS. When you create the SAML provider resource, you upload an a SAML metadata document that you get from your IdP and that includes the issuer's name, expiration information, and keys that can be used to validate the SAML authentication response (assertions) that the IdP sends. You must generate the metadata document using the identity management software that is used as your organization's IdP.   This operation requires Signature Version 4.   For more information, see Enabling SAML 2.0 Federated Users to Access the AWS Management Console and About SAML 2.0-based Federation in the IAM User Guide.
    */
   createSAMLProvider(callback?: (err: AWSError, data: IAM.Types.CreateSAMLProviderResponse) => void): Request<IAM.Types.CreateSAMLProviderResponse, AWSError>;
+  /**
+   * Creates an IAM role that is linked to a specific AWS service. The service controls the attached policies and when the role can be deleted. This helps ensure that the service is not broken by an unexpectedly changed or deleted role, which could put your AWS resources into an unknown state. Allowing the service to control the role helps improve service stability and proper cleanup when a service and its role are no longer needed. The name of the role is autogenerated by combining the string that you specify for the AWSServiceName parameter with the string that you specify for the CustomSuffix parameter. The resulting name must be unique in your account or the request fails. To attach a policy to this service-linked role, you must make the request using the AWS service that depends on this role.
+   */
+  createServiceLinkedRole(params: IAM.Types.CreateServiceLinkedRoleRequest, callback?: (err: AWSError, data: IAM.Types.CreateServiceLinkedRoleResponse) => void): Request<IAM.Types.CreateServiceLinkedRoleResponse, AWSError>;
+  /**
+   * Creates an IAM role that is linked to a specific AWS service. The service controls the attached policies and when the role can be deleted. This helps ensure that the service is not broken by an unexpectedly changed or deleted role, which could put your AWS resources into an unknown state. Allowing the service to control the role helps improve service stability and proper cleanup when a service and its role are no longer needed. The name of the role is autogenerated by combining the string that you specify for the AWSServiceName parameter with the string that you specify for the CustomSuffix parameter. The resulting name must be unique in your account or the request fails. To attach a policy to this service-linked role, you must make the request using the AWS service that depends on this role.
+   */
+  createServiceLinkedRole(callback?: (err: AWSError, data: IAM.Types.CreateServiceLinkedRoleResponse) => void): Request<IAM.Types.CreateServiceLinkedRoleResponse, AWSError>;
   /**
    * Generates a set of credentials consisting of a user name and password that can be used to access the service specified in the request. These credentials are generated by IAM, and can be used only for the specified service.  You can have a maximum of two sets of service-specific credentials for each supported service per user. The only supported service at this time is AWS CodeCommit. You can reset the password to a new service-generated value by calling ResetServiceSpecificCredential. For more information about service-specific credentials, see Using IAM with AWS CodeCommit: Git Credentials, SSH Keys, and AWS Access Keys in the IAM User Guide.
    */
@@ -760,11 +768,11 @@ declare class IAM extends Service {
    */
   removeClientIDFromOpenIDConnectProvider(callback?: (err: AWSError, data: {}) => void): Request<{}, AWSError>;
   /**
-   * Removes the specified IAM role from the specified EC2 instance profile.  Make sure you do not have any Amazon EC2 instances running with the role you are about to remove from the instance profile. Removing a role from an instance profile that is associated with a running instance break any applications running on the instance.   For more information about IAM roles, go to Working with Roles. For more information about instance profiles, go to About Instance Profiles.
+   * Removes the specified IAM role from the specified EC2 instance profile.  Make sure you do not have any Amazon EC2 instances running with the role you are about to remove from the instance profile. Removing a role from an instance profile that is associated with a running instance might break any applications running on the instance.   For more information about IAM roles, go to Working with Roles. For more information about instance profiles, go to About Instance Profiles.
    */
   removeRoleFromInstanceProfile(params: IAM.Types.RemoveRoleFromInstanceProfileRequest, callback?: (err: AWSError, data: {}) => void): Request<{}, AWSError>;
   /**
-   * Removes the specified IAM role from the specified EC2 instance profile.  Make sure you do not have any Amazon EC2 instances running with the role you are about to remove from the instance profile. Removing a role from an instance profile that is associated with a running instance break any applications running on the instance.   For more information about IAM roles, go to Working with Roles. For more information about instance profiles, go to About Instance Profiles.
+   * Removes the specified IAM role from the specified EC2 instance profile.  Make sure you do not have any Amazon EC2 instances running with the role you are about to remove from the instance profile. Removing a role from an instance profile that is associated with a running instance might break any applications running on the instance.   For more information about IAM roles, go to Working with Roles. For more information about instance profiles, go to About Instance Profiles.
    */
   removeRoleFromInstanceProfile(callback?: (err: AWSError, data: {}) => void): Request<{}, AWSError>;
   /**
@@ -864,6 +872,14 @@ declare class IAM extends Service {
    */
   updateOpenIDConnectProviderThumbprint(callback?: (err: AWSError, data: {}) => void): Request<{}, AWSError>;
   /**
+   * Modifies the description of a role.
+   */
+  updateRoleDescription(params: IAM.Types.UpdateRoleDescriptionRequest, callback?: (err: AWSError, data: IAM.Types.UpdateRoleDescriptionResponse) => void): Request<IAM.Types.UpdateRoleDescriptionResponse, AWSError>;
+  /**
+   * Modifies the description of a role.
+   */
+  updateRoleDescription(callback?: (err: AWSError, data: IAM.Types.UpdateRoleDescriptionResponse) => void): Request<IAM.Types.UpdateRoleDescriptionResponse, AWSError>;
+  /**
    * Updates the metadata document for an existing SAML provider resource object.  This operation requires Signature Version 4. 
    */
   updateSAMLProvider(params: IAM.Types.UpdateSAMLProviderRequest, callback?: (err: AWSError, data: IAM.Types.UpdateSAMLProviderResponse) => void): Request<IAM.Types.UpdateSAMLProviderResponse, AWSError>;
@@ -920,11 +936,11 @@ declare class IAM extends Service {
    */
   uploadSSHPublicKey(callback?: (err: AWSError, data: IAM.Types.UploadSSHPublicKeyResponse) => void): Request<IAM.Types.UploadSSHPublicKeyResponse, AWSError>;
   /**
-   * Uploads a server certificate entity for the AWS account. The server certificate entity includes a public key certificate, a private key, and an optional certificate chain, which should all be PEM-encoded. For more information about working with server certificates, including a list of AWS services that can use the server certificates that you manage with IAM, go to Working with Server Certificates in the IAM User Guide. For information about the number of server certificates you can upload, see Limitations on IAM Entities and Objects in the IAM User Guide.  Because the body of the public key certificate, private key, and the certificate chain can be large, you should use POST rather than GET when calling UploadServerCertificate. For information about setting up signatures and authorization through the API, go to Signing AWS API Requests in the AWS General Reference. For general information about using the Query API with IAM, go to Calling the API by Making HTTP Query Requests in the IAM User Guide. 
+   * Uploads a server certificate entity for the AWS account. The server certificate entity includes a public key certificate, a private key, and an optional certificate chain, which should all be PEM-encoded. We recommend that you use AWS Certificate Manager to provision, manage, and deploy your server certificates. With ACM you can request a certificate, deploy it to AWS resources, and let ACM handle certificate renewals for you. Certificates provided by ACM are free. For more information about using ACM, see the AWS Certificate Manager User Guide. For more information about working with server certificates, including a list of AWS services that can use the server certificates that you manage with IAM, go to Working with Server Certificates in the IAM User Guide. For information about the number of server certificates you can upload, see Limitations on IAM Entities and Objects in the IAM User Guide.  Because the body of the public key certificate, private key, and the certificate chain can be large, you should use POST rather than GET when calling UploadServerCertificate. For information about setting up signatures and authorization through the API, go to Signing AWS API Requests in the AWS General Reference. For general information about using the Query API with IAM, go to Calling the API by Making HTTP Query Requests in the IAM User Guide. 
    */
   uploadServerCertificate(params: IAM.Types.UploadServerCertificateRequest, callback?: (err: AWSError, data: IAM.Types.UploadServerCertificateResponse) => void): Request<IAM.Types.UploadServerCertificateResponse, AWSError>;
   /**
-   * Uploads a server certificate entity for the AWS account. The server certificate entity includes a public key certificate, a private key, and an optional certificate chain, which should all be PEM-encoded. For more information about working with server certificates, including a list of AWS services that can use the server certificates that you manage with IAM, go to Working with Server Certificates in the IAM User Guide. For information about the number of server certificates you can upload, see Limitations on IAM Entities and Objects in the IAM User Guide.  Because the body of the public key certificate, private key, and the certificate chain can be large, you should use POST rather than GET when calling UploadServerCertificate. For information about setting up signatures and authorization through the API, go to Signing AWS API Requests in the AWS General Reference. For general information about using the Query API with IAM, go to Calling the API by Making HTTP Query Requests in the IAM User Guide. 
+   * Uploads a server certificate entity for the AWS account. The server certificate entity includes a public key certificate, a private key, and an optional certificate chain, which should all be PEM-encoded. We recommend that you use AWS Certificate Manager to provision, manage, and deploy your server certificates. With ACM you can request a certificate, deploy it to AWS resources, and let ACM handle certificate renewals for you. Certificates provided by ACM are free. For more information about using ACM, see the AWS Certificate Manager User Guide. For more information about working with server certificates, including a list of AWS services that can use the server certificates that you manage with IAM, go to Working with Server Certificates in the IAM User Guide. For information about the number of server certificates you can upload, see Limitations on IAM Entities and Objects in the IAM User Guide.  Because the body of the public key certificate, private key, and the certificate chain can be large, you should use POST rather than GET when calling UploadServerCertificate. For information about setting up signatures and authorization through the API, go to Signing AWS API Requests in the AWS General Reference. For general information about using the Query API with IAM, go to Calling the API by Making HTTP Query Requests in the IAM User Guide. 
    */
   uploadServerCertificate(callback?: (err: AWSError, data: IAM.Types.UploadServerCertificateResponse) => void): Request<IAM.Types.UploadServerCertificateResponse, AWSError>;
   /**
@@ -981,11 +997,11 @@ declare namespace IAM {
      */
     LastUsedDate: dateType;
     /**
-     * The name of the AWS service with which this access key was most recently used. This field is null when:   The user does not have an access key.   An access key exists but has never been used, at least not since IAM started tracking this information on April 22nd, 2015.   There is no sign-in data associated with the user  
+     * The name of the AWS service with which this access key was most recently used. This field displays "N/A" when:   The user does not have an access key.   An access key exists but has never been used, at least not since IAM started tracking this information on April 22nd, 2015.   There is no sign-in data associated with the user  
      */
     ServiceName: stringType;
     /**
-     * The AWS region where this access key was most recently used. This field is null when:   The user does not have an access key.   An access key exists but has never been used, at least not since IAM started tracking this information on April 22nd, 2015.   There is no sign-in data associated with the user   For more information about AWS regions, see Regions and Endpoints in the Amazon Web Services General Reference.
+     * The AWS region where this access key was most recently used. This field is displays "N/A" when:   The user does not have an access key.   An access key exists but has never been used, at least not since IAM started tracking this information on April 22nd, 2015.   There is no sign-in data associated with the user   For more information about AWS regions, see Regions and Endpoints in the Amazon Web Services General Reference.
      */
     Region: stringType;
   }
@@ -1025,7 +1041,7 @@ declare namespace IAM {
      */
     InstanceProfileName: instanceProfileNameType;
     /**
-     * The name of the role to add. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+     * The name of the role to add. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
      */
     RoleName: roleNameType;
   }
@@ -1051,7 +1067,7 @@ declare namespace IAM {
   }
   export interface AttachRolePolicyRequest {
     /**
-     * The name (friendly name, not ARN) of the role to attach the policy to. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+     * The name (friendly name, not ARN) of the role to attach the policy to. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
      */
     RoleName: roleNameType;
     /**
@@ -1083,7 +1099,7 @@ declare namespace IAM {
      */
     OldPassword: passwordType;
     /**
-     * The new password. The new password must conform to the AWS account's password policy, if one exists. This parameter allows (per its regex pattern) a string of characters consisting of almost any printable ASCII character from the space (\u0020) through the end of the ASCII character range (\u00FF). You can also include the tab (\u0009), line feed (\u000A), and carriage return (\u000D) characters. Although any of these characters are valid in a password, note that many tools, such as the AWS Management Console, might restrict the ability to enter certain characters because they have special meaning within that tool.
+     * The new password. The new password must conform to the AWS account's password policy, if one exists. The regex pattern used to validate this parameter is a string of characters consisting of almost any printable ASCII character from the space (\u0020) through the end of the ASCII character range (\u00FF). You can also include the tab (\u0009), line feed (\u000A), and carriage return (\u000D) characters. Although any of these characters are valid in a password, note that many tools, such as the AWS Management Console, might restrict the ability to enter certain characters because they have special meaning within that tool.
      */
     NewPassword: passwordType;
   }
@@ -1164,7 +1180,7 @@ declare namespace IAM {
      */
     UserName: userNameType;
     /**
-     * The new password for the user. This parameter allows (per its regex pattern) a string of characters consisting of almost any printable ASCII character from the space (\u0020) through the end of the ASCII character range (\u00FF). You can also include the tab (\u0009), line feed (\u000A), and carriage return (\u000D) characters. Although any of these characters are valid in a password, note that many tools, such as the AWS Management Console, might restrict the ability to enter certain characters because they have special meaning within that tool.
+     * The new password for the user. The regex pattern used to validate this parameter is a string of characters consisting of almost any printable ASCII character from the space (\u0020) through the end of the ASCII character range (\u00FF). You can also include the tab (\u0009), line feed (\u000A), and carriage return (\u000D) characters. Although any of these characters are valid in a password, note that many tools, such as the AWS Management Console, might restrict the ability to enter certain characters because they have special meaning within that tool.
      */
     Password: passwordType;
     /**
@@ -1208,7 +1224,7 @@ declare namespace IAM {
      */
     Path?: policyPathType;
     /**
-     * The JSON policy document that you want to use as the content for the new policy. This parameter allows (per its regex pattern) a string of characters consisting of any printable ASCII character ranging from the space character (\u0020) through end of the ASCII character range (\u00FF). It also includes the special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D).
+     * The JSON policy document that you want to use as the content for the new policy. The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (\u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF). It also includes the special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D).
      */
     PolicyDocument: policyDocumentType;
     /**
@@ -1228,7 +1244,7 @@ declare namespace IAM {
      */
     PolicyArn: arnType;
     /**
-     * The JSON policy document that you want to use as the content for this new version of the policy. This parameter allows (per its regex pattern) a string of characters consisting of any printable ASCII character ranging from the space character (\u0020) through end of the ASCII character range (\u00FF). It also includes the special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D).
+     * The JSON policy document that you want to use as the content for this new version of the policy. The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (\u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF). It also includes the special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D).
      */
     PolicyDocument: policyDocumentType;
     /**
@@ -1248,13 +1264,17 @@ declare namespace IAM {
      */
     Path?: pathType;
     /**
-     * The name of the role to create. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-. Role names are not distinguished by case. For example, you cannot create roles named both "PRODROLE" and "prodrole".
+     * The name of the role to create. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@- Role names are not distinguished by case. For example, you cannot create roles named both "PRODROLE" and "prodrole".
      */
     RoleName: roleNameType;
     /**
-     * The trust relationship policy document that grants an entity permission to assume the role. This parameter allows (per its regex pattern) a string of characters consisting of any printable ASCII character ranging from the space character (\u0020) through end of the ASCII character range (\u00FF). It also includes the special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D).
+     * The trust relationship policy document that grants an entity permission to assume the role. The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (\u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF). It also includes the special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D).
      */
     AssumeRolePolicyDocument: policyDocumentType;
+    /**
+     * A customer-provided description of the role.
+     */
+    Description?: roleDescriptionType;
   }
   export interface CreateRoleResponse {
     /**
@@ -1277,6 +1297,26 @@ declare namespace IAM {
      * The Amazon Resource Name (ARN) of the new SAML provider resource in IAM.
      */
     SAMLProviderArn?: arnType;
+  }
+  export interface CreateServiceLinkedRoleRequest {
+    /**
+     * The AWS service to which this role is attached. You use a string similar to a URL but without the http:// in front. For example: elasticbeanstalk.amazonaws.com 
+     */
+    AWSServiceName: groupNameType;
+    /**
+     * The description of the role.
+     */
+    Description?: roleDescriptionType;
+    /**
+     * A string that you provide, which is combined with the service name to form the complete role name. If you make multiple requests for the same service, then you must supply a different CustomSuffix for each request. Otherwise the request fails with a duplicate role name error. For example, you could add -1 or -debug to the suffix.
+     */
+    CustomSuffix?: customSuffixType;
+  }
+  export interface CreateServiceLinkedRoleResponse {
+    /**
+     * A Role object that contains details about the newly created role.
+     */
+    Role?: Role;
   }
   export interface CreateServiceSpecificCredentialRequest {
     /**
@@ -1332,7 +1372,7 @@ declare namespace IAM {
      */
     UserName: existingUserNameType;
     /**
-     * The serial number that uniquely identifies the MFA device. For virtual MFA devices, the serial number is the device ARN. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =/:,.@-
+     * The serial number that uniquely identifies the MFA device. For virtual MFA devices, the serial number is the device ARN. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@:/-
      */
     SerialNumber: serialNumberType;
   }
@@ -1404,7 +1444,7 @@ declare namespace IAM {
   }
   export interface DeleteRolePolicyRequest {
     /**
-     * The name (friendly name, not ARN) identifying the role that the policy is embedded in. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+     * The name (friendly name, not ARN) identifying the role that the policy is embedded in. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
      */
     RoleName: roleNameType;
     /**
@@ -1414,7 +1454,7 @@ declare namespace IAM {
   }
   export interface DeleteRoleRequest {
     /**
-     * The name of the role to delete. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+     * The name of the role to delete. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
      */
     RoleName: roleNameType;
   }
@@ -1478,7 +1518,7 @@ declare namespace IAM {
   }
   export interface DeleteVirtualMFADeviceRequest {
     /**
-     * The serial number that uniquely identifies the MFA device. For virtual MFA devices, the serial number is the same as the ARN. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =/:,.@-
+     * The serial number that uniquely identifies the MFA device. For virtual MFA devices, the serial number is the same as the ARN. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@:/-
      */
     SerialNumber: serialNumberType;
   }
@@ -1494,7 +1534,7 @@ declare namespace IAM {
   }
   export interface DetachRolePolicyRequest {
     /**
-     * The name (friendly name, not ARN) of the IAM role to detach the policy from. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+     * The name (friendly name, not ARN) of the IAM role to detach the policy from. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
      */
     RoleName: roleNameType;
     /**
@@ -1518,15 +1558,15 @@ declare namespace IAM {
      */
     UserName: existingUserNameType;
     /**
-     * The serial number that uniquely identifies the MFA device. For virtual MFA devices, the serial number is the device ARN. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =/:,.@-
+     * The serial number that uniquely identifies the MFA device. For virtual MFA devices, the serial number is the device ARN. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@:/-
      */
     SerialNumber: serialNumberType;
     /**
-     * An authentication code emitted by the device. The format for this parameter is a string of 6 digits.
+     * An authentication code emitted by the device.  The format for this parameter is a string of 6 digits.  Submit your request immediately after generating the authentication codes. If you generate the codes and then wait too long to submit the request, the MFA device successfully associates with the user but the MFA device becomes out of sync. This happens because time-based one-time passwords (TOTP) expire after a short period of time. If this happens, you can resync the device. 
      */
     AuthenticationCode1: authenticationCodeType;
     /**
-     * A subsequent authentication code emitted by the device. The format for this parameter is a string of 6 digits.
+     * A subsequent authentication code emitted by the device. The format for this parameter is a string of 6 digits.  Submit your request immediately after generating the authentication codes. If you generate the codes and then wait too long to submit the request, the MFA device successfully associates with the user but the MFA device becomes out of sync. This happens because time-based one-time passwords (TOTP) expire after a short period of time. If this happens, you can resync the device. 
      */
     AuthenticationCode2: authenticationCodeType;
   }
@@ -1554,6 +1594,10 @@ declare namespace IAM {
      * A list of context keys that are required by the included input policies but that were not provided by one of the input parameters. This list is used when the resource in a simulation is "*", either explicitly, or when the ResourceArns parameter blank. If you include a list of resources, then any missing context values are instead included under the ResourceSpecificResults section. To discover the context keys used by a set of policies, you can call GetContextKeysForCustomPolicy or GetContextKeysForPrincipalPolicy.
      */
     MissingContextValues?: ContextKeyNamesResultListType;
+    /**
+     * A structure that details how AWS Organizations and its service control policies affect the results of the simulation. Only applies if the simulated user's account is part of an organization.
+     */
+    OrganizationsDecisionDetail?: OrganizationsDecisionDetail;
     /**
      * Additional details about the results of the evaluation decision. When there are both IAM policies and resource policies, this parameter explains how each set of policies contributes to the final evaluation decision. When simulating cross-account access to a resource, both the resource-based policy and the caller's IAM policy must grant access. See How IAM Roles Differ from Resource-based Policies 
      */
@@ -1632,7 +1676,7 @@ declare namespace IAM {
   }
   export interface GetAccountPasswordPolicyResponse {
     /**
-     * Contains information about the account password policy.
+     * A structure that contains details about the account's password policy.
      */
     PasswordPolicy: PasswordPolicy;
   }
@@ -1644,7 +1688,7 @@ declare namespace IAM {
   }
   export interface GetContextKeysForCustomPolicyRequest {
     /**
-     * A list of policies for which you want the list of context keys referenced in those policies. Each document is specified as a string containing the complete, valid JSON text of an IAM policy. This parameter allows (per its regex pattern) a string of characters consisting of any printable ASCII character ranging from the space character (\u0020) through end of the ASCII character range (\u00FF). It also includes the special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D).
+     * A list of policies for which you want the list of context keys referenced in those policies. Each document is specified as a string containing the complete, valid JSON text of an IAM policy. The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (\u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF). It also includes the special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D).
      */
     PolicyInputList: SimulationPolicyListType;
   }
@@ -1660,7 +1704,7 @@ declare namespace IAM {
      */
     PolicySourceArn: arnType;
     /**
-     * An optional list of additional policies for which you want the list of context keys that are referenced. This parameter allows (per its regex pattern) a string of characters consisting of any printable ASCII character ranging from the space character (\u0020) through end of the ASCII character range (\u00FF). It also includes the special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D).
+     * An optional list of additional policies for which you want the list of context keys that are referenced. The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (\u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF). It also includes the special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D).
      */
     PolicyInputList?: SimulationPolicyListType;
   }
@@ -1812,7 +1856,7 @@ declare namespace IAM {
   }
   export interface GetRolePolicyRequest {
     /**
-     * The name of the role associated with the policy. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+     * The name of the role associated with the policy. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
      */
     RoleName: roleNameType;
     /**
@@ -1836,7 +1880,7 @@ declare namespace IAM {
   }
   export interface GetRoleRequest {
     /**
-     * The name of the IAM role to get information about. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+     * The name of the IAM role to get information about. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
      */
     RoleName: roleNameType;
   }
@@ -2096,7 +2140,7 @@ declare namespace IAM {
   }
   export interface ListAttachedRolePoliciesRequest {
     /**
-     * The name (friendly name, not ARN) of the role to list attached policies for. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+     * The name (friendly name, not ARN) of the role to list attached policies for. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
      */
     RoleName: roleNameType;
     /**
@@ -2288,7 +2332,7 @@ declare namespace IAM {
   }
   export interface ListInstanceProfilesForRoleRequest {
     /**
-     * The name of the role to list instance profiles for. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+     * The name of the role to list instance profiles for. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
      */
     RoleName: roleNameType;
     /**
@@ -2444,7 +2488,7 @@ declare namespace IAM {
   }
   export interface ListRolePoliciesRequest {
     /**
-     * The name of the role to list policies for. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+     * The name of the role to list policies for. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
      */
     RoleName: roleNameType;
     /**
@@ -2767,6 +2811,12 @@ declare namespace IAM {
   }
   export type OpenIDConnectProviderListType = OpenIDConnectProviderListEntry[];
   export type OpenIDConnectProviderUrlType = string;
+  export interface OrganizationsDecisionDetail {
+    /**
+     * Specifies whether the simulated action is allowed by the AWS Organizations service control policies that impact the simulated user's account.
+     */
+    AllowedByOrganizations?: booleanType;
+  }
   export interface PasswordPolicy {
     /**
      * Minimum length to require for IAM user passwords.
@@ -2932,13 +2982,13 @@ declare namespace IAM {
      */
     PolicyName: policyNameType;
     /**
-     * The policy document. This parameter allows (per its regex pattern) a string of characters consisting of any printable ASCII character ranging from the space character (\u0020) through end of the ASCII character range (\u00FF). It also includes the special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D).
+     * The policy document. The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (\u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF). It also includes the special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D).
      */
     PolicyDocument: policyDocumentType;
   }
   export interface PutRolePolicyRequest {
     /**
-     * The name of the role to associate the policy with. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+     * The name of the role to associate the policy with. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
      */
     RoleName: roleNameType;
     /**
@@ -2946,7 +2996,7 @@ declare namespace IAM {
      */
     PolicyName: policyNameType;
     /**
-     * The policy document. This parameter allows (per its regex pattern) a string of characters consisting of any printable ASCII character ranging from the space character (\u0020) through end of the ASCII character range (\u00FF). It also includes the special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D).
+     * The policy document. The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (\u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF). It also includes the special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D).
      */
     PolicyDocument: policyDocumentType;
   }
@@ -2960,7 +3010,7 @@ declare namespace IAM {
      */
     PolicyName: policyNameType;
     /**
-     * The policy document. This parameter allows (per its regex pattern) a string of characters consisting of any printable ASCII character ranging from the space character (\u0020) through end of the ASCII character range (\u00FF). It also includes the special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D).
+     * The policy document. The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (\u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF). It also includes the special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D).
      */
     PolicyDocument: policyDocumentType;
   }
@@ -2980,7 +3030,7 @@ declare namespace IAM {
      */
     InstanceProfileName: instanceProfileNameType;
     /**
-     * The name of the role to remove. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+     * The name of the role to remove. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
      */
     RoleName: roleNameType;
   }
@@ -3072,7 +3122,7 @@ declare namespace IAM {
      */
     RoleId: idType;
     /**
-     *  The Amazon Resource Name (ARN) specifying the role. For more information about ARNs and how to use them in policies, see IAM Identifiers in the Using IAM guide. 
+     *  The Amazon Resource Name (ARN) specifying the role. For more information about ARNs and how to use them in policies, see IAM Identifiers in the IAM User Guide guide. 
      */
     Arn: arnType;
     /**
@@ -3083,6 +3133,10 @@ declare namespace IAM {
      * The policy that grants an entity permission to assume the role.
      */
     AssumeRolePolicyDocument?: policyDocumentType;
+    /**
+     * A description of the role that you provide.
+     */
+    Description?: roleDescriptionType;
   }
   export interface RoleDetail {
     /**
@@ -3312,7 +3366,7 @@ declare namespace IAM {
   }
   export interface SimulateCustomPolicyRequest {
     /**
-     * A list of policy documents to include in the simulation. Each document is specified as a string containing the complete, valid JSON text of an IAM policy. Do not include any resource-based policies in this parameter. Any resource-based policy must be submitted with the ResourcePolicy parameter. The policies cannot be "scope-down" policies, such as you could include in a call to GetFederationToken or one of the AssumeRole APIs to restrict what a user can do while using the temporary credentials. This parameter allows (per its regex pattern) a string of characters consisting of any printable ASCII character ranging from the space character (\u0020) through end of the ASCII character range (\u00FF). It also includes the special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D).
+     * A list of policy documents to include in the simulation. Each document is specified as a string containing the complete, valid JSON text of an IAM policy. Do not include any resource-based policies in this parameter. Any resource-based policy must be submitted with the ResourcePolicy parameter. The policies cannot be "scope-down" policies, such as you could include in a call to GetFederationToken or one of the AssumeRole APIs to restrict what a user can do while using the temporary credentials. The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (\u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF). It also includes the special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D).
      */
     PolicyInputList: SimulationPolicyListType;
     /**
@@ -3324,7 +3378,7 @@ declare namespace IAM {
      */
     ResourceArns?: ResourceNameListType;
     /**
-     * A resource-based policy to include in the simulation provided as a string. Each resource in the simulation is treated as if it had this policy attached. You can include only one resource-based policy in a simulation. This parameter allows (per its regex pattern) a string of characters consisting of any printable ASCII character ranging from the space character (\u0020) through end of the ASCII character range (\u00FF). It also includes the special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D).
+     * A resource-based policy to include in the simulation provided as a string. Each resource in the simulation is treated as if it had this policy attached. You can include only one resource-based policy in a simulation. The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (\u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF). It also includes the special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D).
      */
     ResourcePolicy?: policyDocumentType;
     /**
@@ -3372,7 +3426,7 @@ declare namespace IAM {
      */
     PolicySourceArn: arnType;
     /**
-     * An optional list of additional policy documents to include in the simulation. Each document is specified as a string containing the complete, valid JSON text of an IAM policy. This parameter allows (per its regex pattern) a string of characters consisting of any printable ASCII character ranging from the space character (\u0020) through end of the ASCII character range (\u00FF). It also includes the special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D).
+     * An optional list of additional policy documents to include in the simulation. Each document is specified as a string containing the complete, valid JSON text of an IAM policy. The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (\u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF). It also includes the special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D).
      */
     PolicyInputList?: SimulationPolicyListType;
     /**
@@ -3384,7 +3438,7 @@ declare namespace IAM {
      */
     ResourceArns?: ResourceNameListType;
     /**
-     * A resource-based policy to include in the simulation provided as a string. Each resource in the simulation is treated as if it had this policy attached. You can include only one resource-based policy in a simulation. This parameter allows (per its regex pattern) a string of characters consisting of any printable ASCII character ranging from the space character (\u0020) through end of the ASCII character range (\u00FF). It also includes the special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D).
+     * A resource-based policy to include in the simulation provided as a string. Each resource in the simulation is treated as if it had this policy attached. You can include only one resource-based policy in a simulation. The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (\u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF). It also includes the special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D).
      */
     ResourcePolicy?: policyDocumentType;
     /**
@@ -3486,11 +3540,11 @@ declare namespace IAM {
   }
   export interface UpdateAssumeRolePolicyRequest {
     /**
-     * The name of the role to update with the new policy. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+     * The name of the role to update with the new policy. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
      */
     RoleName: roleNameType;
     /**
-     * The policy that grants an entity permission to assume the role. This parameter allows (per its regex pattern) a string of characters consisting of any printable ASCII character ranging from the space character (\u0020) through end of the ASCII character range (\u00FF). It also includes the special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D).
+     * The policy that grants an entity permission to assume the role. The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (\u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF). It also includes the special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D).
      */
     PolicyDocument: policyDocumentType;
   }
@@ -3514,7 +3568,7 @@ declare namespace IAM {
      */
     UserName: userNameType;
     /**
-     * The new password for the specified IAM user. This parameter allows (per its regex pattern) a string of characters consisting of any printable ASCII character ranging from the space character (\u0020) through end of the ASCII character range (\u00FF). It also includes the special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D). However, the format can be further restricted by the account administrator by setting a password policy on the AWS account. For more information, see UpdateAccountPasswordPolicy.
+     * The new password for the specified IAM user. The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (\u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF). It also includes the special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D). However, the format can be further restricted by the account administrator by setting a password policy on the AWS account. For more information, see UpdateAccountPasswordPolicy.
      */
     Password?: passwordType;
     /**
@@ -3531,6 +3585,22 @@ declare namespace IAM {
      * A list of certificate thumbprints that are associated with the specified IAM OpenID Connect provider. For more information, see CreateOpenIDConnectProvider. 
      */
     ThumbprintList: thumbprintListType;
+  }
+  export interface UpdateRoleDescriptionRequest {
+    /**
+     * The name of the role that you want to modify.
+     */
+    RoleName: roleNameType;
+    /**
+     * The new description that you want to apply to the specified role.
+     */
+    Description: roleDescriptionType;
+  }
+  export interface UpdateRoleDescriptionResponse {
+    /**
+     * A structure that contains details about the modified role.
+     */
+    Role?: Role;
   }
   export interface UpdateSAMLProviderRequest {
     /**
@@ -3624,7 +3694,7 @@ declare namespace IAM {
      */
     UserName: userNameType;
     /**
-     * The SSH public key. The public key must be encoded in ssh-rsa format or PEM format. This parameter allows (per its regex pattern) a string of characters consisting of any printable ASCII character ranging from the space character (\u0020) through end of the ASCII character range (\u00FF). It also includes the special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D).
+     * The SSH public key. The public key must be encoded in ssh-rsa format or PEM format. The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (\u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF). It also includes the special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D).
      */
     SSHPublicKeyBody: publicKeyMaterialType;
   }
@@ -3644,15 +3714,15 @@ declare namespace IAM {
      */
     ServerCertificateName: serverCertificateNameType;
     /**
-     * The contents of the public key certificate in PEM-encoded format. This parameter allows (per its regex pattern) a string of characters consisting of any printable ASCII character ranging from the space character (\u0020) through end of the ASCII character range (\u00FF). It also includes the special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D).
+     * The contents of the public key certificate in PEM-encoded format. The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (\u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF). It also includes the special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D).
      */
     CertificateBody: certificateBodyType;
     /**
-     * The contents of the private key in PEM-encoded format. This parameter allows (per its regex pattern) a string of characters consisting of any printable ASCII character ranging from the space character (\u0020) through end of the ASCII character range (\u00FF). It also includes the special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D).
+     * The contents of the private key in PEM-encoded format. The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (\u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF). It also includes the special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D).
      */
     PrivateKey: privateKeyType;
     /**
-     * The contents of the certificate chain. This is typically a concatenation of the PEM-encoded public key certificates of the chain. This parameter allows (per its regex pattern) a string of characters consisting of any printable ASCII character ranging from the space character (\u0020) through end of the ASCII character range (\u00FF). It also includes the special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D).
+     * The contents of the certificate chain. This is typically a concatenation of the PEM-encoded public key certificates of the chain. The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (\u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF). It also includes the special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D).
      */
     CertificateChain?: certificateChainType;
   }
@@ -3668,7 +3738,7 @@ declare namespace IAM {
      */
     UserName?: existingUserNameType;
     /**
-     * The contents of the signing certificate. This parameter allows (per its regex pattern) a string of characters consisting of any printable ASCII character ranging from the space character (\u0020) through end of the ASCII character range (\u00FF). It also includes the special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D).
+     * The contents of the signing certificate. The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (\u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF). It also includes the special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D).
      */
     CertificateBody: certificateBodyType;
   }
@@ -3749,7 +3819,7 @@ declare namespace IAM {
      */
     QRCodePNG?: BootstrapDatum;
     /**
-     * The user to whom the MFA device is assigned.
+     * The IAM user associated with this virtual MFA device.
      */
     User?: User;
     /**
@@ -3778,6 +3848,7 @@ declare namespace IAM {
   export type credentialReportExpiredExceptionMessage = string;
   export type credentialReportNotPresentExceptionMessage = string;
   export type credentialReportNotReadyExceptionMessage = string;
+  export type customSuffixType = string;
   export type dateType = Date;
   export type deleteConflictMessage = string;
   export type duplicateCertificateMessage = string;
@@ -3829,6 +3900,7 @@ declare namespace IAM {
   export type publicKeyFingerprintType = string;
   export type publicKeyIdType = string;
   export type publicKeyMaterialType = string;
+  export type roleDescriptionType = string;
   export type roleDetailListType = RoleDetail[];
   export type roleListType = Role[];
   export type roleNameType = string;
@@ -3848,6 +3920,7 @@ declare namespace IAM {
   export type summaryValueType = number;
   export type thumbprintListType = thumbprintType[];
   export type thumbprintType = string;
+  export type unmodifiableEntityMessage = string;
   export type unrecognizedPublicKeyEncodingMessage = string;
   export type userDetailListType = UserDetail[];
   export type userListType = User[];
