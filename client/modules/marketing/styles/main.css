@@ -1,10 +1,24 @@
+.jumbotron{
+    width:75%;
+}
+.cards{
+background: #fab131;
+}
+.auto{
+    z-index: 1000;
+}
 .pageTitle{
 font-size: 40px;
 font-family: CaslonGraD, sans-serif;
 
 }
 .dialogue{
-font-size: 30px;
+font-size: 25px;
+font-family: FuturaBT-Book, sans-serif;
+
+}
+.inputs{
+font-size: 14px;
 font-family: FuturaBT-Book, sans-serif;
 
 }
@@ -24,14 +38,30 @@ width:66.66666666%;
 .centerME{
    float: none;
     margin: 0 auto;
+    margin-top: 1%;
+
 
 }
 .center-block {
 
 }
 .send{
-    margin-top: 0;
+    padding-left: 0;
+    padding-right: 0;
+
 }
+.foc:focus{
+    border-width: 2px;
+    border-color: #484d4f;
+
+}
+
+.btn:focus{
+    outline:0;
+    background: white;
+}
+
+
 @font-face {
     font-family: FuturaBT-Book;
     src: url(https://d1p4wrw087wab3.cloudfront.net/fonts/FuturaBT-Book.eot);

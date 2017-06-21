@@ -78,7 +78,17 @@ sendFax(){
                   <div className="row"> 
                       <div className = "col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>
                       <div className="center col-lg-4 col-md-4 col-sm-4 col-xs-4"> 
-                          
+                          <button 
+                              className= "send btn btn-default"
+                              style={{
+                                width:'500px',
+                                boxShadow:'none',
+                                borderRadius:'4px',
+                              
+                                marginRight:'0'
+                              }}
+                              onClick={this.sendFax}>send fax
+                          </button>
                           <Autocomplete
                           inputProps={{
 
@@ -117,18 +127,6 @@ sendFax(){
                               )}
                             >
                             </Autocomplete>
-                            <button 
-                              className= "send btn btn-default"
-                              style={{
-                                width:'500px',
-                                boxShadow:'none',
-                                borderRadius:'4px',
-                              
-                                marginRight:'0'
-                              }}
-                              onClick={this.sendFax}>send fax
-                          </button>
-                        
 
                       </div> 
                       <div className = "col-lg-4 col-md-4 col-sm-4 col-xs-4"></div> 
