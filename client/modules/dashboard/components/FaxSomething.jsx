@@ -26,6 +26,7 @@ export default class FaxSomething extends React.Component {
 
 amendFax(number){
   //console.log("IM HERE");
+
   var faxNumber = number;
   console.log(faxNumber);
   var newNum = "";
@@ -56,12 +57,16 @@ sendFax(){
   const _this = this;
   if(finalNumber.length == 12){
   console.log("YAY");
+
             Meteor.call('sendPhaxio', finalNumber, url,  function(err, resp){
               if(err){
                 _this.setState({err: err})
               }
-                _this.setState({sucess: resp})
-              })
+                _this.setState({sucess: resp});
+                document.getElementById("urlIn").value = "";
+                document.getElementById("faxIn").value = "";
+              }
+              )
   }
   else{
     console.log("NOPE");
@@ -86,6 +91,7 @@ render() {
                   <input
                   placeholder="url"
                   ref="url"
+                  id="urlIn"
                   className="url foc inputs form-control col-lg-8 col-md-8 col-sm-8 col-xs-8"
                   style={{
 
@@ -117,14 +123,14 @@ render() {
           <div className = "center col-lg-6 col-md-6 col-sm-8 col-xs-8">
           <Autocomplete
           inputProps={{
+            id:'faxIn',
             className: 'foc form-control inputs',
             placeholder: 'institution fax #',
             style: {
               position:'relative',
               boxShadow:'none',
               background: '#ffffff',
-              borderBottomRightRadius:'0px',
-              borderBottomLeftRadius:'0px'
+              borderRadius:'0px'
             }
           }}
           menuStyle = {{
@@ -139,7 +145,7 @@ render() {
           onChange={(event, value) => this.checkInput(value)}
           onSelect={
             value => this.checkInput(value)}
-          renderItem={(item, isHighlighted) => (
+            renderItem={(item, isHighlighted) => (
               <div
                 style={isHighlighted ? styles.highlightedItem : styles.item}
                 key={item.abbr}
