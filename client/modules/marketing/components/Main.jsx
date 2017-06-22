@@ -12,35 +12,35 @@ class Main extends React.Component {
     console.log(actions)
     return (
         <div>
-             <div className="login login-bg login-parallax">
+             
                 <div className="container">
 
-                    <div className="login-box btn-rounded">
-                        <form id="login-form" name="login-form" className=" " action="#" method="post">
+                    
+                        <form id="login-form" name="login-form" className="foc jumbotron cards centerME center" action="#" method="post">
 
-                            <div className="text-center"><h3>LOGIN</h3></div>
+                            <div className="text-center"><div className="pageTitle">Login</div></div>
 
                             <div className="form-group">
-                                <input ref="email" type="text" id="login-form-username" name="login-form-username" className="form-control" placeholder="Email" />
+                                <input ref="email" type="text" id="login-form-username" name="login-form-username" className="foc inputs form-control" placeholder="Email" />
                             </div>
 
                             <div className="form-group">
-                                <input ref="password" type="password" id="login-form-password" name="login-form-password" className="form-control " placeholder="Password" />
+                                <input ref="password" type="password" id="login-form-password" name="login-form-password" className="foc inputs form-control" placeholder="Password" />
                             </div>
 
                             <div className="form-group">
-                                <button onClick={this.loginUser} className="btn btn-small btn-dark-solid full-width btn-rounded" id="login-form-submit" name="login-form-submit" value="login">Login</button>
+                                <button onClick={this.loginUser} className="btn inputs foc btn-small btn-default" id="login-form-submit" name="login-form-submit" value="login">Login</button>
                             </div>
 
                             <div className="form-group">
-                                <Link to="/register" className="pull-left" data-toggle="modal">Need an account?</Link>
-                                <a className="pull-right" data-toggle="modal"> Forgot password?</a>
+                                <Link to="/register" className="pull-left inputs" data-toggle="modal"><font color="white"> Need an account?</font></Link>
+                                <a className="pull-right inputs" data-toggle="modal"><font color="white">  Forgot password?</font></a>
                             </div>
                         </form>
-                    </div>
+                    
 
                 </div>
-            </div>
+            
         </div>
     )
   }

@@ -51,14 +51,18 @@ width:66.66666666%;
 
 }
 .foc:focus{
+    outline:0;
     border-width: 2px;
-    border-color: #484d4f;
+    border-color: #a3a6a7;
 
 }
 
 .btn:focus{
     outline:0;
     background: white;
+}
+#login-form-username{
+    outline:0;
 }
 
 
