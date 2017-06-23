@@ -23,18 +23,13 @@ class Dashboard extends React.Component {
 
   render() {
     return (
-      <div className="container">
-                    
-                        
-                        <div className="cards jumbotron centerME center ">  
-                                    <div className="row pageTitle">
-                                        What do you want to do?
-                                    </div>
-                                    <Options checkDigits={this.checkDigits} faxSomething={this.faxSomething} />
-                                    
-                        </div>
-                        
-                    
+      <div className="container">           
+            <div className="cards jumbotron centerME center ">  
+                <div className="row pageTitle">
+                    What do you want to do?
+                </div>
+                <Options checkDigits={this.checkDigits} faxSomething={this.faxSomething} />                    
+            </div>       
       </div>
     )
   }
