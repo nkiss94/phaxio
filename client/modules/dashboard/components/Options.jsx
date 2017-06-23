@@ -4,7 +4,7 @@ import {Link} from 'react-router';
 class Options extends React.Component {
   render() {
     return (
-
+                        
                         <div className="row">
                         <div className="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
                         <div className="centerME col-lg-10 col-md-10 col-sm-10 col-xs-10">

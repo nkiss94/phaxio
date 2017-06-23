@@ -8,7 +8,9 @@ import Autocomplete from 'react-autocomplete';
 export default class FaxSomething extends React.Component {
   constructor(props) {
     super(props);
+    this.checkDigits=this.checkDigits.bind(this);
     this.sendFax=this.sendFax.bind(this);
+    this.goHome=this.goHome.bind(this);
     this.checkInput=this.checkInput.bind(this);
     this.state = {
      institution : null,
@@ -17,6 +19,17 @@ export default class FaxSomething extends React.Component {
      number: null
    }
  }
+checkDigits(){
+    browserHistory.push('/check_digits')
+}
+
+faxSomething(){
+    browserHistory.push('/fax_something')
+}
+
+goHome(){
+    browserHistory.push('/Dashboard')
+}
 
  checkInput(value){
   this.setState({institution:value});    
@@ -78,12 +91,15 @@ sendFax(){
 
 render() {
   return ( 
-    <div className="container">       
-      <hr></hr>
+    <div className="container"> 
+      <ul className="nav inputs nav-tabs">
+            <li role="presentation"><a className="inActive foc" href="#" onClick={this.goHome}>Home</a></li>
+            <li role="presentation" className="active"><a className="foc" href="" onClick={this.faxSomething}>Fax a Transfer</a></li>
+            <li role="presentation"><a className="inActive foc" href="" onClick={this.checkDigits}>Calculate Check Digits</a></li>
+      </ul>      
       <div className="row center">
         <div className="pageTitle">FaxSimple</div>
       </div>  
-      <hr></hr>
       <div className="cards jumbotron centerME">
           <div className="center row dialogue">What's your PDF URL?</div>
           <div className="row ">

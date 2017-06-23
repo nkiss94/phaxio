@@ -1,3 +1,7 @@
+
+.inActive{
+    color: #a3a6a7;
+}
 .jumbotron{
     width:75%;
 }
@@ -52,12 +56,14 @@ width:66.66666666%;
 }
 .foc:focus{
     outline:0;
+    box-shadow:none;
     border-width: 2px;
     border-color: #a3a6a7;
 
 }
 
 .btn:focus{
+
     outline:0;
     background: white;
 }
