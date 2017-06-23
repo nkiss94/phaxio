@@ -33,7 +33,9 @@ amendFax(number){
         
         for (var i = 0; i < faxNumber.length; i++)
         {
-            if ((faxNumber.substring(i, i+1) == "-") == false && (faxNumber.substring(i,i+1) == " " ) == false && (faxNumber.substring(i,i+1) == "+" ) == false) {            
+            if ((faxNumber.substring(i, i+1) == "-") == false && (faxNumber.substring(i,i+1) == " " ) == false && 
+              (faxNumber.substring(i,i+1) == "+" ) == false && (faxNumber.substring(i,i+1) == ")" ) == false 
+              && (faxNumber.substring(i,i+1) == "(" ) == false) {            
                 newNum = newNum.concat(faxNumber.substring(i,i+1));
             }
         }
