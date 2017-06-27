@@ -7,7 +7,8 @@ export default function () {
     Meteor.methods({
       'sendPhaxio'(number, url){
         check(number, String)
-        check(url, String)
+        check(url, [String])
+        
            return HTTP.call( 'POST', 'https://api.phaxio.com/v2/faxes', 
                 {
                   auth: 
@@ -16,9 +17,11 @@ export default function () {
                   data: {
                       "to": number,
                       "content_url": url
+                      
                   }
                
             })
         } 
+         
     })
 }
