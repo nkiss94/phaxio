@@ -3,6 +3,7 @@ import {Link} from 'react-router';
 import {browserHistory} from 'react-router';
 import faxable_institutions from '../../../../config/faxable_institutions.js';
 import Autocomplete from 'react-autocomplete';
+import Dropzone from 'react-dropzone';
 
 
 export default class FaxSomething extends React.Component {
@@ -12,12 +13,17 @@ export default class FaxSomething extends React.Component {
     this.sendFax=this.sendFax.bind(this);
     this.goHome=this.goHome.bind(this);
     this.checkInput=this.checkInput.bind(this);
+    this.addURL=this.addURL.bind(this);
     this.state = {
-     institution : null,
+     institution : "+",
+     url:null,
      err: null,
      success: null,
-     number: null
-   }
+     number: null,
+     files: [],
+     filesURL: [],
+     filesPreview:[]
+    }
  }
 checkDigits(){
     browserHistory.push('/check_digits')
@@ -68,18 +74,24 @@ amendFax(number){
 sendFax(){
   var finalNumber = this.amendFax(this.state.number);
   console.log(finalNumber);
-  const url = this.refs.url.value;
   const _this = this;
+  var previews = [];
+  for(var i = 0;i<this.state.filesURL.length;i++){
+    previews[i]= this.state.filesURL[i];
+  }
+  console.log(previews);
   if(finalNumber.length == 12){
   console.log("YAY");
 
-            Meteor.call('sendPhaxio', finalNumber, url,  function(err, resp){
+            Meteor.call('sendPhaxio', finalNumber, previews,  function(err, resp){
               if(err){
                 _this.setState({err: err})
               }
                 _this.setState({sucess: resp});
                 document.getElementById("urlIn").value = "";
                 document.getElementById("faxIn").value = "";
+                _this.setState({files: []});
+                _this.setState({filesURL: []});
               }
               )
   }
@@ -87,6 +99,24 @@ sendFax(){
     console.log("NOPE");
     return;
   }           
+}
+onDrop(files) {
+  this.setState({
+    files
+  });
+  //console.log(this.state.files[0].type);
+  for(var i = 0;i<files.length;i++){
+    console.log(this.state.files[i].preview);
+  }
+}
+
+addURL(){
+  var val = document.getElementById("urlIn").value;
+  console.log(val);
+  this.setState({ 
+    filesURL: this.state.filesURL.concat(val)
+  });
+  
 }
 
 render() {
@@ -101,12 +131,13 @@ render() {
         <div className="pageTitle">FaxSimple</div>
       </div>  
       <div className="cards jumbotron centerME">
-          <div className="center row dialogue">What's your PDF URL?</div>
+          <div className="center row dialogue">Enter your PDF URL</div>
           <div className="row ">
               <div className = "col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
               <div className = "col-lg-6 col-md-6 col-sm-6 col-xs-6">
                   
                   <input
+                  //onChange={(event, value) => this.setState({url:value})}
                   placeholder="url"
                   ref="url"
                   id="urlIn"
@@ -118,10 +149,11 @@ render() {
 
 
                   }}
-                  />
+                  ></input>
                   <button
+                      onClick={(event) => this.addURL()}
                       className= "send foc inputs btn btn-default col-lg-4 col-md-4 col-sm-4 col-xs-4"
-                          style={{
+                      style={{
                             
                             boxShadow:'none',
                             borderRadius:'4px',
@@ -133,6 +165,38 @@ render() {
               </div>
               <div className = "col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
           </div>
+          <div className = "row">
+            <div className = "col-lg-12 col-md-0 col-sm-0 col-xs-0"></div>
+            <div className = "col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              <Dropzone 
+                onDrop={this.onDrop.bind(this)}
+                className="centerME"
+                style={{
+                display:'none',
+                marginTop:'10%',
+                width: '100%',
+                height: '200',
+                borderWidth: 2,
+                borderColor: '#666',
+                borderStyle: 'dashed',
+                borderRadius: 5}}>
+              <div className="center row dialogue">
+                  Or drag your file here
+              </div>
+              </Dropzone> 
+            </div>
+            <div className = "col-lg-12 col-md-0 col-sm-0 col-xs-0"></div>
+          </div>
+          <div style={{marginTop:'10%'}} className="dialogue center">Uploaded Files:</div>
+            <div className="center dropzoneMessage" >
+              {
+                this.state.files.map(f => <div key={f.preview}>{f.preview}</div>)
+              }
+              {
+                this.state.filesURL.map((fu,index) => <div key={index}>{fu}</div>)
+              }
+            </div>
+          
       </div>
       <div className="cards jumbotron centerME">
       <div className="center row dialogue">What's the fax number?</div>
@@ -181,7 +245,7 @@ render() {
           </Autocomplete>
           </div>
           <div className = "col-lg-3 col-md-3 col-sm-2 col-xs-2"></div> 
-      </div>
+      </div>  
       </div>
       <hr></hr>
       <div className = "row">
@@ -196,7 +260,8 @@ render() {
             onClick={this.sendFax}>send fax
           </button>
           <div className = "col-lg-5 col-md-5 col-sm-4 col-xs-4"></div>      
-      </div>          
+      </div>      
+      <hr/>
     </div>    
       )
   }

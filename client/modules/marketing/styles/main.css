@@ -1,4 +1,10 @@
-
+.bulletFree{
+    list-style: none;
+}
+.dropzoneMessage{
+    font-size:20px;
+    font-family: FuturaBT-Book, sans-serif;
+}
 .inActive{
     color: #a3a6a7;
 }
@@ -10,6 +16,9 @@ background: #fab131;
 }
 .auto{
     z-index: 1000;
+}
+.dzone{
+    width:100%;
 }
 .pageTitle{
 font-size: 40px;
