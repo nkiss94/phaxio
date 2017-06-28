@@ -119,6 +119,7 @@ addURL(){
   
 }
 
+
 render() {
   return ( 
     <div className="container"> 
@@ -221,12 +222,12 @@ render() {
             borderTopLeftRadius:'0px',
             background: '#d1d1e0',
           }}
+          shouldItemRender={matchStateToTerm}
           value={this.state.institution}
           items={faxable_institutions}
           getItemValue={(item) => item.number}
           onChange={(event, value) => this.checkInput(value)}
-          onSelect={
-            value => this.checkInput(value)}
+          onSelect={value => this.checkInput(value)}
             renderItem={(item, isHighlighted) => (
               <div
                 style={isHighlighted ? styles.highlightedItem : styles.item}
@@ -266,7 +267,12 @@ render() {
       )
   }
 }
-
+export function matchStateToTerm(item, value) {
+  return (
+    item.name.toLowerCase().indexOf(value.toLowerCase()) !== -1 ||
+    item.number.toLowerCase().indexOf(value.toLowerCase()) !== -1
+  )
+}
 export let styles = {
   item: {
    
