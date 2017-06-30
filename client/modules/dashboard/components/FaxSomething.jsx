@@ -189,7 +189,7 @@ render() {
             <div className = "col-lg-12 col-md-0 col-sm-0 col-xs-0"></div>
           </div>
           <div style={{marginTop:'10%'}} className="dialogue center">Uploaded Files:</div>
-            <div className="center dropzoneMessage" >
+            <div className="center DialgoueMed" >
               {
                 this.state.files.map(f => <div key={f.preview}>{f.preview}</div>)
               }
