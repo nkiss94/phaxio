@@ -1,7 +1,7 @@
 import { browserHistory } from 'react-router'
 
 let actions = {
-  createUser: function (name, email, password, date) {
+  createUser: function (email, password) {
     Accounts.createUser({
       email: email,
       password: password,
@@ -9,23 +9,18 @@ let actions = {
       if(err) {
         console.log(err)
       } else {
-        actions.validateUser(name, email, date);
+        actions.validateUser(email);
       }
     });
   },
   
-validateUser: function (name, email, date){
-  Meteor.call('create.profile', name, email, date, (err) => {
-    if(err){
-      console.log(err)
-    } 
+validateUser: function (email){
     const userId = Meteor.userId();
     if(userId) {
-      browserHistory.push('/home')
+      browserHistory.push('/dashboard')
     } else {
-      console.log("we already have an account with that email");
+      console.log("no make account now!");
     } 
-  });
 },
 
 loginUser: function(email, password){

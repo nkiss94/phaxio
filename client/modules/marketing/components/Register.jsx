@@ -6,10 +6,9 @@ import actions from '../actions/actions';
 class Main extends React.Component {
     constructor(props){
     super(props);
-    this.loginUser = this.loginUser.bind(this);
+    this.createUser = this.createUser.bind(this);
 }
   render() {
-    console.log(actions)
     return (
         <div>
              
@@ -18,7 +17,7 @@ class Main extends React.Component {
                     
                         <form id="login-form" name="login-form" className="foc jumbotron cards centerME center" action="#" method="post">
 
-                            <div className="text-center"><div className="pageTitle">Login</div></div>
+                            <div className="text-center"><div className="pageTitle">Register</div></div>
 
                             <div className="form-group">
                                 <input ref="email" type="text" id="login-form-username" name="login-form-username" className="foc inputs form-control" placeholder="Email" />
@@ -29,11 +28,11 @@ class Main extends React.Component {
                             </div>
 
                             <div className="form-group">
-                                <button onClick={this.loginUser} className="btn inputs foc btn-small btn-default" id="login-form-submit" name="login-form-submit" value="login">Login</button>
+                                <button onClick={this.createUser} className="btn inputs foc btn-small btn-default" id="login-form-submit" name="login-form-submit" value="login">Login</button>
                             </div>
 
                             <div className="form-group">
-                                <Link to="/register" className="pull-right inputs" data-toggle="modal"><font color="white">Need an account?</font></Link>
+                                <Link to="/" className="pull-right inputs" data-toggle="modal"><font color="white">Have an account?</font></Link>
                             </div>
                         </form>
                     
@@ -43,11 +42,11 @@ class Main extends React.Component {
         </div>
     )
   }
-    loginUser(event){
+    createUser(event){
         event.preventDefault();
         const email = this.refs.email.value;
         const password = this.refs.password.value;
-        actions.loginUser(email, password)
+        actions.createUser(email, password)
   }
 }
 

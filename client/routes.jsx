@@ -9,6 +9,7 @@ import InnerAuth from './modules/core/components/InnerAuth.jsx';
 
 // Marketing
 import Main from './modules/marketing/components/Main.jsx';
+import Register from './modules/marketing/components/Register.jsx';
 import CheckDigits from './modules/dashboard/components/CheckDigits.jsx';
 import FaxSomething from './modules/dashboard/components/FaxSomething';
 
@@ -23,6 +24,7 @@ const router = (
     <Router history={browserHistory}>
       	<Route path="/" component={Marketing}>
         	<IndexRoute component={Main}></IndexRoute>
+            <Route path="/register" component={Register}></Route>
     	</Route>
 
     	<Route path="/dashboard" component={InnerAuth}>
