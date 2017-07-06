@@ -16,6 +16,7 @@ class CheckDigits extends React.Component {
     this.chooseInstitution = this.chooseInstitution.bind(this);
     this.refreshState = this.refreshState.bind(this);
     this.onChange = this.onChange.bind(this);
+    this.intel=this.intel.bind(this);
     this.state = {
         institution_name: null,
         account_number: null,
@@ -84,15 +85,18 @@ class CheckDigits extends React.Component {
     goHome(){
         browserHistory.push('/Dashboard')
     }
+    intel(){
+    browserHistory.push('/institution_info')
+    }
   render() {
     return (
         <div>
-            
                 <div className="container">
                 <ul className="nav inputs nav-tabs">
                         <li role="presentation"><a className="foc inActive" href="" onClick={this.goHome}>Home</a></li>
                         <li role="presentation"><a className="foc inActive" href="" onClick={this.faxSomething}>Fax a Transfer</a></li>
                         <li role="presentation" className=" active"><a className="foc" href="#">Calculate Check Digits</a></li>
+                        <li role="presentation"><a className="inActive foc" href="" onClick={this.intel}>Intel</a></li>
                 </ul>
                     
                             <div className="pageTitle center">Check Digit Calculator</div>

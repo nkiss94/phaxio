@@ -8,11 +8,14 @@ class Dashboard extends React.Component {
     super(props);
     this.checkDigits = this.checkDigits.bind(this);
     this.faxSomething = this.faxSomething.bind(this);
+    this.intel=this.intel.bind(this);
     this.state = {
 
     }
   }
-
+    intel(){
+        browserHistory.push('/institution_info')
+    }
     checkDigits(){
         browserHistory.push('/check_digits')
     }
@@ -26,9 +29,10 @@ class Dashboard extends React.Component {
       <div className="container">     
             
             <ul className="nav inputs nav-tabs">
-            <li role="presentation" className="active"><a className="foc" href="#">Home</a></li>
+            <li role="presentation" className="active"><a className="foc" href="">Home</a></li>
             <li role="presentation"><a className="inActive foc" href="" onClick={this.faxSomething}>Fax a Transfer</a></li>
             <li role="presentation"><a className="inActive foc" href="" onClick={this.checkDigits}>Calculate Check Digits</a></li>
+            <li role="presentation"><a className="inActive foc" href="" onClick={this.intel}>Intel</a></li>
             </ul>
             <div className="cards jumbotron centerME center ">  
                 <div className="row pageTitle">

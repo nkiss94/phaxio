@@ -6,6 +6,7 @@ import Autocomplete from 'react-autocomplete';
 import Dropzone from 'react-dropzone';
 
 
+
 export default class FaxSomething extends React.Component {
   constructor(props) {
     super(props);
@@ -14,6 +15,7 @@ export default class FaxSomething extends React.Component {
     this.goHome=this.goHome.bind(this);
     this.checkInput=this.checkInput.bind(this);
     this.addURL=this.addURL.bind(this);
+    this.intel=this.intel.bind(this);
     this.state = {
      institution : "+",
      url:null,
@@ -25,6 +27,9 @@ export default class FaxSomething extends React.Component {
      filesPreview:[]
     }
  }
+ intel(){
+    browserHistory.push('/institution_info')
+}
 checkDigits(){
     browserHistory.push('/check_digits')
 }
@@ -40,7 +45,8 @@ goHome(){
  checkInput(value){
   this.setState({institution:value});    
   this.setState({number: value})
-  console.log(this.state.number);  
+  console.log(this.state.number);
+  console.log(this.state.institution);  
 }
 
 amendFax(number){
@@ -124,9 +130,10 @@ render() {
   return ( 
     <div className="container"> 
       <ul className="nav inputs nav-tabs">
-            <li role="presentation"><a className="inActive foc" href="#" onClick={this.goHome}>Home</a></li>
+            <li role="presentation"><a className="inActive foc" href="" onClick={this.goHome}>Home</a></li>
             <li role="presentation" className="active"><a className="foc" href="" onClick={this.faxSomething}>Fax a Transfer</a></li>
             <li role="presentation"><a className="inActive foc" href="" onClick={this.checkDigits}>Calculate Check Digits</a></li>
+            <li role="presentation"><a className="inActive foc" href="" onClick={this.intel}>Intel</a></li>
       </ul>      
       <div className="row center">
         <div className="pageTitle">FaxSimple</div>
