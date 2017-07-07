@@ -22,7 +22,13 @@ export default class InstitutionInfo extends React.Component {
 			institution:null,
 			division:null,
 			default:null,
-			divisionsState:[]
+			divisionsState:[],
+			accountValidation:"accountValidation",
+			sendMethod:"sendMethod",
+			faxATON:"faxATON",
+			followUpNum:"followUpNum",
+			followUpEmail:"followUpEmail",
+			otherIntel:"otherIntel"
 
 
 		}
@@ -36,6 +42,7 @@ export default class InstitutionInfo extends React.Component {
   	}
 }
 saveDivision(element){
+	//console.log(collections.Divisions);
 	document.getElementById("searchSelection").style.display = 'block';
 	console.log(element);
 	this.setState({division:element});
@@ -138,7 +145,7 @@ render(){
       		<div className="row center">
 					<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 						<div className="dialogue"><u>Account Validation</u></div>
-						<div className="dialogueMed">asasdasasdads</div>
+						<div className="dialogueMed">{this.state.accountValidation}</div>
 					</div>
       		</div>
       	</div>
@@ -146,11 +153,11 @@ render(){
 				<div className="row center">
 					<div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 						<div className="dialogue"><u>Send Method</u></div>
-						<div className="dialogueMed">asasdasasdads</div>
+						<div className="dialogueMed">{this.state.sendMethod}</div>
 					</div>
 					<div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 						<div className="dialogue"><u>Fax Number or ATON CUID</u></div>
-						<div className="dialogueMed">1 (800) 400-9999</div>
+						<div className="dialogueMed">{this.state.faxATON}</div>
 					</div>
 				</div>
 		</div>
@@ -158,19 +165,18 @@ render(){
 				<div className="row center">		
 					<div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 						<div className="dialogue"><u>Follow-Up Phone Number</u></div>
-						<div className="dialogueMed">1 (800) 400-9999</div>
+						<div className="dialogueMed">{this.state.followUpNum}</div>
 					</div>
 					<div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 						<div className="dialogue"><u>Follow-Up Email</u></div>
-						<div className="dialogueMed">akovalcik@wealthsimple.com</div>
+						<div className="dialogueMed">{this.state.followUpEmail}</div>
 					</div>
 				</div>
 		</div>
 		<div className="cards jumbotron centerME">
 				<div className="row center">	
 					<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-						<div className="dialogue"><u>Other Intel</u></div><div className="dialogueMed">Account Number Range: 245-00000-00 TO 835-99999-99,
-RESP Fax Number: 1-855-729-7931</div>
+						<div className="dialogue"><u>Other Intel</u></div><div className="dialogueMed">{this.state.otherIntel}</div>
 					</div>
 				</div>
       	</div>
