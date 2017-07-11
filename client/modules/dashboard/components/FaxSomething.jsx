@@ -16,6 +16,8 @@ export default class FaxSomething extends React.Component {
     this.checkInput=this.checkInput.bind(this);
     this.addURL=this.addURL.bind(this);
     this.intel=this.intel.bind(this);
+    this.sendFaxUrl=this.sendFaxUrl.bind(this);
+    this.sendFaxFile=this.sendFaxFile.bind(this);
     this.state = {
      institution : "+",
      url:null,
@@ -75,18 +77,23 @@ amendFax(number){
         }
         return newNum;
 }
-
-//meteor --settings settings.json
 sendFax(){
-  var finalNumber = this.amendFax(this.state.number);
+  var faxNum = this.amendFax(this.state.number);
+  //this.sendFaxUrl(faxNum);
+  this.sendFaxFile(faxNum);
+}
+//meteor --settings settings.json
+sendFaxUrl(FinalNumber){
+  console.log("faxing URLs");
+  var finalNumber = FinalNumber;
   console.log(finalNumber);
   const _this = this;
   var previews = [];
   for(var i = 0;i<this.state.filesURL.length;i++){
     previews[i]= this.state.filesURL[i];
   }
-  console.log(previews);
-  if(finalNumber.length == 12){
+  //console.log(previews);
+  if(finalNumber.length == 12 && previews.length>0){
   console.log("YAY");
 
             Meteor.call('sendPhaxio', finalNumber, previews,  function(err, resp){
@@ -96,7 +103,7 @@ sendFax(){
                 _this.setState({sucess: resp});
                 document.getElementById("urlIn").value = "";
                 document.getElementById("faxIn").value = "";
-                _this.setState({files: []});
+                
                 _this.setState({filesURL: []});
               }
               )
@@ -106,15 +113,56 @@ sendFax(){
     return;
   }           
 }
-onDrop(files) {
-  this.setState({
-    files
+
+sendFaxFile(FinalNumber){
+  console.log("faxing files");
+  var reader = new FileReader();
+  reader.addEventListener("loadend", function() {
+    previews = reader.result;
+   // reader.result contains the contents of blob as a typed array
   });
-  //console.log(this.state.files[0].type);
-  for(var i = 0;i<files.length;i++){
-    console.log(this.state.files[i].preview);
+  var finalNumber = FinalNumber;
+  console.log(finalNumber);
+  const _this = this;
+  var previews =[];
+  for(var i = 0;i<this.state.files.length;i++){
+    var blob = this.state.files[i].preview;
+    previews[i] = reader.readAsArrayBuffer(blob);
+    console.log(previews[i]);
   }
+  if(finalNumber.length == 12){
+  console.log("YAY");
+
+            Meteor.call('sendPhaxioFileLib', finalNumber, previews,  function(err, resp){
+              if(err){
+                _this.setState({err: err})
+              }
+                _this.setState({sucess: resp});
+                console.log(resp);
+                document.getElementById("urlIn").value = "";
+                document.getElementById("faxIn").value = "";
+                _this.setState({files: []});
+                
+              }
+              )
+  }
+  else{
+    console.log("NOPE");
+    return;
+  }  
+           
 }
+onDrop(files){
+    this.setState({files:files});
+    console.log({files}); 
+  for(var i = 0;i<this.state.files.length;i++){
+    console.log(this.state.files[i]);
+  }
+
+}
+
+
+
 
 addURL(){
   var val = document.getElementById("urlIn").value;
@@ -145,7 +193,6 @@ render() {
               <div className = "col-lg-6 col-md-6 col-sm-6 col-xs-6">
                   
                   <input
-                  //onChange={(event, value) => this.setState({url:value})}
                   placeholder="url"
                   ref="url"
                   id="urlIn"
@@ -180,7 +227,7 @@ render() {
                 onDrop={this.onDrop.bind(this)}
                 className="centerME"
                 style={{
-                display:'none',
+                //display:'none',
                 marginTop:'10%',
                 width: '100%',
                 height: '200',
@@ -189,7 +236,7 @@ render() {
                 borderStyle: 'dashed',
                 borderRadius: 5}}>
               <div className="center row dialogue">
-                  Or drag your file here
+                  Or drag your files here
               </div>
               </Dropzone> 
             </div>
@@ -198,7 +245,7 @@ render() {
           <div style={{marginTop:'10%'}} className="dialogue center">Uploaded Files:</div>
             <div className="center DialgoueMed" >
               {
-                this.state.files.map(f => <div key={f.preview}>{f.preview}</div>)
+                this.state.files.map(f => <div key={f.name}>{f.name}</div>)
               }
               {
                 this.state.filesURL.map((fu,index) => <div key={index}>{fu}</div>)
@@ -274,6 +321,8 @@ render() {
       )
   }
 }
+
+
 export function matchStateToTerm(item, value) {
   return (
     item.name.toLowerCase().indexOf(value.toLowerCase()) !== -1 ||
