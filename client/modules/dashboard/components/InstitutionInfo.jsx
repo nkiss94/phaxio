@@ -63,6 +63,7 @@ intel(){
     browserHistory.push('/institution_info')
 }
 render(){
+	console.log(this.props);
 	return(
 	<div className="container">	
 		<ul className="nav inputs nav-tabs">

@@ -3,7 +3,7 @@ import {Link} from 'react-router';
 import {browserHistory} from 'react-router';
 import faxable_institutions from '../../../../config/faxable_institutions.js';
 import Autocomplete from 'react-autocomplete';
-import Dropzone from 'react-dropzone';
+import Dropzone from 'react-dropzone-s3-uploader';
 
 
 
@@ -18,6 +18,7 @@ export default class FaxSomething extends React.Component {
     this.intel=this.intel.bind(this);
     this.sendFaxUrl=this.sendFaxUrl.bind(this);
     this.sendFaxFile=this.sendFaxFile.bind(this);
+    this.handleFinishedUpload=this.handleFinishedUpload.bind(this);
     this.state = {
      institution : "+",
      url:null,
@@ -155,12 +156,12 @@ sendFaxFile(FinalNumber){
 onDrop(files){
     this.setState({files:files});
     console.log({files}); 
-  for(var i = 0;i<this.state.files.length;i++){
-    console.log(this.state.files[i]);
-  }
-
 }
 
+handleFinishedUpload = info => {
+    console.log('File uploaded with filename', info.filename)
+    console.log('Access it on s3 at', info.fileUrl)
+  }
 
 
 
@@ -226,6 +227,12 @@ render() {
               <Dropzone 
                 onDrop={this.onDrop.bind(this)}
                 className="centerME"
+                onFinish={this.handleFinishedUpload} 
+                upload={{
+                  server: 'http://localhost:3000',
+                  s3Url: 'https://my-bucket.s3.amazonaws.com',
+                  signingUrlQueryParams: {uploadType: 'avatar'}
+                }}
                 style={{
                 //display:'none',
                 marginTop:'10%',
