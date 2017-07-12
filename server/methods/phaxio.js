@@ -1,7 +1,8 @@
 import {Meteor} from 'meteor/meteor';
 import {check} from 'meteor/check';
-import { HTTP } from 'meteor/http' 
-import { Session } from 'meteor/session'
+import { HTTP } from 'meteor/http' ;
+import { Session } from 'meteor/session';
+import {Divisions} from '/lib/collections';
 
 export default function () {
     Meteor.methods({
@@ -21,6 +22,14 @@ export default function () {
                   }
                
             })
+        },
+
+        'insert.division'(name){
+          check(name, String)
+          const division = {
+            name: name
+          }
+          Divisions.insert(division)
         } 
          
     })

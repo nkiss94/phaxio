@@ -12,7 +12,7 @@ import Main from './modules/marketing/components/Main.jsx';
 import Register from './modules/marketing/components/Register.jsx';
 import CheckDigits from './modules/dashboard/components/CheckDigits.jsx';
 import FaxSomething from './modules/dashboard/components/FaxSomething';
-import InstitutionInfo from './modules/dashboard/components/InstitutionInfo';
+import InstitutionInfoCont from './modules/dashboard/containers/InstitutionInfoCont';
 
 
 // Dashboard
@@ -32,7 +32,7 @@ const router = (
     		<IndexRoute component={Dashboard}></IndexRoute>
             <Route path="/check_digits" component={CheckDigits}></Route>
         	<Route path="/fax_something" component={FaxSomething}></Route>
-            <Route path="/institution_info" component={InstitutionInfo}></Route>
+            <Route path="/institution_info" component={InstitutionInfoCont}></Route>
         </Route>
     </Router>
   
