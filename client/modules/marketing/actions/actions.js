@@ -1,20 +1,20 @@
 import { browserHistory } from 'react-router'
 
 let actions = {
-  createUser: function (email, password) {
+  createUser: function (username, password) {
     Accounts.createUser({
-      email: email,
+      username: username,
       password: password,
     }, function(err) {
       if(err) {
         console.log(err)
       } else {
-        actions.validateUser(email);
+        actions.validateUser(username);
       }
     });
   },
   
-validateUser: function (email){
+validateUser: function (username){
     const userId = Meteor.userId();
     if(userId) {
       browserHistory.push('/dashboard')
@@ -23,15 +23,15 @@ validateUser: function (email){
     } 
 },
 
-loginUser: function(email, password){
-  Meteor.loginWithPassword(email, password, function(err){
+loginUser: function(username, password){
+  Meteor.loginWithPassword(username, password, function(err){
     if(err){
       console.log(err)
     } 
     else if(Meteor.userId()) {
       browserHistory.push('/dashboard')
     } else{
-      console.log("Sorry, no user with that email")
+      console.log("Sorry, no user with that username")
     }
   })
 }
