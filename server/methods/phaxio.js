@@ -30,10 +30,10 @@ export default function () {
     Meteor.methods({
       'sendPhaxioFileLib'(number, file){
         check(number, String)
-        check(file,[String])
+        check(file,String)
         var phaxio = new Phaxio(Meteor.settings.private.key,Meteor.settings.private.secret)
            return phaxio.sendFax({
-            to:number,
+            to: number,
             filenames: file
            },callback)
         } 

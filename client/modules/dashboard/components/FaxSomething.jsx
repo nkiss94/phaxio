@@ -125,12 +125,13 @@ sendFaxFile(FinalNumber){
   var finalNumber = FinalNumber;
   console.log(finalNumber);
   const _this = this;
-  var previews =[];
-  for(var i = 0;i<this.state.files.length;i++){
+  var previews;
+  /*for(var i = 0;i<this.state.files.length;i++){
     var blob = this.state.files[i].preview;
     previews[i] = reader.readAsArrayBuffer(blob);
     console.log(previews[i]);
-  }
+  }*/
+  previews = "/Users/akovalcik/Desktop/TD.pdf";
   if(finalNumber.length == 12){
   console.log("YAY");
 
