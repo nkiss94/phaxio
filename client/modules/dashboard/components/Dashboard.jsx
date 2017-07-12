@@ -9,10 +9,9 @@ class Dashboard extends React.Component {
     this.checkDigits = this.checkDigits.bind(this);
     this.faxSomething = this.faxSomething.bind(this);
     this.intel=this.intel.bind(this);
-    this.state = {
-
-    }
+    this.logoutUser=this.logoutUser.bind(this);
   }
+
     intel(){
         browserHistory.push('/institution_info')
     }
@@ -24,23 +23,26 @@ class Dashboard extends React.Component {
         browserHistory.push('/fax_something')
     }
 
-  render() {
-    return (
-      <div className="container">     
-            
-            <ul className="nav inputs nav-tabs">
-            <li role="presentation" className="active"><a className="foc" href="">Home</a></li>
-            <li role="presentation"><a className="inActive foc" href="" onClick={this.faxSomething}>Fax a Transfer</a></li>
-            <li role="presentation"><a className="inActive foc" href="" onClick={this.checkDigits}>Calculate Check Digits</a></li>
-            <li role="presentation"><a className="inActive foc" href="" onClick={this.intel}>Intel</a></li>
-            </ul>
-            <div className="cards jumbotron centerME center ">  
-                <div className="row pageTitle">
-                    What do you want to do?
-                </div>
-                <Options checkDigits={this.checkDigits} faxSomething={this.faxSomething} />                    
-            </div>       
-      </div>
+    logoutUser(){
+        Meteor.logout()
+        browserHistory.push('/')
+    }
+
+    render() {
+        return (
+            <div className="container">     
+                <ul className="nav inputs nav-tabs">
+                    <li role="presentation" className="active"><a className="foc" href="">Home</a></li>
+                    <li role="presentation"><a className="inActive foc" href="" onClick={this.faxSomething}>Fax a Transfer</a></li>
+                    <li role="presentation"><a className="inActive foc" href="" onClick={this.checkDigits}>Calculate Check Digits</a></li>
+                    <li role="presentation"><a className="inActive foc" href="" onClick={this.intel}>Intel</a></li>
+                    <li><button onClick={this.logoutUser}>logout</button></li>
+                </ul>
+                <div className="cards jumbotron centerME center ">  
+                    <div className="row pageTitle">What do you want to do?</div>
+                    <Options checkDigits={this.checkDigits} faxSomething={this.faxSomething} />                    
+                </div>       
+            </div>
     )
   }
 }

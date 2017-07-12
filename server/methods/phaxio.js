@@ -4,6 +4,7 @@ import { HTTP } from 'meteor/http' ;
 import { Session } from 'meteor/session';
 import {Divisions} from '/lib/collections';
 
+
 export default function () {
     Meteor.methods({
       'sendPhaxio'(number, url){
