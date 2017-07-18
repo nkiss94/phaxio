@@ -2,8 +2,17 @@ import {Meteor} from 'meteor/meteor';
 import {check} from 'meteor/check';
 import { HTTP } from 'meteor/http' ;
 import { Session } from 'meteor/session';
-import {Divisions} from '/lib/collections';
+import { ObjectID, toHexString } from 'mongodb';
 
+var AWS = require('aws-sdk');
+
+AWS.config.update({ 
+  accessKeyId: Meteor.settings.private.AWS.AWS_ACCESS_KEY_ID,
+  secretAccessKey: Meteor.settings.private.AWS.AWS_SECRET_ACCESS_KEY,
+  "region": "us-east-1" 
+});
+
+var s3 = new AWS.S3(); 
 
 export default function () {
     Meteor.methods({
@@ -25,13 +34,22 @@ export default function () {
             })
         },
 
-        'insert.division'(name){
-          check(name, String)
-          const division = {
-            name: name
-          }
-          Divisions.insert(division)
+        'uploadAWS'(file){
+            const id = ObjectID().toHexString();
+            var params = {
+                Bucket: 'faxsimple',
+                Key: id,
+                Body: file.preview
+            };
+            s3.putObject(params, function (err, res) {
+                if (err) {
+                    console.log("Error uploading data: ", err);
+                } else {
+                    console.log(res);
+                }
+            });
         } 
+
          
     })
-}
+  }

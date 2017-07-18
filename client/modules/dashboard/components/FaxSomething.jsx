@@ -3,8 +3,9 @@ import {Link} from 'react-router';
 import {browserHistory} from 'react-router';
 import faxable_institutions from '../../../../config/faxable_institutions.js';
 import Autocomplete from 'react-autocomplete';
+import DropzoneS3Uploader from 'react-dropzone-s3-uploader';
+import ReactS3Uploader from 'react-s3-uploader';
 import Dropzone from 'react-dropzone';
-
 
 
 export default class FaxSomething extends React.Component {
@@ -16,6 +17,7 @@ export default class FaxSomething extends React.Component {
     this.checkInput=this.checkInput.bind(this);
     this.addURL=this.addURL.bind(this);
     this.intel=this.intel.bind(this);
+    this.sendFaxUrl=this.sendFaxUrl.bind(this);
     this.state = {
      institution : "+",
      url:null,
@@ -53,7 +55,6 @@ amendFax(number){
   //console.log("IM HERE");
 
   var faxNumber = number;
-  console.log(faxNumber);
   var newNum = "";
         
         for (var i = 0; i < faxNumber.length; i++)
@@ -76,44 +77,27 @@ amendFax(number){
         return newNum;
 }
 
-//meteor --settings settings.json
 sendFax(){
-  var finalNumber = this.amendFax(this.state.number);
-  console.log(finalNumber);
-  const _this = this;
-  var previews = [];
-  for(var i = 0;i<this.state.filesURL.length;i++){
-    previews[i]= this.state.filesURL[i];
-  }
-  console.log(previews);
-  if(finalNumber.length == 12){
-  console.log("YAY");
-
-            Meteor.call('sendPhaxio', finalNumber, previews,  function(err, resp){
-              if(err){
-                _this.setState({err: err})
-              }
-                _this.setState({sucess: resp});
-                document.getElementById("urlIn").value = "";
-                document.getElementById("faxIn").value = "";
-                _this.setState({files: []});
-                _this.setState({filesURL: []});
-              }
-              )
-  }
-  else{
-    console.log("NOPE");
-    return;
-  }           
+  var faxNum = this.amendFax(this.state.number);
+  this.sendFaxUrl(faxNum);
+  //this.sendFaxFile(faxNum);
 }
-onDrop(files) {
-  this.setState({
-    files
-  });
-  //console.log(this.state.files[0].type);
-  for(var i = 0;i<files.length;i++){
-    console.log(this.state.files[i].preview);
-  }
+
+//meteor --settings settings.json
+sendFaxUrl(finalNumber){
+  var finalNumber = finalNumber;
+  const _this = this;
+  // var previews = [];
+  // for(var i = 0;i<this.state.filesURL.length;i++){
+  //   previews[i]= this.state.filesURL[i];
+  // }
+  var file = new File([""], "filename");
+  file = this.state.files[0];    
+  Meteor.call('uploadAWS', file)     
+}
+
+onDrop(files){
+    this.setState({files:files});
 }
 
 addURL(){
@@ -145,7 +129,6 @@ render() {
               <div className = "col-lg-6 col-md-6 col-sm-6 col-xs-6">
                   
                   <input
-                  //onChange={(event, value) => this.setState({url:value})}
                   placeholder="url"
                   ref="url"
                   id="urlIn"
@@ -154,8 +137,6 @@ render() {
 
                     boxShadow:'none',
                     borderRadius:'4px'
-
-
                   }}
                   ></input>
                   <button
@@ -180,7 +161,7 @@ render() {
                 onDrop={this.onDrop.bind(this)}
                 className="centerME"
                 style={{
-                display:'none',
+                //display:'none',
                 marginTop:'10%',
                 width: '100%',
                 height: '200',
@@ -189,7 +170,7 @@ render() {
                 borderStyle: 'dashed',
                 borderRadius: 5}}>
               <div className="center row dialogue">
-                  Or drag your file here
+                  Or drag your files here
               </div>
               </Dropzone> 
             </div>
@@ -198,7 +179,7 @@ render() {
           <div style={{marginTop:'10%'}} className="dialogue center">Uploaded Files:</div>
             <div className="center DialgoueMed" >
               {
-                this.state.files.map(f => <div key={f.preview}>{f.preview}</div>)
+                this.state.files.map(f => <div key={f.name}>{f.name}</div>)
               }
               {
                 this.state.filesURL.map((fu,index) => <div key={index}>{fu}</div>)
@@ -267,6 +248,7 @@ render() {
             }}
             onClick={this.sendFax}>send fax
           </button>
+
           <div className = "col-lg-5 col-md-5 col-sm-4 col-xs-4"></div>      
       </div>      
       <hr/>
@@ -274,6 +256,8 @@ render() {
       )
   }
 }
+
+
 export function matchStateToTerm(item, value) {
   return (
     item.name.toLowerCase().indexOf(value.toLowerCase()) !== -1 ||
