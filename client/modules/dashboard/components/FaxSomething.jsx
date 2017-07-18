@@ -3,8 +3,9 @@ import {Link} from 'react-router';
 import {browserHistory} from 'react-router';
 import faxable_institutions from '../../../../config/faxable_institutions.js';
 import Autocomplete from 'react-autocomplete';
-import Dropzone from 'react-dropzone-s3-uploader';
-
+import DropzoneS3Uploader from 'react-dropzone-s3-uploader';
+import ReactS3Uploader from 'react-s3-uploader';
+import Dropzone from 'react-dropzone';
 
 
 export default class FaxSomething extends React.Component {
@@ -18,7 +19,6 @@ export default class FaxSomething extends React.Component {
     this.intel=this.intel.bind(this);
     this.sendFaxUrl=this.sendFaxUrl.bind(this);
     this.sendFaxFile=this.sendFaxFile.bind(this);
-    this.handleFinishedUpload=this.handleFinishedUpload.bind(this);
     this.state = {
      institution : "+",
      url:null,
@@ -80,8 +80,8 @@ amendFax(number){
 }
 sendFax(){
   var faxNum = this.amendFax(this.state.number);
-  //this.sendFaxUrl(faxNum);
-  this.sendFaxFile(faxNum);
+  this.sendFaxUrl(faxNum);
+  //this.sendFaxFile(faxNum);
 }
 //meteor --settings settings.json
 sendFaxUrl(FinalNumber){
@@ -93,10 +93,18 @@ sendFaxUrl(FinalNumber){
   for(var i = 0;i<this.state.filesURL.length;i++){
     previews[i]= this.state.filesURL[i];
   }
-  //console.log(previews);
+  console.log(this.state.files);
+  var pre = new File([""], "filename");
+  console.log(pre);
+  pre = this.state.files[0];
+  console.log(S3);
+  S3.upload({file:pre},
+          function(e,r){
+            console.log(r);
+          }
+  );
   if(finalNumber.length == 12 && previews.length>0){
   console.log("YAY");
-
             Meteor.call('sendPhaxio', finalNumber, previews,  function(err, resp){
               if(err){
                 _this.setState({err: err})
@@ -104,7 +112,6 @@ sendFaxUrl(FinalNumber){
                 _this.setState({sucess: resp});
                 document.getElementById("urlIn").value = "";
                 document.getElementById("faxIn").value = "";
-                
                 _this.setState({filesURL: []});
               }
               )
@@ -159,13 +166,6 @@ onDrop(files){
     console.log({files}); 
 }
 
-handleFinishedUpload = info => {
-    console.log('File uploaded with filename', info.filename)
-    console.log('Access it on s3 at', info.fileUrl)
-  }
-
-
-
 addURL(){
   var val = document.getElementById("urlIn").value;
   console.log(val);
@@ -203,8 +203,6 @@ render() {
 
                     boxShadow:'none',
                     borderRadius:'4px'
-
-
                   }}
                   ></input>
                   <button
@@ -228,12 +226,6 @@ render() {
               <Dropzone 
                 onDrop={this.onDrop.bind(this)}
                 className="centerME"
-                onFinish={this.handleFinishedUpload} 
-                upload={{
-                  server: 'http://localhost:3000',
-                  s3Url: 'https://my-bucket.s3.amazonaws.com',
-                  signingUrlQueryParams: {uploadType: 'avatar'}
-                }}
                 style={{
                 //display:'none',
                 marginTop:'10%',

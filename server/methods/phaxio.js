@@ -2,11 +2,14 @@ import {Meteor} from 'meteor/meteor';
 import {check} from 'meteor/check';
 import { HTTP } from 'meteor/http'; 
 import { Session } from 'meteor/session';
-import Phaxio from 'phaxio';
 
+S3.config = {
+  key: Meteor.settings.private.AWS.AWS_ACCESS_KEY_ID,
+  secret: Meteor.settings.private.AWS.AWS_SECRET_ACCESS_KEY,
+  bucket: 'faxsimpleupload'
+};
 
 export default function () {
-    callback = function(err,data){console.log(data);};
     Meteor.methods({
       'sendPhaxio'(number, url){
         check(number, String)
@@ -24,18 +27,6 @@ export default function () {
                   }
                
             })
-        } 
-         
-    })
-    Meteor.methods({
-      'sendPhaxioFileLib'(number, file){
-        check(number, String)
-        check(file,String)
-        var phaxio = new Phaxio(Meteor.settings.private.key,Meteor.settings.private.secret)
-           return phaxio.sendFax({
-            to: number,
-            filenames: file
-           },callback)
         } 
          
     })
