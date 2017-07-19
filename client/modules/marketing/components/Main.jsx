@@ -21,7 +21,7 @@ class Main extends React.Component {
                             <div className="text-center"><div className="pageTitle">Login</div></div>
 
                             <div className="form-group">
-                                <input ref="email" type="text" id="login-form-username" name="login-form-username" className="foc inputs form-control" placeholder="Email" />
+                                <input ref="username" type="text" id="login-form-username" name="login-form-username" className="foc inputs form-control" placeholder="username" />
                             </div>
 
                             <div className="form-group">
@@ -32,9 +32,6 @@ class Main extends React.Component {
                                 <button onClick={this.loginUser} className="btn inputs foc btn-small btn-default" id="login-form-submit" name="login-form-submit" value="login">Login</button>
                             </div>
 
-                            <div className="form-group">
-                                <Link to="/register" className="pull-right inputs" data-toggle="modal"><font color="white">Need an account?</font></Link>
-                            </div>
                         </form>
                     
 
@@ -45,9 +42,9 @@ class Main extends React.Component {
   }
     loginUser(event){
         event.preventDefault();
-        const email = this.refs.email.value;
+        const username = this.refs.username.value;
         const password = this.refs.password.value;
-        actions.loginUser(email, password)
+        actions.loginUser(username, password)
   }
 }
 

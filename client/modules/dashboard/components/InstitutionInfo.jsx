@@ -3,7 +3,6 @@ import {Link} from 'react-router';
 import {browserHistory} from 'react-router';
 import Autocomplete from 'react-autocomplete';
 import faxable_institutions from '../../../../config/faxable_institutions.js';
-import divisions from '../../../../config/divisions.js';
 import Dropdown from 'react-dropdown';
 import Select from 'react-select';
 import { DropdownButton, MenuItem } from 'react-bootstrap';
@@ -16,6 +15,7 @@ export default class InstitutionInfo extends React.Component {
 		this.intel=this.intel.bind(this);
 		this.checkInputInstitution=this.checkInputInstitution.bind(this);
 		this.saveDivision=this.saveDivision.bind(this);
+		this.createDivision=this.createDivision.bind(this);
 		this.state={
 			
 			value:null,
@@ -40,6 +40,16 @@ export default class InstitutionInfo extends React.Component {
   	for(var i = 0; i < 7;i++){
   		this.state.divisionsState[i] = divisions[i].value;
   	}
+}
+
+createDivision(name){
+	Meteor.call('insert.division', name, function(err, resp){
+		if(err){
+			console.log(err)
+		} else {
+			console.log(resp)
+		}
+	})
 }
 saveDivision(element){
 	//console.log(collections.Divisions);
@@ -74,6 +84,7 @@ render(){
           
       	</ul> 
       	<div className="pageTitle center">Intel</div>
+      	<button onClick={ () => this.createDivision('TD')}>create</button>
       	<div className="cards jumbotron centerME">
       		<div className="row"> 
 		        <div className = "col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>  

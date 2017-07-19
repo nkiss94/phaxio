@@ -1,5 +1,6 @@
 import {Meteor} from 'meteor/meteor';
 import {check} from 'meteor/check';
+<<<<<<< HEAD
 import { HTTP } from 'meteor/http'; 
 import { Session } from 'meteor/session';
 
@@ -8,6 +9,12 @@ S3.config = {
   secret: Meteor.settings.private.AWS.AWS_SECRET_ACCESS_KEY,
   bucket: 'faxsimpleupload'
 };
+=======
+import { HTTP } from 'meteor/http' ;
+import { Session } from 'meteor/session';
+import {Divisions} from '/lib/collections';
+
+>>>>>>> 0e97943be6c8de56ccc1719916506748bee60add
 
 export default function () {
     Meteor.methods({
@@ -27,6 +34,14 @@ export default function () {
                   }
                
             })
+        },
+
+        'insert.division'(name){
+          check(name, String)
+          const division = {
+            name: name
+          }
+          Divisions.insert(division)
         } 
          
     })
