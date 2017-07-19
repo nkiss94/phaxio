@@ -3,6 +3,7 @@ import {check} from 'meteor/check';
 import { HTTP } from 'meteor/http' ;
 import { Session } from 'meteor/session';
 import { ObjectID, toHexString } from 'mongodb';
+var fs = require('fs');
 
 var AWS = require('aws-sdk');
 
@@ -19,7 +20,6 @@ export default function () {
       'sendPhaxio'(number, url){
         check(number, String)
         check(url, [String])
-        
            return HTTP.call( 'POST', 'https://api.phaxio.com/v2/faxes', 
                 {
                   auth: 
@@ -33,23 +33,23 @@ export default function () {
                
             })
         },
-
+        
         'uploadAWS'(file){
             const id = ObjectID().toHexString();
+            const upload_file = file[0].preview;
             var params = {
                 Bucket: 'faxsimple',
                 Key: id,
-                Body: file.preview
+                Body: upload_file,
+                ACL: 'public-read'
             };
-            s3.putObject(params, function (err, res) {
+            s3.upload(params, function (err, res) {
                 if (err) {
                     console.log("Error uploading data: ", err);
                 } else {
                     console.log(res);
                 }
             });
-        } 
-
-         
+        }  
     })
   }

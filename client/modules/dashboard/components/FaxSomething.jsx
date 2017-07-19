@@ -7,7 +7,6 @@ import DropzoneS3Uploader from 'react-dropzone-s3-uploader';
 import ReactS3Uploader from 'react-s3-uploader';
 import Dropzone from 'react-dropzone';
 
-
 export default class FaxSomething extends React.Component {
   constructor(props) {
     super(props);
@@ -83,7 +82,6 @@ sendFax(){
   //this.sendFaxFile(faxNum);
 }
 
-//meteor --settings settings.json
 sendFaxUrl(finalNumber){
   var finalNumber = finalNumber;
   const _this = this;
@@ -96,13 +94,12 @@ sendFaxUrl(finalNumber){
   Meteor.call('uploadAWS', file)     
 }
 
-onDrop(files){
-    this.setState({files:files});
+onDrop(file){
+    Meteor.call('uploadAWS', file)  
 }
 
 addURL(){
   var val = document.getElementById("urlIn").value;
-  console.log(val);
   this.setState({ 
     filesURL: this.state.filesURL.concat(val)
   });
@@ -248,7 +245,6 @@ render() {
             }}
             onClick={this.sendFax}>send fax
           </button>
-
           <div className = "col-lg-5 col-md-5 col-sm-4 col-xs-4"></div>      
       </div>      
       <hr/>
