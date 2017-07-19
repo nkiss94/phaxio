@@ -7,7 +7,6 @@ import DropzoneS3Uploader from 'react-dropzone-s3-uploader';
 import ReactS3Uploader from 'react-s3-uploader';
 import Dropzone from 'react-dropzone';
 
-
 export default class FaxSomething extends React.Component {
   constructor(props) {
     super(props);
@@ -18,7 +17,6 @@ export default class FaxSomething extends React.Component {
     this.addURL=this.addURL.bind(this);
     this.intel=this.intel.bind(this);
     this.sendFaxUrl=this.sendFaxUrl.bind(this);
-    this.sendFaxFile=this.sendFaxFile.bind(this);
     this.state = {
      institution : "+",
      url:null,
@@ -56,7 +54,6 @@ amendFax(number){
   //console.log("IM HERE");
 
   var faxNumber = number;
-  console.log(faxNumber);
   var newNum = "";
         
         for (var i = 0; i < faxNumber.length; i++)
@@ -78,97 +75,31 @@ amendFax(number){
         }
         return newNum;
 }
+
 sendFax(){
   var faxNum = this.amendFax(this.state.number);
   this.sendFaxUrl(faxNum);
   //this.sendFaxFile(faxNum);
 }
-//meteor --settings settings.json
-sendFaxUrl(FinalNumber){
-  console.log("faxing URLs");
-  var finalNumber = FinalNumber;
-  console.log(finalNumber);
+
+sendFaxUrl(finalNumber){
+  var finalNumber = finalNumber;
   const _this = this;
-  var previews = [];
-  for(var i = 0;i<this.state.filesURL.length;i++){
-    previews[i]= this.state.filesURL[i];
-  }
-  console.log(this.state.files);
-  var pre = new File([""], "filename");
-  console.log(pre);
-  pre = this.state.files[0];
-  console.log(S3);
-  S3.upload({file:pre},
-          function(e,r){
-            console.log(r);
-          }
-  );
-  if(finalNumber.length == 12 && previews.length>0){
-  console.log("YAY");
-            Meteor.call('sendPhaxio', finalNumber, previews,  function(err, resp){
-              if(err){
-                _this.setState({err: err})
-              }
-                _this.setState({sucess: resp});
-                document.getElementById("urlIn").value = "";
-                document.getElementById("faxIn").value = "";
-                _this.setState({filesURL: []});
-              }
-              )
-  }
-  else{
-    console.log("NOPE");
-    return;
-  }           
+  // var previews = [];
+  // for(var i = 0;i<this.state.filesURL.length;i++){
+  //   previews[i]= this.state.filesURL[i];
+  // }
+  var file = new File([""], "filename");
+  file = this.state.files[0];    
+  Meteor.call('uploadAWS', file)     
 }
 
-sendFaxFile(FinalNumber){
-  console.log("faxing files");
-  var reader = new FileReader();
-  reader.addEventListener("loadend", function() {
-    previews = reader.result;
-   // reader.result contains the contents of blob as a typed array
-  });
-  var finalNumber = FinalNumber;
-  console.log(finalNumber);
-  const _this = this;
-  var previews;
-  /*for(var i = 0;i<this.state.files.length;i++){
-    var blob = this.state.files[i].preview;
-    previews[i] = reader.readAsArrayBuffer(blob);
-    console.log(previews[i]);
-  }*/
-  previews = "/Users/akovalcik/Desktop/TD.pdf";
-  if(finalNumber.length == 12){
-  console.log("YAY");
-
-            Meteor.call('sendPhaxioFileLib', finalNumber, previews,  function(err, resp){
-              if(err){
-                _this.setState({err: err})
-              }
-                _this.setState({sucess: resp});
-                console.log(resp);
-                document.getElementById("urlIn").value = "";
-                document.getElementById("faxIn").value = "";
-                _this.setState({files: []});
-                
-              }
-              )
-  }
-  else{
-    console.log("NOPE");
-    return;
-  }  
-           
-}
-onDrop(files){
-    this.setState({files:files});
-    console.log({files}); 
+onDrop(file){
+    Meteor.call('uploadAWS', file)  
 }
 
 addURL(){
   var val = document.getElementById("urlIn").value;
-  console.log(val);
   this.setState({ 
     filesURL: this.state.filesURL.concat(val)
   });
