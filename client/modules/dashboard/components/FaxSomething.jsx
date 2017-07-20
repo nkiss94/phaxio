@@ -17,6 +17,7 @@ export default class FaxSomething extends React.Component {
     this.addURL=this.addURL.bind(this);
     this.intel=this.intel.bind(this);
     this.sendFaxUrl=this.sendFaxUrl.bind(this);
+    this.UploadToS3=this.UploadToS3.bind(this);
     this.state = {
      institution : "+",
      url:null,
@@ -51,8 +52,6 @@ goHome(){
 }
 
 amendFax(number){
-  //console.log("IM HERE");
-
   var faxNumber = number;
   var newNum = "";
         
@@ -79,23 +78,31 @@ amendFax(number){
 sendFax(){
   var faxNum = this.amendFax(this.state.number);
   this.sendFaxUrl(faxNum);
-  //this.sendFaxFile(faxNum);
 }
 
+UploadToS3(file){
+  var myFile = file;
+  var reader = new FileReader();
+  reader.onload = function(fileLoadEvent){
+    Meteor.call('uploadAWS',reader.result);
+  }
+  reader.readAsDataURL(myFile);
+}
 sendFaxUrl(finalNumber){
-  var finalNumber = finalNumber;
   const _this = this;
-  // var previews = [];
-  // for(var i = 0;i<this.state.filesURL.length;i++){
-  //   previews[i]= this.state.filesURL[i];
-  // }
-  var file = new File([""], "filename");
-  file = this.state.files[0];    
-  Meteor.call('uploadAWS', file)     
+  var previews = [];
+  for(var i = 0;i<this.state.filesURL.length;i++){
+   previews[i]= this.state.filesURL[i];
+  }
+  this.setState({files:[]});
+  this.setState({filesURL:[]});
+  Meteor.call('sendPhaxio', finalNumber, previews); 
 }
-
 onDrop(file){
-    Meteor.call('uploadAWS', file)  
+    this.setState({files:file});
+    for(var i =0;i<file.length;i++){
+    this.UploadToS3(file[i]);
+    }
 }
 
 addURL(){
@@ -105,8 +112,6 @@ addURL(){
   });
   
 }
-
-
 render() {
   return ( 
     <div className="container"> 
