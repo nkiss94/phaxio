@@ -20,9 +20,9 @@ class Dashboard extends React.Component {
 
     render() {
         return (
-            <div>     
+            <div  className="container">     
                 <Nav state={this.state} selectTab={this.selectTab} />
-                <div className="cards jumbotron centerME center ">  
+                <div>  
                     {this.state.active_tab === "fax" ? <Fax /> : null}
                     {this.state.active_tab === 'check_digits' ? <CheckDigits /> : null}
                     {this.state.active_tab === 'institutions' ? <institutions /> : null}               

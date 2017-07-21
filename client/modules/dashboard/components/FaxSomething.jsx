@@ -114,7 +114,7 @@ addURL(){
 }
 render() {
   return ( 
-    <div className="container"> 
+    <div> 
       <ul className="nav inputs nav-tabs">
             <li role="presentation"><a className="inActive foc" href="" onClick={this.goHome}>Home</a></li>
             <li role="presentation" className="active"><a className="foc" href="" onClick={this.faxSomething}>Fax a Transfer</a></li>
