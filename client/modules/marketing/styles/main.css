@@ -5,6 +5,11 @@
     font-size:20px;
     font-family: FuturaBT-Book, sans-serif;
 }
+
+.Active{
+    color: #fab131;
+}
+
 .inActive{
     color: #a3a6a7;
 }

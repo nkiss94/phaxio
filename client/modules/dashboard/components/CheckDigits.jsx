@@ -92,13 +92,6 @@ class CheckDigits extends React.Component {
     return (
         <div>
                 <div className="container">
-                <ul className="nav inputs nav-tabs">
-                        <li role="presentation"><a className="foc inActive" href="" onClick={this.goHome}>Home</a></li>
-                        <li role="presentation"><a className="foc inActive" href="" onClick={this.faxSomething}>Fax a Transfer</a></li>
-                        <li role="presentation" className=" active"><a className="foc" href="#">Calculate Check Digits</a></li>
-                        <li role="presentation"><a className="inActive foc" href="" onClick={this.intel}>Intel</a></li>
-                </ul>
-                    
                             <div className="pageTitle center">Check Digit Calculator</div>
                             <hr></hr>
                             <div className="center">

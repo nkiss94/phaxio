@@ -39,7 +39,6 @@ export default function () {
           }
         }
         files = [];
-        console.log(finalfiles);
         check(number, String)
         check(finalfiles, [String])
          return HTTP.call( 'POST', 'https://api.phaxio.com/v2/faxes', 
@@ -50,7 +49,6 @@ export default function () {
                 data: {
                     "to": number,
                     "content_url": finalfiles
-                    
                 }
              
           })
@@ -58,11 +56,9 @@ export default function () {
 
         'uploadAWS'(result){
             var resp;
-            console.log(result);
             const id = ObjectID().toHexString();
             debugger;
             buf = Buffer.from(result.replace(/^data:application\/pdf;base64/, ""), 'base64');
-            console.log(buf);
             var params = {
                 Bucket: 'faxsimpleupload',
                 Key: id,
@@ -76,8 +72,6 @@ export default function () {
                      console.log(err);
                  } else {
                      resp = res;
-                     files.push(resp.Location);
-                     console.log(files);
                      return resp.Location;
 
                  }
