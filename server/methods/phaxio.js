@@ -55,7 +55,7 @@ export default function () {
         },
 
         'uploadAWS'(result){
-            var resp;
+            
             const id = ObjectID().toHexString();
             debugger;
             buf = Buffer.from(result.replace(/^data:application\/pdf;base64/, ""), 'base64');
@@ -66,13 +66,13 @@ export default function () {
                 ACL: 'public-read',
                 ContentType:'application/pdf'                
             };
-            resp = s3.upload(params, function (err, res) {
+            s3.upload(params, function (err, res) {
                  if (err) {
                      resp =  err;
                      console.log(err);
                  } else {
                      resp = res;
-                     return resp.Location;
+                     files.push(resp.Location);
 
                  }
             }
