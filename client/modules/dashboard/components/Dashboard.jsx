@@ -4,6 +4,7 @@ import Nav from './Nav';
 import Fax from './Fax';
 import CheckDigits from './CheckDigits';
 import Institutions from './Institutions';
+import AddDivision from './AddDivision';
 
 class Dashboard extends React.Component {
     constructor(props) {
@@ -25,7 +26,8 @@ class Dashboard extends React.Component {
                 <div>  
                     {this.state.active_tab === "fax" ? <Fax /> : null}
                     {this.state.active_tab === 'check_digits' ? <CheckDigits /> : null}
-                    {this.state.active_tab === 'institutions' ? <institutions /> : null}               
+                    {this.state.active_tab === 'institutions' ? <Institutions /> : null} 
+                    {this.state.active_tab === 'addDivision' ? <AddDivision /> : null}                   
                 </div>       
             </div>
     )

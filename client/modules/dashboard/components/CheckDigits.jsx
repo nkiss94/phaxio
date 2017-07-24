@@ -9,14 +9,10 @@ import MdLoop from 'react-icons/lib/md/loop'
 class CheckDigits extends React.Component {
     constructor(props) {
     super(props);
-    this.faxSomething=this.faxSomething.bind(this);
-    this.goHome=this.goHome.bind(this);
-    this.checkDigits=this.checkDigits.bind(this);
     this.calculateDigits = this.calculateDigits.bind(this);
     this.chooseInstitution = this.chooseInstitution.bind(this);
     this.refreshState = this.refreshState.bind(this);
     this.onChange = this.onChange.bind(this);
-    this.intel=this.intel.bind(this);
     this.state = {
         institution_name: null,
         account_number: null,
@@ -73,20 +69,6 @@ class CheckDigits extends React.Component {
             check_digit_1: nineDigits.slice(-1),
             check_digit_2: check_digit
         })
-    }
-    checkDigits(){
-        browserHistory.push('/check_digits')
-    }
-
-    faxSomething(){
-        browserHistory.push('/fax_something')
-    }
-
-    goHome(){
-        browserHistory.push('/Dashboard')
-    }
-    intel(){
-    browserHistory.push('/institution_info')
     }
   render() {
     return (

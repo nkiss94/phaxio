@@ -7,7 +7,7 @@ import Dropdown from 'react-dropdown';
 import Select from 'react-select';
 import { DropdownButton, MenuItem } from 'react-bootstrap';
 
-export default class Institutions extends React.Component {
+export default class AddDivision extends React.Component {
 	constructor(props){
 		super(props);
 		this.checkInputInstitution=this.checkInputInstitution.bind(this);
@@ -54,13 +54,12 @@ saveDivision(element){
 	console.log(element);
 	this.setState({division:element});
 }
-//<button onClick={ () => this.createDivision('TD')}>create</button>
+
 render(){
 	console.log(this.props);
 	return(
 	<div className="container">	
-      	<div className="pageTitle center">Find a Dvision</div>
-      	
+      	<div className="pageTitle center">Add a Division</div>
       	<div className="cards jumbotron centerME">
       		<div className="row"> 
 		        <div className = "col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>  
