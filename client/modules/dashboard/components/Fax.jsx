@@ -10,12 +10,9 @@ import Dropzone from 'react-dropzone';
 export default class Fax extends React.Component {
   constructor(props) {
     super(props);
-    this.checkDigits=this.checkDigits.bind(this);
     this.sendFax=this.sendFax.bind(this);
-    this.goHome=this.goHome.bind(this);
     this.checkInput=this.checkInput.bind(this);
     this.addURL=this.addURL.bind(this);
-    this.intel=this.intel.bind(this);
     this.sendFaxUrl=this.sendFaxUrl.bind(this);
     this.UploadToS3=this.UploadToS3.bind(this);
     this.state = {
