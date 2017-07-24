@@ -10,8 +10,7 @@ import InnerAuth from './modules/core/components/InnerAuth.jsx';
 // Marketing
 import Main from './modules/marketing/components/Main.jsx';
 import CheckDigits from './modules/dashboard/components/CheckDigits.jsx';
-import FaxSomething from './modules/dashboard/components/FaxSomething';
-import InstitutionInfoCont from './modules/dashboard/containers/InstitutionInfoCont';
+import InstitutionsCont from './modules/dashboard/containers/InstitutionsCont';
 
 
 // Dashboard
@@ -29,8 +28,7 @@ const router = (
     	<Route path="/dashboard" component={InnerAuth}>
     		<IndexRoute component={Dashboard}></IndexRoute>
             <Route path="/check_digits" component={CheckDigits}></Route>
-        	<Route path="/fax_something" component={FaxSomething}></Route>
-            <Route path="/institution_info" component={InstitutionInfoCont}></Route>
+            <Route path="/institutions" component={InstitutionsCont}></Route>
         </Route>
     </Router>
   
