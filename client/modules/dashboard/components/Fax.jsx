@@ -29,20 +29,6 @@ export default class Fax extends React.Component {
      filesPreview:[]
     }
  }
- intel(){
-    browserHistory.push('/institution_info')
-}
-checkDigits(){
-    browserHistory.push('/check_digits')
-}
-
-faxSomething(){
-    browserHistory.push('/fax_something')
-}
-
-goHome(){
-    browserHistory.push('/Dashboard')
-}
 
  checkInput(value){
   this.setState({institution:value});    
