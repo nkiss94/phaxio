@@ -22,12 +22,12 @@ class HeaderNav extends React.Component {
                         <li onClick={() => this.props.selectTab('fax')} role="presentation"><a className={state.active_tab === 'fax' ? 'Active' : 'inActive'}>Fax</a></li>
                         <li onClick={() => this.props.selectTab('check_digits')} role="presentation"><a className={state.active_tab === 'check_digits' ? 'Active' : 'inActive'}>Check Digits</a></li>
                         <li className="dropdown" role="presentation">
-                            <a className="dropdown-toggle" data-toggle="dropdown" className={state.active_tab === ('institutions'||'addDivision') ? 'Active' : 'inActive'}>
-                                Intel
+                            <a className="dropdown-toggle" data-toggle="dropdown" className={state.active_tab === ('divisions'||'addDivision') ? 'Active' : 'inActive'}>
+                                Divisions
                                 <b className="caret"></b>
                             </a>
                             <ul className="dropdown-menu">
-                                <li className="center" onClick={() => this.props.selectTab('institutions')}>Find Divisions </li>
+                                <li className="center" onClick={() => this.props.selectTab('divisions')}>Find Divisions </li>
                                 <li className="center" onClick={() => this.props.selectTab('addDivision')}>Add Divisions</li>
                             </ul>
                         </li>
