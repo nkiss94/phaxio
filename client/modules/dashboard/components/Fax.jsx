@@ -15,6 +15,8 @@ export default class Fax extends React.Component {
     this.addURL=this.addURL.bind(this);
     this.sendFaxUrl=this.sendFaxUrl.bind(this);
     this.UploadToS3=this.UploadToS3.bind(this);
+    this.deleteURL=this.deleteURL.bind(this);
+    this.deleteAWSFile=this.deleteAWSFile.bind(this);
     this.state = {
      institution : "+",
      url:null,
@@ -23,7 +25,8 @@ export default class Fax extends React.Component {
      number: null,
      files: [],
      filesURL: [],
-     filesPreview:[]
+     filesPreview:[],
+     resp:null
     }
  }
 
@@ -54,12 +57,16 @@ amendFax(number){
         }
         else {
             alert("Invalid fax number! Please enter a new number.");
+            return "error";
         }
         return newNum;
 }
 
 sendFax(){
   var faxNum = this.amendFax(this.state.number);
+  if(faxNum=="error"){
+    return;
+  }
   this.sendFaxUrl(faxNum);
 }
 
@@ -67,27 +74,49 @@ UploadToS3(file){
   var myFile = file;
   var reader = new FileReader();
   reader.onload = function(fileLoadEvent){
-    Meteor.call('uploadAWS',reader.result);
+    Meteor.call('uploadAWS',reader.result,file.name);
   }
   reader.readAsDataURL(myFile);
 }
 sendFaxUrl(finalNumber){
   const _this = this;
+  this.state.resp = null;
   var previews = [];
   for(var i = 0;i<this.state.filesURL.length;i++){
    previews[i]= this.state.filesURL[i];
   }
   this.setState({files:[]});
   this.setState({filesURL:[]});
-  Meteor.call('sendPhaxio', finalNumber, previews); 
+  Meteor.call('sendPhaxio', finalNumber, previews,function(err,succ){
+    if(err){
+      _this.setState({resp:"Error!"});
+    }
+    else{
+      _this.setState({resp:"Successfully sent to Phaxio!"});
+    }
+  }); 
 }
 onDrop(file){
-    this.setState({files:file});
+    var newFiles = this.state.files.slice();  
+    for(var i =0;i<file.length;i++){
+    newFiles.push(file[i]);   
+    }
+    this.setState({files:newFiles});
     for(var i =0;i<file.length;i++){
     this.UploadToS3(file[i]);
     }
 }
-
+deleteURL(index){
+  var array = this.state.filesURL.slice();
+  array.splice(index, 1);
+  this.setState({filesURL: array });
+}
+deleteAWSFile(name,index){
+  Meteor.call('deleteFile',name);
+  var array = this.state.files.slice();
+  array.splice(index, 1);
+  this.setState({files: array });
+}
 addURL(){
   var val = document.getElementById("urlIn").value;
   this.setState({ 
@@ -140,7 +169,6 @@ render() {
                 onDrop={this.onDrop.bind(this)}
                 className="centerME"
                 style={{
-                //display:'none',
                 marginTop:'10%',
                 width: '100%',
                 height: '200',
@@ -158,10 +186,26 @@ render() {
           <div style={{marginTop:'10%'}} className="dialogue center">Uploaded Files:</div>
             <div className="center DialgoueMed" >
               {
-                this.state.files.map(f => <div key={f.name}>{f.name}</div>)
+                this.state.files.map((f,index) => 
+                  <div className="row center">
+                    <div className="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
+                    <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6" key={f.name}>{f.name}</div>
+                    <span className="col-lg-2 col-md-2 col-sm-2 col-xs-2 glyphicon glyphicon-remove" onClick={(event) => this.deleteAWSFile(f.name,index)}></span>
+                    <div className="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
+                  </div>
+                )
               }
+            </div>
+            <div className="center DialgoueMed" >
               {
-                this.state.filesURL.map((fu,index) => <div key={index}>{fu}</div>)
+                this.state.filesURL.map((fu,index) => 
+                  <div className="row center">
+                    <div className="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
+                    <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6" key={index}>PDF {fu}</div>
+                    <span className="col-lg-2 col-md-2 col-sm-2 col-xs-2 glyphicon glyphicon-remove" onClick={(event) => this.deleteURL(index)}></span>
+                    <div className="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
+                  </div>
+                )
               }
             </div>
           
@@ -214,6 +258,7 @@ render() {
           </div>
           <div className = "col-lg-3 col-md-3 col-sm-2 col-xs-2"></div> 
       </div>  
+      <div className="center row dialogue" style={{'marginTop':'5%'}}>{this.state.resp}</div>
       </div>
       <hr></hr>
       <div className = "row">

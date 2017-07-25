@@ -21,6 +21,7 @@ AWS.config.update({
   "region": "us-east-1" 
 });
 var files = [];
+var fileNames = [];
 var s3 = new AWS.S3(); 
 
 export default function () {
@@ -52,9 +53,15 @@ export default function () {
              
           })
         },
-
-        'uploadAWS'(result){
-            
+        'deleteFile'(file){
+          for(var i = 0;i<files.length;i++){
+            if(file == fileNames[i]){
+              files.splice(i, 1);
+              fileNames.splice(i,1);
+            }
+          }
+        },
+        'uploadAWS'(result, name){
             const id = ObjectID().toHexString();
             debugger;
             buf = Buffer.from(result.replace(/^data:application\/pdf;base64/, ""), 'base64');
@@ -71,6 +78,7 @@ export default function () {
                      console.log(err);
                  } else {
                      resp = res;
+                     fileNames.push(name);
                      files.push(resp.Location);
 
                  }
