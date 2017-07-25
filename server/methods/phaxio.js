@@ -12,7 +12,6 @@ S3.config = {
 };
 var FormData = require('form-data');
 var fs = require('fs');
-
 var AWS = require('aws-sdk');
 var FileReader = require('filereader');
 var reader = new FileReader();
