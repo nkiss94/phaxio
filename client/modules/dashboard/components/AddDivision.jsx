@@ -56,7 +56,6 @@ saveDivision(element){
 }
 
 render(){
-	console.log(this.props);
 	return(
 	<div className="container">	
       	<div className="pageTitle center">Add a Division</div>
