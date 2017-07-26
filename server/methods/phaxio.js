@@ -3,7 +3,7 @@ import {check} from 'meteor/check';
 import { HTTP } from 'meteor/http'; 
 import { Session } from 'meteor/session';
 import {ObjectID} from 'mongodb';
- 
+
 
 S3.config = {
   key: Meteor.settings.private.AWS.AWS_ACCESS_KEY_ID,
@@ -63,7 +63,6 @@ export default function () {
         },
         'uploadAWS'(result, name){
             const id = ObjectID().toHexString();
-            debugger;
             buf = Buffer.from(result.replace(/^data:application\/pdf;base64/, ""), 'base64');
             var params = {
                 Bucket: 'faxsimpleupload',

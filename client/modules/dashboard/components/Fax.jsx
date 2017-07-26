@@ -224,7 +224,7 @@ render() {
               position:'relative',
               boxShadow:'none',
               background: '#ffffff',
-              borderRadius:'0px'
+              borderRadius:'4px'
             }
           }}
           menuStyle = {{

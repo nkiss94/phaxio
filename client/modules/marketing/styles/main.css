@@ -12,6 +12,7 @@ ul li {
 .dialogueMed{
     font-size:20px;
     font-family: FuturaBT-Book, sans-serif;
+    color: black;
 }
 
 .Active{
@@ -23,6 +24,10 @@ ul li {
 }
 .jumbotron{
     width:75%;
+    background: white;
+    border-width: 3px;
+    border-style: solid;
+    border-color: #fab131;
 }
 .cards{
 background: #fab131;
@@ -34,6 +39,7 @@ background: #fab131;
     width:100%;
 }
 .pageTitle{
+margin-top: 2%;
 font-size: 40px;
 font-family: CaslonGraD, sans-serif;
 
@@ -41,8 +47,8 @@ font-family: CaslonGraD, sans-serif;
 .dialogue{
 font-size: 25px;
 font-family: FuturaBT-Book, sans-serif;
-
 }
+
 .inputs{
 font-size: 14px;
 font-family: FuturaBT-Book, sans-serif;
@@ -91,7 +97,9 @@ width:66.66666666%;
     outline:0;
     background: white;
 }
-
+#logout{
+    border-width: 0px;
+}
 
 @font-face {
     font-family: FuturaBT-Book;

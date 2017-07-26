@@ -17,7 +17,7 @@ class HeaderNav extends React.Component {
     render() {
         const {state} = this.props;
         return (
-            <div className="container">     
+            <nav className="container navbar">     
                 <ul className="nav inputs nav-tabs">
                         <li onClick={() => this.props.selectTab('fax')} role="presentation"><a className={state.active_tab === 'fax' ? 'Active' : 'inActive'}>Fax</a></li>
                         <li onClick={() => this.props.selectTab('check_digits')} role="presentation"><a className={state.active_tab === 'check_digits' ? 'Active' : 'inActive'}>Check Digits</a></li>
@@ -31,9 +31,11 @@ class HeaderNav extends React.Component {
                                 <li className="center" onClick={() => this.props.selectTab('addDivision')}>Add Divisions</li>
                             </ul>
                         </li>
-                        <li onClick={() =>this.logoutUser}><a className='inActive'>Logout</a></li>
-                </ul>     
-            </div>
+                        <ul id="logout" className="nav nav-tabs navbar-right">
+                            <li onClick={() =>this.logoutUser}><a className='inActive navbar-right'>Logout</a></li>
+                        </ul> 
+                </ul>    
+            </nav>
     )
   }
 }
