@@ -31,8 +31,8 @@ class HeaderNav extends React.Component {
                                 <li className="center" onClick={() => this.props.selectTab('addDivision')}>Add Divisions</li>
                             </ul>
                         </li>
-                        <ul id="logout" className="nav nav-tabs navbar-right">
-                            <li onClick={() =>this.logoutUser}><a className='inActive navbar-right'>Logout</a></li>
+                        <ul id="logout" className="nav nav-tabs navbar-right" onClick={() => this.logoutUser()}>
+                            <li><a className='inActive navbar-right'>Logout</a></li>
                         </ul> 
                 </ul>    
             </nav>
