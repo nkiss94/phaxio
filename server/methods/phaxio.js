@@ -62,8 +62,44 @@ export default function () {
           }
         },
         'uploadAWS'(result, name){
+          var resp = Meteor.call('upload',result,name);
+          console.log(resp);
+          return resp;
+            // var url = 1;
+            // const id = ObjectID().toHexString();
+            // buf = Buffer.from(result.replace(/^data:application\/pdf;base64/, ""), 'base64');
+            // var params = {
+            //     Bucket: 'faxsimpleupload',
+            //     Key: id,
+            //     Body: buf,
+            //     ACL: 'public-read',
+            //     ContentType:'application/pdf'                
+            // };
+
+            // url = s3.upload(params, function (err, res) {
+            //      if (err) {
+            //          // resp =  err;
+            //          // console.log(err);
+                    
+            //      } else {
+            //           resp = res;
+            //          // fileNames.push(name);
+            //          // files.push(resp.Location);
+                     
+            //          // console.log(resp.Location);
+            //           return res.Location;
+
+            //      }
+            // }
+
+            // );
+            // console.log(url)
+            // return url;
+        },
+
+        'upload'(result, name){
+           var url = 1;
             const id = ObjectID().toHexString();
-            debugger;
             buf = Buffer.from(result.replace(/^data:application\/pdf;base64/, ""), 'base64');
             var params = {
                 Bucket: 'faxsimpleupload',
@@ -72,19 +108,25 @@ export default function () {
                 ACL: 'public-read',
                 ContentType:'application/pdf'                
             };
-            s3.upload(params, function (err, res) {
+
+            url =  s3.upload(params, function (err, res) {
                  if (err) {
-                     resp =  err;
-                     console.log(err);
+                     // resp =  err;
+                     // console.log(err);
+                    
                  } else {
-                     resp = res;
-                     fileNames.push(name);
-                     files.push(resp.Location);
+                      resp = res;
+                     // fileNames.push(name);
+                     // files.push(resp.Location);
+                     
+                     // console.log(resp.Location);
+                      return res.Location;
 
                  }
-            }
-            );
-        },
-        
+            })
+            
+            console.log(url)
+            return url;
+        }
     })
   }

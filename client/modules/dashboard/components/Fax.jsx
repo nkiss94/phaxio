@@ -70,11 +70,12 @@ sendFax(){
   this.sendFaxUrl(faxNum);
 }
 
-UploadToS3(file){
+UploadToS3(file){ 
   var myFile = file;
   var reader = new FileReader();
+  var url = 1;
   reader.onload = function(fileLoadEvent){
-    Meteor.call('uploadAWS',reader.result,file.name);
+    url = Meteor.call('uploadAWS',reader.result,file.name); 
   }
   reader.readAsDataURL(myFile);
 }
