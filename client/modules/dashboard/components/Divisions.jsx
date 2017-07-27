@@ -17,7 +17,6 @@ export default class Divisions extends React.Component {
 		this.loadParents=this.loadParents.bind(this);
 		this.findDivisions=this.findDivisions.bind(this);
 		this.state={
-			
 			value:null,
 			institution:null,
 			parents:[],
@@ -31,8 +30,6 @@ export default class Divisions extends React.Component {
 			followUpNum:"followUpNum",
 			followUpEmail:"followUpEmail",
 			otherIntel:"otherIntel"
-
-
 		}
 	}
  checkInputInstitution(item){
@@ -120,7 +117,7 @@ render(){
 	 
 	return(
 	<div className="container">	
-      	<div className="pageTitle center">Find a Dvision</div>
+      	<div className="pageTitle center">Find a Division</div>
       	<div className=" centerME">
       		<div className="row"> 
 		        <div className = "col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>  
