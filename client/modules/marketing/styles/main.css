@@ -73,8 +73,6 @@ width:66.66666666%;
    float: none;
     margin: 0 auto;
     margin-top: 1%;
-
-
 }
 .center-block {
 
@@ -99,6 +97,11 @@ width:66.66666666%;
 }
 #logout{
     border-width: 0px;
+}
+
+.divisionInput{
+    background-color: 'red'
+    height: 100px;
 }
 
 @font-face {
