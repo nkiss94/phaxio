@@ -80,8 +80,7 @@ export default function () {
                 ACL: 'public-read',
                 ContentType:'application/pdf'                
               };
-
-              s3.upload(params,Meteor.bindEnvironment(function(err,resp){
+             return s3.upload(params,Meteor.bindEnvironment(function(err,resp){
                 if(err){
                   console.log(err);
                 }

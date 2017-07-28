@@ -103,7 +103,7 @@ export default class Fax extends React.Component {
       }
       else{
         console.log(succ);
-        // _this.setState({resp:"Successfully sent to Phaxio!"});
+         _this.setState({resp:succ});
       }
     });
   }
