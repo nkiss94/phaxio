@@ -24,6 +24,7 @@ var files = [];
 var fileNames = [];
 var s3 = new AWS.S3(); 
 
+
 export default function () {
     Meteor.methods({
       'sendPhaxio'(number, url){
@@ -61,72 +62,50 @@ export default function () {
             }
           }
         },
-        'uploadAWS'(result, name){
-          var resp = Meteor.call('upload',result,name);
-          console.log(resp);
-          return resp;
-            // var url = 1;
-            // const id = ObjectID().toHexString();
-            // buf = Buffer.from(result.replace(/^data:application\/pdf;base64/, ""), 'base64');
-            // var params = {
-            //     Bucket: 'faxsimpleupload',
-            //     Key: id,
-            //     Body: buf,
-            //     ACL: 'public-read',
-            //     ContentType:'application/pdf'                
-            // };
 
-            // url = s3.upload(params, function (err, res) {
-            //      if (err) {
-            //          // resp =  err;
-            //          // console.log(err);
-                    
-            //      } else {
-            //           resp = res;
-            //          // fileNames.push(name);
-            //          // files.push(resp.Location);
-                     
-            //          // console.log(resp.Location);
-            //           return res.Location;
-
-            //      }
-            // }
-
-            // );
-            // console.log(url)
-            // return url;
-        },
-
-        'upload'(result, name){
-           var url = 1;
-            const id = ObjectID().toHexString();
-            buf = Buffer.from(result.replace(/^data:application\/pdf;base64/, ""), 'base64');
-            var params = {
+        'upload'(finalNumber, previews, dataUrls){
+              var length = dataUrls.length;
+              var finalfiles = [];
+              var s3files = [];
+              var done = 0;
+              var i = 0;
+              const id = ObjectID().toHexString();
+              var data = [];
+              // console.log(data);
+              buf = Buffer.from(dataUrls[0].result.replace(/^data:application\/pdf;base64/, ""), 'base64');
+              var params = {
                 Bucket: 'faxsimpleupload',
                 Key: id,
                 Body: buf,
                 ACL: 'public-read',
                 ContentType:'application/pdf'                
-            };
+              };
 
-            url =  s3.upload(params, function (err, res) {
-                 if (err) {
-                     // resp =  err;
-                     // console.log(err);
+              s3.upload(params,Meteor.bindEnvironment(function(err,resp){
+                if(err){
+                  console.log(err);
+                }
+                else{
+                  console.log(resp.Location);
+                  data.push(resp.Location);
+                   // if(data.length==length){
                     
-                 } else {
-                      resp = res;
-                     // fileNames.push(name);
-                     // files.push(resp.Location);
-                     
-                     // console.log(resp.Location);
-                      return res.Location;
-
-                 }
-            })
-            
-            console.log(url)
-            return url;
+                   // }
+                   return HTTP.call( 'POST', 'https://api.phaxio.com/v2/faxes', 
+                    {
+                      auth: 
+                          Meteor.settings.private.phaxio
+                      ,
+                      data: {
+                          "to": finalNumber,
+                          "content_url": data
+                      }
+                    });
+                }
+               }));
+              
+            }
+          });
         }
-    })
-  }
+            
+
