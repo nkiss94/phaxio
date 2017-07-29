@@ -216,6 +216,7 @@ export default class Fax extends React.Component {
             <div className = "col-lg-12 col-md-0 col-sm-0 col-xs-0"></div>
           </div>
           <div style={{marginTop:'10%'}} className="dialogue center">Uploaded Files:</div>
+<<<<<<< HEAD
           <div className="center DialgoueMed" >
             {
               this.state.files.map((f,index) =>
@@ -226,6 +227,49 @@ export default class Fax extends React.Component {
                   <div className="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
                 </div>
               )
+=======
+            <div className="center DialgoueMed" >
+              {
+                this.state.files.map((f,index) => 
+                  <div className="row center">
+                    <div className="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
+                    <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6" key={f.name}>{f.name}</div>
+                    <span className="col-lg-2 col-md-2 col-sm-2 col-xs-2 glyphicon glyphicon-remove" onClick={(event) => this.deleteAWSFile(f.name,index)}></span>
+                    <div className="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
+                  </div>
+                )
+              }
+            </div>
+            <div className="center DialgoueMed" >
+              {
+                this.state.filesURL.map((fu,index) => 
+                  <div className="row center">
+                    <div className="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
+                    <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6" key={index}>PDF {fu}</div>
+                    <span className="col-lg-2 col-md-2 col-sm-2 col-xs-2 glyphicon glyphicon-remove" onClick={(event) => this.deleteURL(index)}></span>
+                    <div className="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
+                  </div>
+                )
+              }
+            </div>
+          
+      </div>
+      <div className="cards jumbotron centerME">
+      <div className="center row dialogue">What's the fax number?</div>
+      <div className="row"> 
+          <div className = "col-lg-3 col-md-3 col-sm-2 col-xs-2"></div>  
+          <div className = "center col-lg-6 col-md-6 col-sm-8 col-xs-8">
+          <Autocomplete
+          inputProps={{
+            id:'faxIn',
+            className: 'foc form-control inputs',
+            placeholder: 'institution fax #',
+            style: {
+              position:'relative',
+              boxShadow:'none',
+              background: '#ffffff',
+              borderRadius:'4px'
+>>>>>>> 6524fcd77ec54031210b1bd39ebddfb9101536a9
             }
           </div>
           <div className="center DialgoueMed" >
