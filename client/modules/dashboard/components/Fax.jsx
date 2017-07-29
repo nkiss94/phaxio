@@ -68,7 +68,14 @@ export default class Fax extends React.Component {
     if(faxNum=="error"){
       return;
     }
-    this.sendFaxUrl(faxNum);
+    this.sendFaxUrl(faxNum,function(err,resp){
+      if(err){
+
+      }
+      else{
+        _this.setState({resp:"Successfully sent to Phaxio!"});
+      }
+    });
   }
  
   placeInSendList(file){
@@ -89,23 +96,35 @@ export default class Fax extends React.Component {
   }
   sendFaxUrl(finalNumber){
     const _this = this;
-    this.state.resp = null;
     var previews = [];
+    var length = this.state.filesURL.length + this.state.dataUrlFiles.length;
     for(var i = 0;i<this.state.filesURL.length;i++){
       previews[i]= this.state.filesURL[i];
     }
-    this.setState({files:[]});
-    this.setState({filesURL:[]});
-    Meteor.call('upload', finalNumber, previews,this.state.dataUrlFiles
-      ,function(err,succ){
-      if(err){
-        _this.setState({resp:"Error!"});
+      for(var i = 0;i<this.state.dataUrlFiles.length;i++){
+        Meteor.call('upload', finalNumber, previews,this.state.dataUrlFiles[i]
+          ,function(err,succ){
+          if(err){
+            _this.setState({resp:"Error!"});
+          }
+          else{
+            console.log(succ);
+            previews.push(succ);
+            if(previews.length==length){
+               Meteor.call('sendPhaxio',finalNumber,previews,function(err,resp){
+                if(err){
+                    _this.setState({resp:"Error!"});         
+                  }
+                  else{
+                    _this.setState({resp:"Success!"});
+                    _this.setState({filesURL:[]});
+                    _this.setState({dataUrlFiles:[]});
+                  }
+               });
+            }
+          }
+        });
       }
-      else{
-        console.log(succ);
-         _this.setState({resp:succ});
-      }
-    });
   }
   onDrop(file){
     var newFiles = this.state.files.slice();
@@ -122,11 +141,13 @@ export default class Fax extends React.Component {
     array.splice(index, 1);
     this.setState({filesURL: array });
   }
-  deleteAWSFile(name,index){
-    Meteor.call('deleteFile',name);
-    var array = this.state.files.slice();
-    array.splice(index, 1);
-    this.setState({files: array });
+  deleteAWSFile(index){
+    var files = this.state.files.slice();
+    var fileURLs = this.state.dataUrlFiles.slice();
+    files.splice(index, 1);
+    fileURLs.splice(index, 1);
+    this.setState({files: files });
+    this.setState({dataUrlFiles: fileURLs });
   }
   addURL(){
     var val = document.getElementById("urlIn").value;
