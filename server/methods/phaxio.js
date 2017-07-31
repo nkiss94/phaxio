@@ -28,7 +28,7 @@ export default function () {
         'upload'(finalNumber, previews, dataUrls){
             var finalfiles = [];
             if(dataUrls.length==0){
-              for(var i = 0; i <previews.length;i++){
+                  for(var i = 0; i <previews.length;i++){
                     finalfiles.push(previews[i]);
                   }
                   return HTTP.call( 'POST', 'https://api.phaxio.com/v2/faxes', 
