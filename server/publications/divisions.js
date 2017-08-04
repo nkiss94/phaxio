@@ -7,5 +7,9 @@ export default function () {
 	Meteor.publish('divisions.list', function () {
 		return Divisions.find();
 	});
+
+	Meteor.publish('faxable.divisions', function () {
+		return Divisions.find({'Method': 'FAX'});
+	});
 	
 }

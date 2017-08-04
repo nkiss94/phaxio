@@ -3,9 +3,9 @@ import Fax from '../components/Fax.jsx';
 import * as Collections from '/lib/collections';
 
 function composer(props, onData){
-  	if(Meteor.subscribe('divisions.list').ready()
+  	if(Meteor.subscribe('faxable.divisions').ready()
   	){ 
-  		const divisions = Collections.Divisions.find().fetch();
+  		const divisions = Collections.Divisions.find({'Method': 'FAX'}).fetch();
   		onData(null, {divisions})
   	};
 };
