@@ -6,12 +6,12 @@ import Autocomplete from 'react-autocomplete';
 import DropzoneS3Uploader from 'react-dropzone-s3-uploader';
 import ReactS3Uploader from 'react-s3-uploader';
 import Dropzone from 'react-dropzone';
+import SelectedDivision from './SelectedDivision';
 
 export default class Fax extends React.Component {
   constructor(props) {
     super(props);
     this.sendFax=this.sendFax.bind(this);
-    this.checkInput=this.checkInput.bind(this);
     this.addURL=this.addURL.bind(this);
     this.sendFaxUrl=this.sendFaxUrl.bind(this);
     this.placeInSendList=this.placeInSendList.bind(this);
@@ -26,13 +26,15 @@ export default class Fax extends React.Component {
       files: [],
       filesURL: [],
       dataUrlFiles:[],
-      resp:null
+      resp:null,
+      value: null,
+      divisions: null,
+      selectedDivision: null
     }
   }
 
-  checkInput(value){
-    this.setState({institution:value});
-    this.setState({number: value})
+  componentWillMount(){
+    this.setState({divisions: this.props.divisions})
   }
 
   amendFax(number){
@@ -143,6 +145,22 @@ export default class Fax extends React.Component {
     });
 
   }
+
+  matchStateToTerm(state, value) {
+    return (
+      state.Division.toLowerCase().indexOf(value.toLowerCase()) !== -1 ||
+      state._id.toLowerCase().indexOf(value.toLowerCase()) !== -1
+    )
+  }
+
+  fakeRequest(value, cb) {
+  const divisions = this.props.divisions;
+  return setTimeout(cb, 500, value ?
+    divisions.filter(state => this.matchStateToTerm(state, value)) :
+    divisions
+  )
+}
+
   render() {
     return (
       <div className="container">
@@ -230,52 +248,34 @@ export default class Fax extends React.Component {
           
         </div>
         <div className="cards jumbotron centerME">
-          <div className="center row dialogue">What's the fax number?</div>
+          <div className="center row dialogue">Where to?</div>
           <div className="row">
             <div className = "col-lg-3 col-md-3 col-sm-2 col-xs-2"></div>
             <div className = "center col-lg-6 col-md-6 col-sm-8 col-xs-8">
-              <Autocomplete
-                inputProps={{
-                  id:'faxIn',
-                  className: 'foc form-control inputs',
-                  placeholder: 'institution fax #',
-                  style: {
-                    position:'relative',
-                    boxShadow:'none',
-                    background: '#ffffff',
-                    borderRadius:'0px'
-                  }
-                }}
-                menuStyle = {{
-                  borderRadius: '4px',
-                  borderTopRightRadius:'0px',
-                  borderTopLeftRadius:'0px',
-                  background: '#d1d1e0',
-                }}
-                shouldItemRender={matchStateToTerm}
-                value={this.state.institution}
-                items={this.props.divisions}
-                getItemValue={(item) => item.number}
-                onChange={(event, value) => this.checkInput(value)}
-                onSelect={value => this.checkInput(value)}
-                renderItem={(item, isHighlighted) => (
-                  <div
-                    style={isHighlighted ? styles.highlightedItem : styles.item}
-                    key={item.abbr}
-                  >
-                    {item.Division}
-                  </div>
-                )}
-                renderMenu={children =>
-                  <div className = "inputs" style={{ ...styles.menu, position: 'absolute', width: '100%' }}>
-                    {children}
-                  </div>
-                }
-                wrapperStyle={{ position: 'relative', display: 'inline-block' }}
-              >
-              </Autocomplete>
+                <Autocomplete
+                  inputProps={{ id: 'states-autocomplete' }}
+                  value={this.state.value}
+                  items={this.state.divisions}
+                  getItemValue={(item) => item.Division}
+                  onSelect={(value, item) => {
+                    this.setState({ value, divisions: [ item ], selectedDivision: item })
+                  }}
+                  onChange={(event, value) => {
+                    this.setState({ value })
+                    clearTimeout(this.requestTimer)
+                    this.requestTimer = this.fakeRequest(value, (items) => {
+                      this.setState({ divisions: items })
+                    })
+                  }}
+                  renderItem={(item, isHighlighted) => (
+                    <div
+                      style={isHighlighted ? styles.highlightedItem : styles.item}
+                      key={item._id}
+                    >{item.Division}</div>
+                  )}
+                />
             </div>
-            <div className = "col-lg-3 col-md-3 col-sm-2 col-xs-2"></div>
+            {this.state.selectedDivision ? <SelectedDivision state={this.state} /> : null}
           </div>
           <div className="center row dialogue" style={{'marginTop':'5%'}}>{this.state.resp}</div>
         </div>
@@ -300,12 +300,6 @@ export default class Fax extends React.Component {
 }
 
 
-export function matchStateToTerm(item, value) {
-  return (
-    item.name.toLowerCase().indexOf(value.toLowerCase()) !== -1 ||
-    item.number.toLowerCase().indexOf(value.toLowerCase()) !== -1
-  )
-}
 export let styles = {
   item: {
 
