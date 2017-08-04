@@ -263,7 +263,7 @@ export default class Fax extends React.Component {
                     style={isHighlighted ? styles.highlightedItem : styles.item}
                     key={item.abbr}
                   >
-                    {this.props.divisions.Division}
+                    {item.Division}
                   </div>
                 )}
                 renderMenu={children =>
