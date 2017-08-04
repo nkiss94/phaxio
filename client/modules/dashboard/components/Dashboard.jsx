@@ -1,10 +1,10 @@
 import React from 'react';
 import {browserHistory} from 'react-router';
 import Nav from './Nav';
-import Fax from './Fax';
+import FaxCont from '../containers/FaxCont';
 import CheckDigits from './CheckDigits';
 import DivisionsCont from '../containers/DivisionsCont';
-import AddDivision from './AddDivision';
+import AddDivisionCont from '../containers/AddDivisionCont';
 
 class Dashboard extends React.Component {
     constructor(props) {
@@ -24,10 +24,10 @@ class Dashboard extends React.Component {
             <div  className="container">     
                 <Nav state={this.state} selectTab={this.selectTab} />
                 <div>  
-                    {this.state.active_tab === "fax" ? <Fax /> : null}
+                    {this.state.active_tab === "fax" ? <FaxCont /> : null}
                     {this.state.active_tab === 'check_digits' ? <CheckDigits /> : null}
                     {this.state.active_tab === 'divisions' ? <DivisionsCont /> : null} 
-                    {this.state.active_tab === 'addDivision' ? <AddDivision /> : null}                   
+                    {this.state.active_tab === 'addDivision' ? <AddDivisionCont /> : null}                   
                 </div>       
             </div>
     )
