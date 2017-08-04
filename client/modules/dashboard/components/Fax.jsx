@@ -33,8 +33,6 @@ export default class Fax extends React.Component {
   checkInput(value){
     this.setState({institution:value});
     this.setState({number: value})
-    console.log(this.state.number);
-    console.log(this.state.institution);
   }
 
   amendFax(number){
@@ -256,7 +254,7 @@ export default class Fax extends React.Component {
                 }}
                 shouldItemRender={matchStateToTerm}
                 value={this.state.institution}
-                items={faxable_institutions}
+                items={this.props.divisions}
                 getItemValue={(item) => item.number}
                 onChange={(event, value) => this.checkInput(value)}
                 onSelect={value => this.checkInput(value)}
@@ -265,7 +263,7 @@ export default class Fax extends React.Component {
                     style={isHighlighted ? styles.highlightedItem : styles.item}
                     key={item.abbr}
                   >
-                    {item.name}
+                    {this.props.divisions.Division}
                   </div>
                 )}
                 renderMenu={children =>

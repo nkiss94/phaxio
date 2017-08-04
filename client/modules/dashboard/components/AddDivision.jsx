@@ -5,11 +5,11 @@ import { DropdownButton, MenuItem } from 'react-bootstrap';
 import Dropdown from 'react-dropdown';
 import ValidationDropdown from './ValidationDropdown';
 
-
 export default class AddDivision extends React.Component {
 	constructor(props){
 		super(props);
 		this.createDivision=this.createDivision.bind(this);
+		this._onSelectMethod=this._onSelectMethod.bind(this);
 		this._onSelect = this._onSelect.bind(this)
 		this.state={
 			"Parent": null,
@@ -22,17 +22,32 @@ export default class AddDivision extends React.Component {
 		    "Follow-Up Call Number": null,
 		    "Follow-Up Email": null,
 		    "Other Intel": [],
-		    selected: 'none'
+		    selected: 'none',
+		    options: [
+				{ value: 0, label: 'none' },
+				{ value: 1, label: 'transfer type' },
+				{ value: 2, label: 'account type' },
+				{ value: 3, label: 'account number length' },
+				{ value: 4, label: 'account number contents' },
+				{ value: 5, label: 'starts with' },
+				],
+			sendOptions: [
+				{ value: 0, label: 'Fax' },
+				{ value: 1, label: 'ATON' },
+				{ value: 2, label: 'Mail' },
+			],
+			selectedMethod:"Fax"
 		}
 	}
 
 	createDivision(){
+		console.log("fired!")
 		const parent = this.refs.parent.value;
 		const division = this.refs.division.value;
-		const hard_validation = this.refs.hard_validation.value;
+		const hard_validation = this.state.selected;
 		const soft_validation = this.refs.soft_validation.value;
-		const method = this.refs.method.value;
-		const aton_cuid = this.refs.aton_cuid.value;
+		const method = this.state.selectedMethod;
+		const aton_cuid = 'GIST';
 		const fax_number = this.refs.fax_number.value;
 		const call_number = this.refs.call_number.value;
 		const email = this.refs.email.value;
@@ -41,44 +56,75 @@ export default class AddDivision extends React.Component {
 	}
 
 	_onSelect (option) {
-	    console.log('You selected ', option.label)
-	    this.setState({selected: option.value})
-	    console.log(option)
+	    //console.log('You selected ', option.label)
+	    this.setState({selected: this.state.options[option].label})
+	    console.log(this.state.options[option].label);
   	}
-
+  	_onSelectMethod (option) {
+	    //console.log('You selected ', option.label)
+	    this.setState({selectedMethod: this.state.sendOptions[option].label})
+  	}
+// <Dropdown  options={options} onChange={this._onSelect} value={defaultOption} placeholder="Select an option" />
 	render(){
-	const options = [
-		{ value: 0, label: 'none' },
-		{ value: 1, label: 'transfer type' },
-		{ value: 2, label: 'account type' },
-		{ value: 3, label: 'account number length' },
-		{ value: 4, label: 'account number contents' },
-		{ value: 5, label: 'starts with' }
-	]
-	const defaultOption = options[0]
+	const defaultOption = this.state.options[0]
 	return(
 		<div className="container">	
-	      	<div className="cards jumbotron centerME"> 
-				<input className="divisionInput" placeholder="Parent" ref="parent" />
+	      	<div className="jumbotron centerME"> 
+	      	<form>
+	      		<div className="form-group col-xs-6 col-md-6">
+			        <label className=" dialogueMed inActive control-label">Parent:</label>
+			        <input className="form-control" ref="parent" id="name" placeholder="BMO"/>
+			    </div>
+			    <div className="form-group col-xs-6 col-md-6">
+			        <label className=" dialogueMed inActive control-label">Division:</label>
+			        <input className="form-control" ref="division" id="name" placeholder="BMO Branch"/>
+			    </div>
+	      	</form>
+			<br />
+				<div className="row">
+					<div className="col-lg-3 col-md-3 col-sm-3 col-xs-3" />
+					 <div className = "center col-lg-6 col-md-6 col-sm-6 col-xs-6">
+					 <div className="dialogueMed inActive">Hard Validation:</div>
+						 <DropdownButton id="hardVal" className="inputs"title={this.state.selected} onSelect={(eventKey:any)=>this._onSelect(eventKey)} >
+						      {this.state.options.map(function(element){
+						      	return(<MenuItem eventKey={element.value}>{element.label}</MenuItem>)
+						      })}
+					    </DropdownButton>
+					</div>
+				    <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3" />
+				</div>
 				<br />
-				<input placeholder="Division" ref="division"  />
-				<br />
-				<Dropdown options={options} onChange={this._onSelect} value={defaultOption} placeholder="Select an option" />
+				
 				{this.state.selected != 'none' ? <ValidationDropdown /> : null}
 				<br />
-				<input placeholder="Soft Validation" ref="soft_validation" />
+				  	<form>
+	      		<div className="form-group col-xs-12 col-md-12">
+			        <label className="dialogueMed inActive control-label">Soft Validation:</label>
+			        <input className="form-control" ref="soft_validation" id="name" placeholder="8-10 digits long"/>
+			    </div>
+			    	<div className="row">
+					<div className="col-lg-3 col-md-3 col-sm-3 col-xs-3" />
+					 <div className = "center col-lg-6 col-md-6 col-sm-6 col-xs-6">
+					 <div className="dialogueMed inActive">Send Method:</div>
+						 <DropdownButton id="hardVal" className="inputs"title={this.state.selectedMethod} onSelect={(eventKey:any)=>this._onSelectMethod(eventKey)} >
+						      {this.state.sendOptions.map(function(element){
+						      	return(<MenuItem eventKey={element.value}>{element.label}</MenuItem>)
+						      })}
+					    </DropdownButton>
+					</div>
+				    <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3" />
+				</div>
+				{this.state.selectedMethod != 'none' ? <ValidationDropdown /> : null}
+			    </form>
+			
 				<br />
-				<input placeholder="Method" ref="method" />
+				<input  className="divisionInput url foc inputs form-control " placeholder="Fax Number" ref="fax_number" />
 				<br />
-				<input placeholder="ATON CUID" ref="aton_cuid" />
+				<input  className="divisionInput url foc inputs form-control " placeholder="Follow-up Call Number" ref="call_number" />
 				<br />
-				<input placeholder="Fax Number" ref="fax_number" />
+				<input  className="divisionInput url foc inputs form-control " placeholder="Follow-up Email" ref="email"/>
 				<br />
-				<input placeholder="Follow-up Call Number" ref="call_number" />
-				<br />
-				<input placeholder="Follow-up Email" ref="email"/>
-				<br />
-				<input placeholder="Other Intel" ref="other_intel"/>
+				<input  className="divisionInput url foc inputs form-control " placeholder="Other Intel" ref="other_intel"/>
 				<br />
 				<button onClick={() => this.createDivision()}>create division</button>
 	    	</div>

@@ -1,4 +1,5 @@
 import {Meteor} from 'meteor/meteor';
+import {Divisions} from '/lib/collections';
 import {check} from 'meteor/check';
 import {ObjectID} from 'mongodb';
 
@@ -18,16 +19,15 @@ export default function () {
             const new_division = {
               "Parent": parent,
               "Division": division,
-              "Hard Validation": [],
-              "Soft Validation": [],
+              "HardValidation": [],
+              "SoftValidation": [],
               "Method": method,
-              "ATON CUID": aton_cuid,
-              "Fax Number": fax_number,
-              "Follow-Up Call Number": call_number,
-              "Follow-Up Email": email,
-              "Other Intel": []
+              "ATONCUID": aton_cuid,
+              "FaxNumber": fax_number,
+              "FollowUpCallNumber": call_number,
+              "FollowUpEmail": email,
+              "OtherIntel": []
             }
-            console.log(new_division)
-        }
+            Divisions.insert(new_division);        }
     })
   }
