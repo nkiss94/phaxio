@@ -6,129 +6,109 @@ import Autocomplete from 'react-autocomplete';
 import DropzoneS3Uploader from 'react-dropzone-s3-uploader';
 import ReactS3Uploader from 'react-s3-uploader';
 import Dropzone from 'react-dropzone';
+import countries from '../../../../config/countries.js';
+import provinces from '../../../../config/provinces.js';
 
 export default class Mail extends React.Component {
   constructor(props) {
     super(props);
-    this.sendFax=this.sendFax.bind(this);
     this.checkInput=this.checkInput.bind(this);
     this.addURL=this.addURL.bind(this);
-    this.sendFaxUrl=this.sendFaxUrl.bind(this);
-    this.UploadToS3=this.UploadToS3.bind(this);
-    this.deleteURL=this.deleteURL.bind(this);
-    this.deleteAWSFile=this.deleteAWSFile.bind(this);
+    this.clearFile=this.clearFile.bind(this);
+    this.sendMail=this.sendMail.bind(this);
+    this.checkInputProvince=this.checkInputProvince.bind(this);
+    this.placeInSendList=this.placeInSendList.bind(this);
     this.state = {
      institution : "+",
      url:null,
      err: null,
      success: null,
-     number: null,
-     files: [],
-     filesURL: [],
-     filesPreview:[],
-     resp:null
+     countryCode: null,
+     file:null,
+     resp:null,
+     prCode:null,
+     Address:null,
+     City:null,
+     PostalorZip:null,
+     Name:null,
+     addedURL:null,
+     dataUrlFile:null
     }
  }
-
- checkInput(value){
-  this.setState({institution:value});    
-  this.setState({number: value})
-  console.log(this.state.number);
-  console.log(this.state.institution);  
+ checkInput(value){ 
+  this.setState({countryCode: value});
 }
-
-amendFax(number){
-  var faxNumber = number;
-  var newNum = "";
-        
-        for (var i = 0; i < faxNumber.length; i++)
-        {
-            if ((faxNumber.substring(i, i+1) == "-") == false && (faxNumber.substring(i,i+1) == " " ) == false && 
-              (faxNumber.substring(i,i+1) == "+" ) == false && (faxNumber.substring(i,i+1) == ")" ) == false 
-              && (faxNumber.substring(i,i+1) == "(" ) == false) {            
-                newNum = newNum.concat(faxNumber.substring(i,i+1));
-            }
-        }
-        if(newNum.length == 10){
-            newNum = "+1" + newNum;
-        }
-        else if(newNum.length == 11){
-            newNum = "+" + newNum;
-        }
-        else {
-            alert("Invalid fax number! Please enter a new number.");
-            return "error";
-        }
-        return newNum;
-}
-
-sendFax(){
-  var faxNum = this.amendFax(this.state.number);
-  if(faxNum=="error"){
-    return;
-  }
-  this.sendFaxUrl(faxNum);
-}
-
-UploadToS3(file){
-  var myFile = file;
-  var reader = new FileReader();
-  reader.onload = function(fileLoadEvent){
-    Meteor.call('uploadAWS',reader.result,file.name);
-  }
-  reader.readAsDataURL(myFile);
-}
-sendFaxUrl(finalNumber){
-  const _this = this;
-  this.state.resp = null;
-  var previews = [];
-  for(var i = 0;i<this.state.filesURL.length;i++){
-   previews[i]= this.state.filesURL[i];
-  }
-  this.setState({files:[]});
-  this.setState({filesURL:[]});
-  Meteor.call('sendPhaxio', finalNumber, previews,function(err,succ){
-    if(err){
-      _this.setState({resp:"Error!"});
-    }
-    else{
-      _this.setState({resp:"Successfully sent to Phaxio!"});
-    }
-  }); 
+checkInputProvince(value){   
+  this.setState({prCode: value});
 }
 onDrop(file){
-    var newFiles = this.state.files.slice();  
-    for(var i =0;i<file.length;i++){
-    newFiles.push(file[i]);   
-    }
-    this.setState({files:newFiles});
-    for(var i =0;i<file.length;i++){
-    this.UploadToS3(file[i]);
-    }
+    var myFile = file[0];
+    this.setState({file:file[0].name,addedURL:null});
+    this.placeInSendList(myFile);
 }
-deleteURL(index){
-  var array = this.state.filesURL.slice();
-  array.splice(index, 1);
-  this.setState({filesURL: array });
+placeInSendList(file){
+    var myFile = file;
+    const _this = this;
+    var reader = new FileReader();
+    reader.onload = function(fileLoadEvent){
+      document.getElementById("clearIcon").style.display = 'block';
+      _this.setState({dataUrlFile:reader.result});
+    }
+    reader.readAsDataURL(myFile);
 }
-deleteAWSFile(name,index){
-  Meteor.call('deleteFile',name);
-  var array = this.state.files.slice();
-  array.splice(index, 1);
-  this.setState({files: array });
+clearFile(){
+  document.getElementById("clearIcon").style.display = 'none';
+  this.setState({
+    file:null,
+    dataUrlFile:null,
+    addedURL:null
+  });
 }
 addURL(){
+  document.getElementById("clearIcon").style.display = 'block';
   var val = document.getElementById("urlIn").value;
   this.setState({ 
-    filesURL: this.state.filesURL.concat(val)
+    file: val,
+    addedURL:val,
+    dataUrlFile:null
   });
+  console.log(this.state.addedURL);
+}
+sendMail(){
+  var address = {
+    name:document.getElementById("Name").value,
+    address1:document.getElementById("Address").value,
+    city:document.getElementById("City").value,
+    zip:document.getElementById("PostalorZip").value,
+    country:this.state.countryCode,
+    state:this.state.prCode
+  };
+  if(this.state.addedURL != null ){
+  Meteor.call('sendMailAddress',address,this.state.addedURL,function(err,res){
+    if(res){
+      this.setState({
+        resp:"Success!",
+        file:null,
+        dataUrlFile:null,
+        addedURL:null
+      });
+    }
+    console.log(err, res);
+  });
+  }
+ else if(this.state.dataUrlFile != null ){
+  Meteor.call('sendMailAddressWithUpload',address,this.state.dataUrlFile,function(err,res){
+    console.log(err, res);
+  });
+  }
 }
 render() {
   return ( 
     <div className="container">  
       <div className="row center">
         <div className="pageTitle">Mailsimple</div>
-      </div>  
+      </div> 
+      
       <div className="cards jumbotron centerME">
           <div className="center row dialogue">Enter your PDF URL</div>
           <div className="row ">
@@ -185,40 +165,76 @@ render() {
           <div style={{marginTop:'10%'}} className="dialogue center">Uploaded Files:</div>
             <div className="center DialgoueMed" >
               {
-                this.state.files.map((f,index) => 
                   <div className="row center">
                     <div className="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
-                    <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6" key={f.name}>{f.name}</div>
-                    <span className="col-lg-2 col-md-2 col-sm-2 col-xs-2 glyphicon glyphicon-remove" onClick={(event) => this.deleteAWSFile(f.name,index)}></span>
+                    <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">{this.state.file}</div>
+                    <span id="clearIcon" style={{display:'none'}} className="col-lg-2 col-md-2 col-sm-2 col-xs-2 glyphicon glyphicon-remove" onClick={(event) => this.clearFile()}></span>
                     <div className="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
                   </div>
-                )
+                
               }
             </div>
-            <div className="center DialgoueMed" >
-              {
-                this.state.filesURL.map((fu,index) => 
-                  <div className="row center">
-                    <div className="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
-                    <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6" key={index}>PDF {fu}</div>
-                    <span className="col-lg-2 col-md-2 col-sm-2 col-xs-2 glyphicon glyphicon-remove" onClick={(event) => this.deleteURL(index)}></span>
-                    <div className="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
-                  </div>
-                )
-              }
-            </div>
-          
       </div>
       <div className="cards jumbotron centerME">
-      <div className="center row dialogue">What's the fax number?</div>
-      <div className="row"> 
-          <div className = "col-lg-3 col-md-3 col-sm-2 col-xs-2"></div>  
-          <div className = "center col-lg-6 col-md-6 col-sm-8 col-xs-8">
+      <div className="center row dialogue">Who are you sending to?</div>
+      <div className="row" style={{marginTop:'5%'}}>
+          <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>
+          <input
+                placeholder="Name"
+                ref="Name"
+                id="Name"
+                className="url foc inputs form-control col-lg-4 col-md-4 col-sm-4 col-xs-4"
+                style={{
+                  width:'33.3333%',
+                  boxShadow:'none',
+                  borderRadius:'4px'
+                }}
+                ></input>
+          <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>
+      </div>
+      <div className="row" style={{marginTop:'5%'}}>
+        <input
+            placeholder="Address"
+            ref="Address"
+            id="Address"
+            className="url foc inputs form-control col-lg-4 col-md-4 col-sm-4 col-xs-4"
+            style={{
+              width:'50%',
+              boxShadow:'none',
+              borderRadius:'4px'
+            }}
+            ></input>
+            <input
+            placeholder="City"
+            ref="City"
+            id="City"
+            className="url foc inputs form-control col-lg-4 col-md-4 col-sm-4 col-xs-4"
+            style={{
+              width:'30%',
+              boxShadow:'none',
+              borderRadius:'4px'
+            }}
+            ></input>
+            <input
+            placeholder="Postal/Zip Code"
+            ref="PostalorZip"
+            id="PostalorZip"
+            className="url foc inputs form-control col-lg-4 col-md-4 col-sm-4 col-xs-4"
+            style={{
+              width:'20%',
+              boxShadow:'none',
+              borderRadius:'4px'
+            }}
+            ></input>
+
+      </div>
+      <div className="row" style={{marginTop:'5%'}}> 
+          <div className = "center col-lg-6 col-md-6 col-sm-6 col-xs-6">
           <Autocomplete
           inputProps={{
             id:'faxIn',
             className: 'foc form-control inputs',
-            placeholder: 'institution fax #',
+            placeholder: 'Prov/State',
             style: {
               position:'relative',
               boxShadow:'none',
@@ -233,9 +249,51 @@ render() {
             background: '#d1d1e0',
           }}
           shouldItemRender={matchStateToTerm}
-          value={this.state.institution}
-          items={faxable_institutions}
-          getItemValue={(item) => item.number}
+          value={this.state.prCode}
+          items={provinces}
+          getItemValue={(item) => item.code}
+          onChange={(event, value) => this.checkInputProvince(value)}
+          onSelect={value => this.checkInputProvince(value)}
+            renderItem={(item, isHighlighted) => (
+              <div
+                style={isHighlighted ? styles.highlightedItem : styles.item}
+                key={item.abbr}
+              >
+                {item.name}
+              </div>
+            )}
+          renderMenu={children =>
+                <div className = "inputs" style={{ ...styles.menu, position: 'absolute', width: '100%' }}>
+                    {children}
+                </div>
+            }
+              wrapperStyle={{ position: 'relative', display: 'inline-block' }}
+              >
+          </Autocomplete>
+          </div>
+          <div className = "center col-lg-6 col-md-6 col-sm-6 col-xs-6">
+          <Autocomplete
+          inputProps={{
+            id:'faxIn',
+            className: 'foc form-control inputs',
+            placeholder: 'Country',
+            style: {
+              position:'relative',
+              boxShadow:'none',
+              background: '#ffffff',
+              borderRadius:'4px'
+            }
+          }}
+          menuStyle = {{
+            borderRadius: '4px',
+            borderTopRightRadius:'0px',
+            borderTopLeftRadius:'0px',
+            background: '#d1d1e0',
+          }}
+          shouldItemRender={matchStateToTerm}
+          value={this.state.countryCode}
+          items={countries}
+          getItemValue={(item) => item.code}
           onChange={(event, value) => this.checkInput(value)}
           onSelect={value => this.checkInput(value)}
             renderItem={(item, isHighlighted) => (
@@ -255,8 +313,8 @@ render() {
               >
           </Autocomplete>
           </div>
-          <div className = "col-lg-3 col-md-3 col-sm-2 col-xs-2"></div> 
       </div>  
+
       <div className="center row dialogue" style={{'marginTop':'5%'}}>{this.state.resp}</div>
       </div>
       <hr></hr>
@@ -269,7 +327,7 @@ render() {
               boxShadow:'none',
               borderRadius:'4px',
             }}
-            onClick={this.sendFax}>send fax
+            onClick={this.sendMail}>send mail
           </button>
           <div className = "col-lg-5 col-md-5 col-sm-4 col-xs-4"></div>      
       </div>      
@@ -283,7 +341,7 @@ render() {
 export function matchStateToTerm(item, value) {
   return (
     item.name.toLowerCase().indexOf(value.toLowerCase()) !== -1 ||
-    item.number.toLowerCase().indexOf(value.toLowerCase()) !== -1
+    item.code.toLowerCase().indexOf(value.toLowerCase()) !== -1
   )
 }
 export let styles = {
