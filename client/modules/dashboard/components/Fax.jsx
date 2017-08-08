@@ -27,39 +27,34 @@ export default class Fax extends React.Component {
       filesURL: [],
       dataUrlFiles:[],
       resp:null,
+<<<<<<< HEAD
       value: "+",
       divisions: null,
+=======
+      value: null,
+      divisions: [],
+>>>>>>> 05a769ff9585c54bda51283d3f6a1806f1e66621
       selectedDivision: null
     }
   }
 
-  componentWillMount(){
+  componentDidMount(){
     this.setState({divisions: this.props.divisions})
   }
 
-  amendFax(number){
-    var faxNumber = number;
-    var newNum = "";
-
-    for (var i = 0; i < faxNumber.length; i++)
-    {
-      if ((faxNumber.substring(i, i+1) == "-") == false && (faxNumber.substring(i,i+1) == " " ) == false &&
-        (faxNumber.substring(i,i+1) == "+" ) == false && (faxNumber.substring(i,i+1) == ")" ) == false
-        && (faxNumber.substring(i,i+1) == "(" ) == false) {
-        newNum = newNum.concat(faxNumber.substring(i,i+1));
-      }
+  amendFax(num){
+    var number = num.toString();
+    if(number.length == 10){
+      number = "+1" + number;
     }
-    if(newNum.length == 10){
-      newNum = "+1" + newNum;
-    }
-    else if(newNum.length == 11){
-      newNum = "+" + newNum;
+    else if(number.length == 11){
+      number = "+" + number;
     }
     else {
       alert("Invalid fax number! Please enter a new number.");
       return "error";
     }
-    return newNum;
+    return number;
   }
 
   sendFax(){
@@ -78,7 +73,6 @@ export default class Fax extends React.Component {
   }
  
   placeInSendList(file){
-    console.log("here");
     var currentFiles = this.state.dataUrlFiles.slice();
     var myFile = file;
     const _this = this;
@@ -147,20 +141,8 @@ export default class Fax extends React.Component {
 
   }
 
-  matchStateToTerm(state, value) {
-    return (
-      state.Division.toLowerCase().indexOf(value.toLowerCase()) !== -1 ||
-      state._id.toLowerCase().indexOf(value.toLowerCase()) !== -1
-    )
-  }
 
-  fakeRequest(value, cb) {
-  const divisions = this.props.divisions;
-  return setTimeout(cb, 500, value ?
-    divisions.filter(state => this.matchStateToTerm(state, value)) :
-    divisions
-  )
-}
+
 
   render() {
     return (
@@ -254,19 +236,30 @@ export default class Fax extends React.Component {
             <div className = "col-lg-3 col-md-3 col-sm-2 col-xs-2"></div>
             <div className = "center col-lg-6 col-md-6 col-sm-8 col-xs-8">
                 <Autocomplete
-                  inputProps={{ id: 'states-autocomplete' }}
+                  inputProps={{
+                    id:'faxIn',
+                    className: 'foc form-control dialogueMed',
+                    placeholder: 'divison',
+                    style: {
+                      borderRadius:'4px',
+                      position:'relative',
+                      boxShadow:'none',
+                      background: '#ffffff',
+                    }
+                  }}
+                   menuStyle = {{
+                    background: '#d1d1e0',
+                    height:'200px'
+                  }}
+                  shouldItemRender={matchStateToTerm}
                   value={this.state.value}
                   items={this.state.divisions}
                   getItemValue={(item) => item.Division}
                   onSelect={(value, item) => {
-                    this.setState({ value, divisions: [ item ], selectedDivision: item })
+                    this.setState({ value, selectedDivision: item,number:item.FaxNumber });
                   }}
                   onChange={(event, value) => {
-                    this.setState({ value })
-                    clearTimeout(this.requestTimer)
-                    this.requestTimer = this.fakeRequest(value, (items) => {
-                      this.setState({ divisions: items })
-                    })
+                    this.setState({ value, number:value });
                   }}
                   renderItem={(item, isHighlighted) => (
                     <div
@@ -274,6 +267,13 @@ export default class Fax extends React.Component {
                       key={item._id}
                     >{item.Division}</div>
                   )}
+                  renderMenu={children =>
+                        <div className = "inputs" style={{ ...styles.menu, position: 'absolute', width: '100%' }}>
+                            {children}
+                        </div>
+                    }
+                  wrapperStyle={{ position: 'relative', display: 'inline-block'}}
+
                 />
             </div>
             {this.state.selectedDivision ? <SelectedDivision state={this.state} /> : null}
@@ -299,8 +299,11 @@ export default class Fax extends React.Component {
     )
   }
 }
-
-
+export function matchStateToTerm(item, value) {
+    return (
+      item.Division.toLowerCase().indexOf(value.toLowerCase()) !== -1
+    )
+  }
 export let styles = {
   item: {
 
