@@ -27,7 +27,7 @@ export default class Fax extends React.Component {
       filesURL: [],
       dataUrlFiles:[],
       resp:null,
-      value: null,
+      value: "+",
       divisions: null,
       selectedDivision: null
     }
@@ -119,6 +119,7 @@ export default class Fax extends React.Component {
     var newFiles = this.state.files.slice();
     for(var i =0;i<file.length;i++){
       newFiles.push(file[i]);
+      console.log(newFiles);
     }
     this.setState({files:newFiles});
     for(var i =0;i<file.length;i++){
@@ -226,8 +227,8 @@ export default class Fax extends React.Component {
                 this.state.files.map((f,index) => 
                   <div className="row center">
                     <div className="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
-                    <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6" key={f.name}>{f.name}</div>
-                    <span className="col-lg-2 col-md-2 col-sm-2 col-xs-2 glyphicon glyphicon-remove" onClick={(event) => this.deleteAWSFile(f.name,index)}></span>
+                    <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6" key={index}>{f.name}</div>
+                    <span className="col-lg-2 col-md-2 col-sm-2 col-xs-2 glyphicon glyphicon-remove" onClick={(event) => console.log("delete")}></span>
                     <div className="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
                   </div>
                 )
