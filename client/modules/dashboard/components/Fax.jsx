@@ -27,13 +27,8 @@ export default class Fax extends React.Component {
       filesURL: [],
       dataUrlFiles:[],
       resp:null,
-<<<<<<< HEAD
-      value: "+",
-      divisions: null,
-=======
-      value: null,
+      value: '',
       divisions: [],
->>>>>>> 05a769ff9585c54bda51283d3f6a1806f1e66621
       selectedDivision: null
     }
   }
@@ -207,10 +202,10 @@ export default class Fax extends React.Component {
             <div className="center DialgoueMed" >
               {
                 this.state.files.map((f,index) => 
-                  <div className="row center">
+                  <div className="row center" key={index}>
                     <div className="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
-                    <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6" key={index}>{f.name}</div>
-                    <span className="col-lg-2 col-md-2 col-sm-2 col-xs-2 glyphicon glyphicon-remove" onClick={(event) => console.log("delete")}></span>
+                    <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">{f.name}</div>
+                    <span className="col-lg-2 col-md-2 col-sm-2 col-xs-2 glyphicon glyphicon-remove" onClick={(event) => this.deleteAWSFile(index)}></span>
                     <div className="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
                   </div>
                 )
@@ -219,9 +214,9 @@ export default class Fax extends React.Component {
             <div className="center DialgoueMed" >
               {
                 this.state.filesURL.map((fu,index) => 
-                  <div className="row center">
+                  <div className="row center" key={index}>
                     <div className="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
-                    <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6" key={index}>PDF {fu}</div>
+                    <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">PDF {fu}</div>
                     <span className="col-lg-2 col-md-2 col-sm-2 col-xs-2 glyphicon glyphicon-remove" onClick={(event) => this.deleteURL(index)}></span>
                     <div className="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
                   </div>
