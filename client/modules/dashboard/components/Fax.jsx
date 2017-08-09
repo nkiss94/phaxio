@@ -271,8 +271,8 @@ export default class Fax extends React.Component {
 
                 />
             </div>
-            {this.state.selectedDivision ? <SelectedDivision state={this.state} /> : null}
           </div>
+          {this.state.selectedDivision ? <SelectedDivision state={this.state} /> : null} 
           <div className="center row dialogue" style={{'marginTop':'5%'}}>{this.state.resp}</div>
         </div>
         <hr></hr>
