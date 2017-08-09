@@ -21,9 +21,10 @@ class SelectedDivision extends React.Component {
 
     render() {
         return (
-            <div className="container">
-                <div>{this.state.selectedDivision.Division}</div>
-                <div>{this.state.selectedDivision.FaxNumber}</div>
+            <div className="container" style={{marginTop:'2%'}}>
+            <div className="row center">
+                <div className="dialogueMed">{this.state.selectedDivision.FaxNumber}</div>
+            </div>
             </div>
     )
   }

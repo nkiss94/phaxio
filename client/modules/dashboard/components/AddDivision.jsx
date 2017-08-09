@@ -73,11 +73,11 @@ export default class AddDivision extends React.Component {
 	      	<form>
 	      		<div className="form-group col-xs-6 col-md-6">
 			        <label className=" dialogueMed inActive control-label">Parent:</label>
-			        <input className="form-control" ref="parent" id="name" placeholder="BMO"/>
+			        <input className="form-control foc " ref="parent" id="name" placeholder="BMO"/>
 			    </div>
 			    <div className="form-group col-xs-6 col-md-6">
 			        <label className=" dialogueMed inActive control-label">Division:</label>
-			        <input className="form-control" ref="division" id="name" placeholder="BMO Branch"/>
+			        <input className="form-control foc " ref="division" id="name" placeholder="BMO Branch"/>
 			    </div>
 	      	</form>
 			<br />
@@ -85,7 +85,7 @@ export default class AddDivision extends React.Component {
 					<div className="col-lg-3 col-md-3 col-sm-3 col-xs-3" />
 					 <div className = "center col-lg-6 col-md-6 col-sm-6 col-xs-6">
 					 <div className="dialogueMed inActive">Hard Validation:</div>
-						 <DropdownButton id="hardVal" className="inputs"title={this.state.selected} onSelect={(eventKey:any)=>this._onSelect(eventKey)} >
+						 <DropdownButton id="hardVal" className="inputs foc "title={this.state.selected} onSelect={(eventKey:any)=>this._onSelect(eventKey)} >
 						      {this.state.options.map(function(element){
 						      	return(<MenuItem eventKey={element.value}>{element.label}</MenuItem>)
 						      })}
@@ -100,13 +100,13 @@ export default class AddDivision extends React.Component {
 				  	<form>
 	      		<div className="form-group col-xs-12 col-md-12">
 			        <label className="dialogueMed inActive control-label">Soft Validation:</label>
-			        <input className="form-control" ref="soft_validation" id="name" placeholder="8-10 digits long"/>
+			        <input className="form-control foc " ref="soft_validation" id="name" placeholder="8-10 digits long"/>
 			    </div>
 			    	<div className="row">
 					<div className="col-lg-3 col-md-3 col-sm-3 col-xs-3" />
 					 <div className = "center col-lg-6 col-md-6 col-sm-6 col-xs-6">
 					 <div className="dialogueMed inActive">Send Method:</div>
-						 <DropdownButton id="hardVal" className="inputs"title={this.state.selectedMethod} onSelect={(eventKey:any)=>this._onSelectMethod(eventKey)} >
+						 <DropdownButton id="hardVal" className="inputs foc "title={this.state.selectedMethod} onSelect={(eventKey:any)=>this._onSelectMethod(eventKey)} >
 						      {this.state.sendOptions.map(function(element){
 						      	return(<MenuItem eventKey={element.value}>{element.label}</MenuItem>)
 						      })}
