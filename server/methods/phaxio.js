@@ -106,7 +106,8 @@ export default function () {
                         address_country: 'CA'
                       },
                       file: addedURL,
-                      color: false
+                      color: false,
+                      double_sided:false
                       
                     }, function (err, res) {
                       if(res){
@@ -156,7 +157,8 @@ export default function () {
                                 address_country: 'CA'
                               },
                               file: res.Location,
-                              color: false
+                              color: false,
+                              double_sided:false
                               
                             }, function (err, res) {
                               if(res){

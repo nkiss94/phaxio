@@ -98,6 +98,14 @@ sendMail(){
   }
  else if(this.state.dataUrlFile != null ){
   Meteor.call('sendMailAddressWithUpload',address,this.state.dataUrlFile,function(err,res){
+    if(res){
+      this.setState({
+        resp:"Success!",
+        file:null,
+        dataUrlFile:null,
+        addedURL:null
+      });
+    }
     console.log(err, res);
   });
   }
