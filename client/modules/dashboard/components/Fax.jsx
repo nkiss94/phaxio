@@ -152,7 +152,7 @@ export default class Fax extends React.Component {
         <div className="row center">
           <div className="pageTitle">Faxsimple</div>
         </div>
-        <div className="cards jumbotron centerME">
+        <div className=" jumbotron centerME">
           <div className="center row dialogue">Enter your PDF URL</div>
           <div className="row ">
             <div className = "col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
@@ -232,7 +232,7 @@ export default class Fax extends React.Component {
             </div>
           
         </div>
-        <div className="cards jumbotron centerME">
+        <div className=" jumbotron centerME">
           <div className="center row dialogue">What's the fax number?</div>
           <div className="row">
             <div className = "col-lg-3 col-md-3 col-sm-2 col-xs-2"></div>

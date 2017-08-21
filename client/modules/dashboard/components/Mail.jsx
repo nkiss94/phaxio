@@ -118,7 +118,7 @@ render() {
         <div className="pageTitle">Mailsimple</div>
       </div> 
       
-      <div className="cards jumbotron centerME">
+      <div className=" jumbotron centerME">
           <div className="center row dialogue">Enter your PDF URL</div>
           <div className="row ">
               <div className = "col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
@@ -185,7 +185,7 @@ render() {
             </div>
           <div style={{marginTop:'10%'}} className="dialogueMed center">Do not upload a file with more than 5 pages</div>
       </div>
-      <div className="cards jumbotron centerME">
+      <div className=" jumbotron centerME">
       <div className="center row dialogue">Who are you sending to?</div>
       <div className="row" style={{marginTop:'5%'}}>
           <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>
