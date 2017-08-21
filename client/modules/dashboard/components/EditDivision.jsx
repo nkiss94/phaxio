@@ -61,8 +61,12 @@ export default class EditDivision extends React.Component {
 			province:this.state.Province,
 			postalCode:this.refs.postalCode.value
 		}
-		console.log(division);
-		Meteor.call('edit.division',id, parent, division, cashOnly,onlyRegisteredAccounts,digitsOnly,Alphanumeric,accountNumPattern,AccountNumLength,startsWith, soft_validation, method,fax_aton_number, call_number, email, other_intel,mailAddress);
+		if(parent && division){
+			Meteor.call('edit.division',id, parent, division, cashOnly,onlyRegisteredAccounts,digitsOnly,Alphanumeric,accountNumPattern,AccountNumLength,startsWith, soft_validation, method,fax_aton_number, call_number, email, other_intel,mailAddress);
+		}
+		else{
+			alert("No Institution or Division entered!");
+		}
 	}
 
 	_onSelect (option) {
@@ -95,9 +99,6 @@ export default class EditDivision extends React.Component {
 		this.refs.address.value = this.props.address;
 		this.refs.city.value = this.props.city;	
 		this.refs.postalCode.value = this.props.postalCode;
-		
-		// console.log(this.state);
-		// console.log(this.refs);
   	}
 	componentDidMount() {
     	this.populateFields();

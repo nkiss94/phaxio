@@ -38,7 +38,6 @@ export default class AddDivision extends React.Component {
 	}
 
 	createDivision(){
-		console.log("fired!");
 		const parent = this.refs.parent.value;
 		const division = this.refs.division.value;
 		const cashOnly = this.state.cashOnly;
@@ -60,7 +59,12 @@ export default class AddDivision extends React.Component {
 			province:this.state.Province,
 			postalCode:this.refs.postalCode.value
 		}
+		if(parent && division){
 		Meteor.call('insert.division', parent, division, cashOnly,onlyRegisteredAccounts,digitsOnly,Alphanumeric,accountNumPattern,AccountNumLength,startsWith, soft_validation, method,fax_aton_number, call_number, email, other_intel,mailAddress);
+		}
+		else{
+			alert("No Institution or Division entered!");
+		}
 	}
 
 	_onSelect (option) {
