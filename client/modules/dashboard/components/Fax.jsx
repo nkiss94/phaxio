@@ -116,11 +116,12 @@ export default class Fax extends React.Component {
       
   }
   onDrop(file){
+
     var newFiles = this.state.files.slice();
     for(var i =0;i<file.length;i++){
       newFiles.push(file[i]);
     }
-    this.setState({files:newFiles});
+    this.setState({files:newFiles,resp:""});
     for(var i =0;i<file.length;i++){
       this.placeInSendList(file[i]);
     }

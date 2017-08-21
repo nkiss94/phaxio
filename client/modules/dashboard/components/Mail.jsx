@@ -43,7 +43,7 @@ checkInputProvince(value){
 }
 onDrop(file){
     var myFile = file[0];
-    this.setState({file:file[0].name,addedURL:null});
+    this.setState({file:file[0].name,addedURL:null,resp:""});
     this.placeInSendList(myFile);
 }
 placeInSendList(file){
@@ -75,6 +75,7 @@ addURL(){
   console.log(this.state.addedURL);
 }
 sendMail(){
+  var _this = this;
   var address = {
     name:document.getElementById("Name").value,
     address1:document.getElementById("Address").value,
@@ -86,7 +87,7 @@ sendMail(){
   if(this.state.addedURL != null ){
   Meteor.call('sendMailAddress',address,this.state.addedURL,function(err,res){
     if(res){
-      this.setState({
+      _this.setState({
         resp:"Success!",
         file:null,
         dataUrlFile:null,
@@ -99,7 +100,7 @@ sendMail(){
  else if(this.state.dataUrlFile != null ){
   Meteor.call('sendMailAddressWithUpload',address,this.state.dataUrlFile,function(err,res){
     if(res){
-      this.setState({
+      _this.setState({
         resp:"Success!",
         file:null,
         dataUrlFile:null,
@@ -182,6 +183,7 @@ render() {
                 
               }
             </div>
+          <div style={{marginTop:'10%'}} className="dialogueMed center">Do not upload a file with more than 5 pages</div>
       </div>
       <div className="cards jumbotron centerME">
       <div className="center row dialogue">Who are you sending to?</div>
