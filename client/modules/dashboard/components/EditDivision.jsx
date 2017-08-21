@@ -5,12 +5,13 @@ import { DropdownButton, MenuItem } from 'react-bootstrap';
 import Dropdown from 'react-dropdown';
 import ValidationDropdown from './ValidationDropdown';
 
-export default class AddDivision extends React.Component {
+export default class EditDivision extends React.Component {
 	constructor(props){
 		super(props);
-		this.createDivision=this.createDivision.bind(this);
+		this.updateDivision=this.updateDivision.bind(this);
 		this._onSelectMethod=this._onSelectMethod.bind(this);
-		this._onSelect = this._onSelect.bind(this)
+		this._onSelect = this._onSelect.bind(this);
+		this.populateFields=this.populateFields.bind(this);
 		this.state={
 			"cashOnly":"FALSE",
 			"onlyRegisteredAccounts":"FALSE",
@@ -37,16 +38,17 @@ export default class AddDivision extends React.Component {
 		}
 	}
 
-	createDivision(){
+	updateDivision(){
+		const id = this.state.id;
 		const parent = this.refs.parent.value;
 		const division = this.refs.division.value;
 		const cashOnly = this.state.cashOnly;
 		const onlyRegisteredAccounts = this.state.onlyRegisteredAccounts;
 		const digitsOnly = this.state.digitsOnly;
 		const Alphanumeric = this.state.Alphanumeric;
-		const accountNumPattern = this.refs.soft_validation.accountNumPattern;
-		const AccountNumLength = this.state.AccountNumLength;
-		const startsWith = this.refs.faxATONNum.startsWith;
+		const accountNumPattern = this.refs.accountNumPattern.value;
+		const AccountNumLength = this.refs.AccountNumLength.value;
+		const startsWith = this.refs.startsWith.value;
 		const soft_validation = this.refs.soft_validation.value;
 		const method = this.state.selectedMethod;
 		const fax_aton_number = this.refs.faxATONNum.value;
@@ -60,7 +62,7 @@ export default class AddDivision extends React.Component {
 			postalCode:this.refs.postalCode.value
 		}
 		if(parent && division){
-		Meteor.call('insert.division', parent, division, cashOnly,onlyRegisteredAccounts,digitsOnly,Alphanumeric,accountNumPattern,AccountNumLength,startsWith, soft_validation, method,fax_aton_number, call_number, email, other_intel,mailAddress);
+			Meteor.call('edit.division',id, parent, division, cashOnly,onlyRegisteredAccounts,digitsOnly,Alphanumeric,accountNumPattern,AccountNumLength,startsWith, soft_validation, method,fax_aton_number, call_number, email, other_intel,mailAddress);
 		}
 		else{
 			alert("No Institution or Division entered!");
@@ -74,11 +76,38 @@ export default class AddDivision extends React.Component {
   	_onSelectMethod (option) {
 	    this.setState({selectedMethod: this.state.sendOptions[option].label})
   	}
+  	populateFields(){
+  		this.setState({
+  			id:this.props.id,
+  			cashOnly:this.props.cashOnly,
+  			onlyRegisteredAccounts:this.props.onlyRegisteredAccounts,
+  			digitsOnly:this.props.digitsOnly,
+  			Alphanumeric:this.props.Alphanumeric,
+  			selectedMethod:this.props.method,
+  			Province:this.props.province
+  		});
+  		this.refs.parent.value = this.props.institution;
+		this.refs.division.value = this.props.division;
+		this.refs.accountNumPattern.value = this.props.accountNumPattern;
+		this.refs.AccountNumLength.value = this.props.AccountNumLength;
+		this.refs.startsWith.value = this.props.startsWith;
+		this.refs.soft_validation.value = this.props.soft_validation;
+		this.refs.faxATONNum.value = this.props.fax_aton_number;
+		this.refs.follupNum.value = this.props.call_number;
+		this.refs.follupMail.value = this.props.email;
+		this.refs.intel.value = this.props.other_intel;
+		this.refs.address.value = this.props.address;
+		this.refs.city.value = this.props.city;	
+		this.refs.postalCode.value = this.props.postalCode;
+  	}
+	componentDidMount() {
+    	this.populateFields();
 
+  	}
 	render(){
 	return(
 		<div className="container">
-		<div className="pageTitle center">Add a Division</div>	
+		<div className="pageTitle center">Edit a Division</div>	
 	      	<div className="jumbotron centerME"> 
 	      	<form>
 	      		<div className="form-group col-xs-6 col-md-6">
@@ -198,8 +227,8 @@ export default class AddDivision extends React.Component {
 		              boxShadow:'none',
 		              borderRadius:'4px',
 		            }}
-		            onClick={this.createDivision}
-		            >Add Division
+		            onClick={this.updateDivision}
+		            >Save Changes
 		          </button>
 		          <div className = "col-lg-5 col-md-5 col-sm-4 col-xs-4"></div>
 		        </div>

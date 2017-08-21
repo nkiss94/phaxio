@@ -249,7 +249,7 @@ export default class Fax extends React.Component {
                   shouldItemRender={matchStateToTerm}
                   value={this.state.value}
                   items={this.state.divisions}
-                  getItemValue={(item) => item.Division}
+                  getItemValue={(item) => item.name}
                   onSelect={(value, item) => {
                     this.setState({ value, selectedDivision: item,number:item.FaxNumber });
                   }}
@@ -260,7 +260,7 @@ export default class Fax extends React.Component {
                     <div
                       style={isHighlighted ? styles.highlightedItem : styles.item}
                       key={item._id}
-                    >{item.Division}</div>
+                    >{item.name}</div>
                   )}
                   renderMenu={children =>
                         <div className = "inputs" style={{ ...styles.menu, position: 'absolute', width: '100%' }}>
@@ -296,7 +296,7 @@ export default class Fax extends React.Component {
 }
 export function matchStateToTerm(item, value) {
     return (
-      item.Division.toLowerCase().indexOf(value.toLowerCase()) !== -1
+      item.name.toLowerCase().indexOf(value.toLowerCase()) !== -1
     )
   }
 export let styles = {
