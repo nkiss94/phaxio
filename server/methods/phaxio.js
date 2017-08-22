@@ -10,7 +10,7 @@ S3.config = {
   secret: Meteor.settings.private.AWS.AWS_SECRET_ACCESS_KEY,
   bucket: 'faxsimpleupload'
 };
-var Lob = require('lob')(Meteor.settings.private.lobTest);
+var Lob = require('lob')(Meteor.settings.private.lobLive);
 var FormData = require('form-data');
 var fs = require('fs');
 var AWS = require('aws-sdk');
