@@ -105,12 +105,13 @@ export default class Fax extends React.Component {
       
   }
   onDrop(file){
+
     var newFiles = this.state.files.slice();
     for(var i =0;i<file.length;i++){
       newFiles.push(file[i]);
       console.log(newFiles);
     }
-    this.setState({files:newFiles});
+    this.setState({files:newFiles,resp:""});
     for(var i =0;i<file.length;i++){
       this.placeInSendList(file[i]);
     }
@@ -143,9 +144,9 @@ export default class Fax extends React.Component {
     return (
       <div className="container">
         <div className="row center">
-          <div className="pageTitle">FaxSimple</div>
+          <div className="pageTitle">Faxsimple</div>
         </div>
-        <div className="cards jumbotron centerME">
+        <div className=" jumbotron centerME">
           <div className="center row dialogue">Enter your PDF URL</div>
           <div className="row ">
             <div className = "col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
@@ -225,7 +226,7 @@ export default class Fax extends React.Component {
             </div>
           
         </div>
-        <div className="cards jumbotron centerME">
+        <div className=" jumbotron centerME">
           <div className="center row dialogue">Where to?</div>
           <div className="row">
             <div className = "col-lg-3 col-md-3 col-sm-2 col-xs-2"></div>

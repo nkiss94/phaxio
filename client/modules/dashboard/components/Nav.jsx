@@ -19,10 +19,19 @@ class HeaderNav extends React.Component {
         return (
             <nav className="container navbar">     
                 <ul className="nav inputs nav-tabs">
-                        <li onClick={() => this.props.selectTab('fax')} role="presentation"><a className={state.active_tab === 'fax' ? 'Active' : 'inActive'}>Fax</a></li>
+                        <li className="dropdown" role="presentation">
+                            <a className="dropdown-toggle" data-toggle="dropdown" className={state.active_tab === 'mail' ? 'Active' : (state.active_tab === 'fax' ? 'Active' : 'inActive')}>
+                                Send
+                                <b className="caret"></b>
+                            </a>
+                            <ul className="dropdown-menu">
+                                <li className="center" onClick={() => this.props.selectTab('fax')}>Fax</li>
+                                <li className="center" onClick={() => this.props.selectTab('mail')}>Mail</li>
+                            </ul>
+                        </li>
                         <li onClick={() => this.props.selectTab('check_digits')} role="presentation"><a className={state.active_tab === 'check_digits' ? 'Active' : 'inActive'}>Check Digits</a></li>
                         <li className="dropdown" role="presentation">
-                            <a className="dropdown-toggle" data-toggle="dropdown" className={state.active_tab === ('divisions'||'addDivision') ? 'Active' : 'inActive'}>
+                            <a className="dropdown-toggle" data-toggle="dropdown" className={state.active_tab === 'divisions' ? 'Active' : (state.active_tab === 'addDivision' ? 'Active' : 'inActive')}>
                                 Divisions
                                 <b className="caret"></b>
                             </a>

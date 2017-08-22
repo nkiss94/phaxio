@@ -4,6 +4,7 @@ import Nav from './Nav';
 import FaxCont from '../containers/FaxCont';
 import CheckDigits from './CheckDigits';
 import DivisionsCont from '../containers/DivisionsCont';
+import Mail from './Mail';
 import AddDivisionCont from '../containers/AddDivisionCont';
 import EditDivisionCont from '../containers/EditDivisionCont';
 
@@ -72,6 +73,8 @@ class Dashboard extends React.Component {
             <div  className="container">     
                 <Nav state={this.state} selectTab={this.selectTab} />
                 <div>  
+
+                    {this.state.active_tab === "mail" ? <Mail /> : null}
                     {this.state.active_tab === "fax" ? <FaxCont /> : null}
                     {this.state.active_tab === 'check_digits' ? <CheckDigits /> : null}
                     {this.state.active_tab === 'divisions' ? <DivisionsCont 
