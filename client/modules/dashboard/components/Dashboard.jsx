@@ -77,8 +77,8 @@ class Dashboard extends React.Component {
                     {this.state.active_tab === 'divisions' ? <DivisionsCont 
                         selectEditTab={this.selectEditTab}
                     /> : null} 
-                    {this.state.active_tab === 'addDivision' ? <AddDivisionCont /> : null}   
-                    {this.state.active_tab === 'editDivision' ? <EditDivisionCont
+                    {this.state.active_tab === 'addDivision' ? <AddDivisionCont selectTab={this.selectTab} /> : null}   
+                    {this.state.active_tab === 'editDivision' ? <EditDivisionCont selectTab={this.selectTab} 
                         id={this.state.id}
                         institution={this.state.institution}
                         cashOnly={this.state.cashOnly}

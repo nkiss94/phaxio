@@ -63,6 +63,7 @@ export default class EditDivision extends React.Component {
 		}
 		if(parent && division){
 			Meteor.call('edit.division',id, parent, division, cashOnly,onlyRegisteredAccounts,digitsOnly,Alphanumeric,accountNumPattern,AccountNumLength,startsWith, soft_validation, method,fax_aton_number, call_number, email, other_intel,mailAddress);
+			this.props.selectTab('divisions');
 		}
 		else{
 			alert("No Institution or Division entered!");
