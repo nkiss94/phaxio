@@ -59,7 +59,22 @@ font-family: FuturaBT-Book, sans-serif;
 width:66.66666666%;
 
 }
+.sideBySide{
+width:50%;
 
+}
+.alignLeft{
+float: left;
+
+}
+.alignRight{
+float: right;
+
+}
+.alignCenter{
+float: center;
+
+}
 .center {
     text-align: center;
 }
@@ -100,10 +115,6 @@ width:66.66666666%;
     border-width: 0px;
 }
 
-.divisionInput{
-    background-color: 'red'
-    height: 100px;
-}
 
 @font-face {
     font-family: FuturaBT-Book;

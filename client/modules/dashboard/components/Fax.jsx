@@ -6,12 +6,12 @@ import Autocomplete from 'react-autocomplete';
 import DropzoneS3Uploader from 'react-dropzone-s3-uploader';
 import ReactS3Uploader from 'react-s3-uploader';
 import Dropzone from 'react-dropzone';
+import SelectedDivision from './SelectedDivision';
 
 export default class Fax extends React.Component {
   constructor(props) {
     super(props);
     this.sendFax=this.sendFax.bind(this);
-    this.checkInput=this.checkInput.bind(this);
     this.addURL=this.addURL.bind(this);
     this.sendFaxUrl=this.sendFaxUrl.bind(this);
     this.placeInSendList=this.placeInSendList.bind(this);
@@ -26,40 +26,30 @@ export default class Fax extends React.Component {
       files: [],
       filesURL: [],
       dataUrlFiles:[],
-      resp:null
+      resp:null,
+      value: '',
+      divisions: [],
+      selectedDivision: null
     }
   }
 
-  checkInput(value){
-    this.setState({institution:value});
-    this.setState({number: value})
-    console.log(this.state.number);
-    console.log(this.state.institution);
+  componentDidMount(){
+    this.setState({divisions: this.props.divisions})
   }
 
-  amendFax(number){
-    var faxNumber = number;
-    var newNum = "";
-
-    for (var i = 0; i < faxNumber.length; i++)
-    {
-      if ((faxNumber.substring(i, i+1) == "-") == false && (faxNumber.substring(i,i+1) == " " ) == false &&
-        (faxNumber.substring(i,i+1) == "+" ) == false && (faxNumber.substring(i,i+1) == ")" ) == false
-        && (faxNumber.substring(i,i+1) == "(" ) == false) {
-        newNum = newNum.concat(faxNumber.substring(i,i+1));
-      }
+  amendFax(num){
+    var number = num.toString();
+    if(number.length == 10){
+      number = "+1" + number;
     }
-    if(newNum.length == 10){
-      newNum = "+1" + newNum;
-    }
-    else if(newNum.length == 11){
-      newNum = "+" + newNum;
+    else if(number.length == 11){
+      number = "+" + number;
     }
     else {
       alert("Invalid fax number! Please enter a new number.");
       return "error";
     }
-    return newNum;
+    return number;
   }
 
   sendFax(){
@@ -78,7 +68,6 @@ export default class Fax extends React.Component {
   }
  
   placeInSendList(file){
-    console.log("here");
     var currentFiles = this.state.dataUrlFiles.slice();
     var myFile = file;
     const _this = this;
@@ -120,6 +109,7 @@ export default class Fax extends React.Component {
     var newFiles = this.state.files.slice();
     for(var i =0;i<file.length;i++){
       newFiles.push(file[i]);
+      console.log(newFiles);
     }
     this.setState({files:newFiles,resp:""});
     for(var i =0;i<file.length;i++){
@@ -146,6 +136,10 @@ export default class Fax extends React.Component {
     });
 
   }
+
+
+
+
   render() {
     return (
       <div className="container">
@@ -209,10 +203,10 @@ export default class Fax extends React.Component {
             <div className="center DialgoueMed" >
               {
                 this.state.files.map((f,index) => 
-                  <div className="row center">
+                  <div className="row center" key={index}>
                     <div className="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
-                    <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6" key={f.name}>{f.name}</div>
-                    <span className="col-lg-2 col-md-2 col-sm-2 col-xs-2 glyphicon glyphicon-remove" onClick={(event) => this.deleteAWSFile(f.name,index)}></span>
+                    <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">{f.name}</div>
+                    <span className="col-lg-2 col-md-2 col-sm-2 col-xs-2 glyphicon glyphicon-remove" onClick={(event) => this.deleteAWSFile(index)}></span>
                     <div className="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
                   </div>
                 )
@@ -221,9 +215,9 @@ export default class Fax extends React.Component {
             <div className="center DialgoueMed" >
               {
                 this.state.filesURL.map((fu,index) => 
-                  <div className="row center">
+                  <div className="row center" key={index}>
                     <div className="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
-                    <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6" key={index}>PDF {fu}</div>
+                    <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">PDF {fu}</div>
                     <span className="col-lg-2 col-md-2 col-sm-2 col-xs-2 glyphicon glyphicon-remove" onClick={(event) => this.deleteURL(index)}></span>
                     <div className="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
                   </div>
@@ -233,53 +227,53 @@ export default class Fax extends React.Component {
           
         </div>
         <div className=" jumbotron centerME">
-          <div className="center row dialogue">What's the fax number?</div>
+          <div className="center row dialogue">Where to?</div>
           <div className="row">
             <div className = "col-lg-3 col-md-3 col-sm-2 col-xs-2"></div>
             <div className = "center col-lg-6 col-md-6 col-sm-8 col-xs-8">
-              <Autocomplete
-                inputProps={{
-                  id:'faxIn',
-                  className: 'foc form-control inputs',
-                  placeholder: 'institution fax #',
-                  style: {
-                    position:'relative',
-                    boxShadow:'none',
-                    background: '#ffffff',
-                    borderRadius:'0px'
-                  }
-                }}
-                menuStyle = {{
-                  borderRadius: '4px',
-                  borderTopRightRadius:'0px',
-                  borderTopLeftRadius:'0px',
-                  background: '#d1d1e0',
-                }}
-                shouldItemRender={matchStateToTerm}
-                value={this.state.institution}
-                items={faxable_institutions}
-                getItemValue={(item) => item.number}
-                onChange={(event, value) => this.checkInput(value)}
-                onSelect={value => this.checkInput(value)}
-                renderItem={(item, isHighlighted) => (
-                  <div
-                    style={isHighlighted ? styles.highlightedItem : styles.item}
-                    key={item.abbr}
-                  >
-                    {item.name}
-                  </div>
-                )}
-                renderMenu={children =>
-                  <div className = "inputs" style={{ ...styles.menu, position: 'absolute', width: '100%' }}>
-                    {children}
-                  </div>
-                }
-                wrapperStyle={{ position: 'relative', display: 'inline-block' }}
-              >
-              </Autocomplete>
+                <Autocomplete
+                  inputProps={{
+                    id:'faxIn',
+                    className: 'foc form-control dialogueMed',
+                    placeholder: 'divison',
+                    style: {
+                      borderRadius:'4px',
+                      position:'relative',
+                      boxShadow:'none',
+                      background: '#ffffff',
+                    }
+                  }}
+                   menuStyle = {{
+                    background: '#d1d1e0',
+                    height:'200px'
+                  }}
+                  shouldItemRender={matchStateToTerm}
+                  value={this.state.value}
+                  items={this.state.divisions}
+                  getItemValue={(item) => item.name}
+                  onSelect={(value, item) => {
+                    this.setState({ value, selectedDivision: item,number:item.FaxNumber });
+                  }}
+                  onChange={(event, value) => {
+                    this.setState({ value, number:value });
+                  }}
+                  renderItem={(item, isHighlighted) => (
+                    <div
+                      style={isHighlighted ? styles.highlightedItem : styles.item}
+                      key={item._id}
+                    >{item.name}</div>
+                  )}
+                  renderMenu={children =>
+                        <div className = "inputs" style={{ ...styles.menu, position: 'absolute', width: '100%' }}>
+                            {children}
+                        </div>
+                    }
+                  wrapperStyle={{ position: 'relative', display: 'inline-block'}}
+
+                />
             </div>
-            <div className = "col-lg-3 col-md-3 col-sm-2 col-xs-2"></div>
           </div>
+          {this.state.selectedDivision ? <SelectedDivision state={this.state} /> : null} 
           <div className="center row dialogue" style={{'marginTop':'5%'}}>{this.state.resp}</div>
         </div>
         <hr></hr>
@@ -301,14 +295,11 @@ export default class Fax extends React.Component {
     )
   }
 }
-
-
 export function matchStateToTerm(item, value) {
-  return (
-    item.name.toLowerCase().indexOf(value.toLowerCase()) !== -1 ||
-    item.number.toLowerCase().indexOf(value.toLowerCase()) !== -1
-  )
-}
+    return (
+      item.name.toLowerCase().indexOf(value.toLowerCase()) !== -1
+    )
+  }
 export let styles = {
   item: {
 
