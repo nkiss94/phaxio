@@ -15,7 +15,6 @@ export default function () {
                 FaxNumber ='';
                 ATONCUID = fax_aton_number
               }
-            console.log(FaxNumber + " " + ATONCUID);
             const new_division = {
               "parent_institution": parent,
               "name": division,
@@ -50,8 +49,9 @@ export default function () {
                 FaxNumber ='';
                 ATONCUID = fax_aton_number
               }
-            Divisions.update({"id":id},{
-              "id":id,
+              console.log(id);
+            Divisions.update({"_id":id},{
+              "_id":id,
               "parent_institution": parent,
               "name": division,
               "transfer_cash_only": cashOnly,

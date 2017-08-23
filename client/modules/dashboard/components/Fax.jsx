@@ -235,7 +235,7 @@ export default class Fax extends React.Component {
                   inputProps={{
                     id:'faxIn',
                     className: 'foc form-control dialogueMed',
-                    placeholder: 'divison',
+                    placeholder: 'division',
                     style: {
                       borderRadius:'4px',
                       position:'relative',

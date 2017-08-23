@@ -12,8 +12,6 @@ export default class Divisions extends React.Component {
 		super(props);
 		this.checkInputInstitution=this.checkInputInstitution.bind(this);
 		this.saveDivision=this.saveDivision.bind(this);
-		this.createDivision=this.createDivision.bind(this);
-		this.loadDivisions=this.loadDivisions.bind(this);
 		this.loadParents=this.loadParents.bind(this);
 		this.findDivisions=this.findDivisions.bind(this);
 		this.editDivision = this.editDivision.bind(this);
@@ -48,15 +46,6 @@ export default class Divisions extends React.Component {
   	}
 }
 
-createDivision(name){
-	Meteor.call('insert.division', name, function(err, resp){
-		if(err){
-			console.log(err)
-		} else {
-			console.log(resp)
-		}
-	})
-}
 componentDidMount() {
     this.loadParents();
   }
@@ -73,7 +62,7 @@ saveDivision(divToFind){
 	}
 
 	this.setState({
-		id:this.props.divisions[index].id,
+		_id:this.props.divisions[index]._id,
 		inCashOnly:this.props.divisions[index].transfer_cash_only,
 		onlyRegisteredAccounts:this.props.divisions[index].registered_account_types_only,
 		accountNumPattern:this.props.divisions[index].account_number_pattern,
@@ -117,15 +106,7 @@ loadParents(){
 	 }
 	 this.setState({parents:newParents});
 }
-loadDivisions(){
-	 var newDivisions = [];  
-	 var length = this.props.divisions.length;
-	 for(var i = 0;i<length;i++){
-	 	newDivisions.push(this.props.divisions[i].name);   
-	 }
-	 this.setState({allDivisions:newDivisions});
-	 this.loadParents();
-}
+
 findDivisions(Parent){
 	 document.getElementById("searchSelection").style.display = 'none';
 	 document.getElementById("divisionInfo").style.display = 'none';
@@ -139,6 +120,7 @@ findDivisions(Parent){
 	 	}	
 	 }
 	 this.setState({allDivisions:newDivisions});
+	 console.log(newDivisions);
 	 this.state.institution = Parent;
 }
 editDivision(){
@@ -149,7 +131,7 @@ editDivision(){
 	console.log(_this.state.softValidation);
 	this.props.selectEditTab(
 		'editDivision', 
-		_this.state.id,
+		_this.state._id,
 		_this.state.institution,
 		_this.state.inCashOnly,
 		_this.state.division, 
