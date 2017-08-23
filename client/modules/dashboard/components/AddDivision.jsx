@@ -38,15 +38,16 @@ export default class AddDivision extends React.Component {
 	}
 
 	createDivision(){
+		const id = this.state.id;
 		const parent = this.refs.parent.value;
 		const division = this.refs.division.value;
 		const cashOnly = this.state.cashOnly;
 		const onlyRegisteredAccounts = this.state.onlyRegisteredAccounts;
 		const digitsOnly = this.state.digitsOnly;
 		const Alphanumeric = this.state.Alphanumeric;
-		const accountNumPattern = this.refs.soft_validation.accountNumPattern;
-		const AccountNumLength = this.state.AccountNumLength;
-		const startsWith = this.refs.faxATONNum.startsWith;
+		const accountNumPattern = this.refs.accountNumPattern.value;
+		const AccountNumLength = this.refs.AccountNumLength.value;
+		const startsWith = this.refs.startsWith.value;
 		const soft_validation = this.refs.soft_validation.value;
 		const method = this.state.selectedMethod;
 		const fax_aton_number = this.refs.faxATONNum.value;
@@ -60,7 +61,8 @@ export default class AddDivision extends React.Component {
 			postalCode:this.refs.postalCode.value
 		}
 		if(parent && division){
-		Meteor.call('insert.division', parent, division, cashOnly,onlyRegisteredAccounts,digitsOnly,Alphanumeric,accountNumPattern,AccountNumLength,startsWith, soft_validation, method,fax_aton_number, call_number, email, other_intel,mailAddress);
+			Meteor.call('insert.division', parent, division, cashOnly,onlyRegisteredAccounts,digitsOnly,Alphanumeric,accountNumPattern,AccountNumLength,startsWith, soft_validation, method,fax_aton_number, call_number, email, other_intel,mailAddress);
+			this.props.selectTab('divisions');
 		}
 		else{
 			alert("No Institution or Division entered!");
