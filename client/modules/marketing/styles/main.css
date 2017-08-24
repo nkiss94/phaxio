@@ -86,7 +86,7 @@ float: center;
     width:25%;
 }
 .centerME{
-   float: none;
+    float: none;
     margin: 0 auto;
     margin-top: 1%;
 }
@@ -103,7 +103,6 @@ float: center;
     box-shadow:none;
     border-width: 2px;
     border-color: #a3a6a7;
-
 }
 
 .btn:focus{
