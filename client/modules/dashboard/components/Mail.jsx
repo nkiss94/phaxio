@@ -23,10 +23,10 @@ export default class Mail extends React.Component {
      url:null,
      err: null,
      success: null,
-     countryCode: null,
+     countryCode: "",
      file:null,
      resp:null,
-     prCode:null,
+     prCode:"",
      Address:null,
      City:null,
      PostalorZip:null,
@@ -43,7 +43,7 @@ checkInputProvince(value){
 }
 onDrop(file){
     var myFile = file[0];
-    this.setState({file:file[0].name,addedURL:null,resp:""});
+    this.setState({file:file[0].name, addedURL:null,resp:""});
     this.placeInSendList(myFile);
 }
 placeInSendList(file){
@@ -173,7 +173,7 @@ render() {
           </div>
           <div style={{marginTop:'10%'}} className="dialogue center">Uploaded Files:</div>
             <div className="center DialgoueMed" >
-              {
+              
                   <div className="row center">
                     <div className="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
                     <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">{this.state.file}</div>
@@ -181,7 +181,7 @@ render() {
                     <div className="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
                   </div>
                 
-              }
+              
             </div>
           <div style={{marginTop:'10%'}} className="dialogueMed center">Do not upload a file with more than 5 pages</div>
       </div>

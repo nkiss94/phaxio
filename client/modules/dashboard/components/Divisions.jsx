@@ -102,6 +102,9 @@ loadParents(){
 	 	if(!newParents.includes(this.props.divisions[i].parent_institution)){
 	 		newParents.push(this.props.divisions[i].parent_institution);  
 	 	}
+	 	else if(this.props.divisions[i].parent_institution==""){
+	 		newParents.push(this.props.divisions[i].name);
+	 	}
 	 	
 	 }
 	 this.setState({parents:newParents});
@@ -114,21 +117,25 @@ findDivisions(Parent){
 	 this.state.value = Parent;
 	 var newDivisions = [];  
 	 var length = this.props.divisions.length;
+
 	 for(var i = 0;i<length;i++){
 	 	if(this.props.divisions[i].parent_institution==Parent){
 	 	newDivisions.push(this.props.divisions[i].name);   
 	 	}	
 	 }
-	 this.setState({allDivisions:newDivisions});
-	 console.log(newDivisions);
-	 this.state.institution = Parent;
+	 if(newDivisions.length == 0){
+	 	this.saveDivision(Parent);
+	 	this.setState({allDivisions:[]});
+		this.state.institution = "";
+
+	 }
+	 else{
+		 this.setState({allDivisions:newDivisions});
+		 this.state.institution = Parent;
+	}
 }
 editDivision(){
-	//console.log("I made it");
-	//console.log(this.state);
 	var _this = this;
-	console.log(_this);
-	console.log(_this.state.softValidation);
 	this.props.selectEditTab(
 		'editDivision', 
 		_this.state._id,
@@ -203,25 +210,28 @@ render(){
 		        </div>
           		<div className = "col-lg-1 col-md-1 col-sm-1 col-xs-1"></div> 
       		</div>
-      		<div className="row"> 
-		        <div className = "col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>  
-		        <div className = "center col-lg-10 col-md-10 col-sm-10 col-xs-10">
-				    <DropdownButton className="dialogueMed" style={{marginTop:'10%'}}title="Divisions" onSelect={(eventKey:any)=>this.saveDivision(eventKey)}>
-					      {this.state.allDivisions.map(function(element){
-					      	return(<MenuItem eventKey={element}>{element}</MenuItem>)
-					      })}
-				    </DropdownButton>
-		        </div>
-          		<div className = "col-lg-1 col-md-1 col-sm-1 col-xs-1"></div> 
-      		</div> 
+      		{this.state.allDivisions.length>0 ? (
+      			<div className="row"> 
+			        <div className = "col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>  
+			        <div className = "center col-lg-10 col-md-10 col-sm-10 col-xs-10">
+					    <DropdownButton className="dialogueMed" style={{marginTop:'10%'}}title="Divisions" onSelect={(eventKey:any)=>this.saveDivision(eventKey)}>
+						      {this.state.allDivisions.map(function(element){
+						      	return(<MenuItem eventKey={element}>{element}</MenuItem>)
+						      })}
+					    </DropdownButton>
+			        </div>
+	          		<div className = "col-lg-1 col-md-1 col-sm-1 col-xs-1"></div> 
+      			</div> 
+      			):(<div/>)}
+      		
       	</div>
       	<div id="searchSelection" style={{display:'none'}} className="jumbotron centerME">
       		<div className="row center">
       				<div className="col-lg-2"></div>
-      				<div className="col-lg-4 col-md-12 col-sm-12 col-xs-12">
-						<div className="dialogue inActive">{this.state.institution}:</div>
+      				<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+						<div className="dialogueMed inActive">{this.state.institution}</div>
 					</div>
-					<div className="col-lg-4 col-md-0 col-sm-0 col-xs-0">
+					<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 						<div className="dialogue">{this.state.division}</div>
 						<button
 				            className= "foc center glyphicon glyphicon-pencil send btn btn-default"
