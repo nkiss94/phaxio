@@ -1,38 +1,20 @@
+Platform = Meteor
+Framework = React
+
+API endpoints = Phaxio (fax), Lob (mail), AWS (S3)
+
 Meteor
-React
-AWS sdk
+You only need to care about 4 subdirectories within the parent directory:
 
-## Database Schema
-Databse hosted @ mlab (mongodb)
+1. client - routing, modules (components & containers)
+2. lib - defines the collections and document structure that occupies the database (mongo/mlab)
+3. server - methods (interact with database), publications (publish data from database)
+4. settings.json - environment variables for Phaxio, Lob, AWS, db
 
-{
-    "_id": "599ae57f24ce0fa6eb969010",
-    "parent_institution": "AGF",
-    "name": "AGF Trust Company",
-    "display_in_ui": "",
-    "HardValidation": "",
-    "SoftValidation": "",
-    "Method": "",
-    "cuid": "",
-    "FaxNumber": "",
-    "FollowUpCallNumber": "",
-    "FollowUpEmail": "",
-    "OtherIntel": "",
-    "id": "ins_EHIayoONpeMAsw",
-    "institution_address_required": "TRUE",
-    "transfer_cash_only": "",
-    "registered_account_types_only": "",
-    "account_number_pattern": "",
-    "account_number_checksum": "",
-    "account_number_lengths": "",
-    "account_number_alphanumeric": "",
-    "account_number_digits_only": "",
-    "account_number_starts_with": "",
-    "days_to_transfer": 35,
-    "hint": ""
-}
+The most important functionality for operational purposes is faxing.  Functionality was not segregated from the component. You will find it in client -> modules -> dashboard -> components -> Fax.  A function is used to invoke a meteor method called 'upload'. You will find the method in server -> methods -> phaxio.js.  The method uploads the document to S3, returning a url which is passed to Phaxio for sending.
 
-## APIs
-[Phaxio](http://www.phaxio.com)
-[LOB](https://www.lob.com)
-[Amazon Web Services (AWS)](https://aws.amazon.com)
+Credentials/environmentl variables are held in settings.json which is NOT made available on the client.
+
+This tool keeps the team operational until full automation is achieved.
+
+
