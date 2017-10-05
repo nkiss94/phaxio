@@ -77,10 +77,10 @@ addURL(){
 sendMail(){
   var _this = this;
   var address = {
-    name:document.getElementById("Name").value,
-    address1:document.getElementById("Address").value,
-    city:document.getElementById("City").value,
-    zip:document.getElementById("PostalorZip").value,
+    name:this.refs.Name.value,
+    address1:this.refs.Address.value,
+    city:this.refs.City.value,
+    zip:this.refs.PostalorZip.value,
     country:this.state.countryCode,
     state:this.state.prCode
   };

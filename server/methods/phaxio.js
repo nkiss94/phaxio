@@ -45,13 +45,14 @@ export default function () {
             else{
                   return new Promise((resolve,reject)=>{
                     for(var i = 0;i<dataUrls.length;i++){
+                      var date = new Date();
                       const id = ObjectID().toHexString();
                       buf = Buffer.from(dataUrls[i].result.replace(/^data:application\/pdf;base64/, ""), 'base64');  
                       var params = {
                         Bucket: 'faxsimpleupload',
                         Key: id,
                         Body: buf,
-                        ContentType:'application/pdf'                
+                        ContentType:'application/pdf'
                       };
                       s3.upload(params,function(err,res){
                         if(err){
